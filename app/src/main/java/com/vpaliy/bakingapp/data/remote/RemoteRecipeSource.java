@@ -1,8 +1,17 @@
 package com.vpaliy.bakingapp.data.remote;
 
-/**
- * Created by vpaliy on 18/05/17.
- */
+
+import android.support.annotation.NonNull;
+import javax.inject.Inject;
 
 public class RemoteRecipeSource {
+
+    private RecipeAPI recipeAPI;
+
+    @Inject
+    public RemoteRecipeSource(@NonNull RecipeAPI recipeAPI){
+        this.recipeAPI=recipeAPI;
+    }
+
+
 }
