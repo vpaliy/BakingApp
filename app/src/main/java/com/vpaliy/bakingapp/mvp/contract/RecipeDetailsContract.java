@@ -1,4 +1,4 @@
-package com.vpaliy.backingapp.mvp.contract;
+package com.vpaliy.bakingapp.mvp.contract;
 
 
 public interface RecipeDetailsContract {

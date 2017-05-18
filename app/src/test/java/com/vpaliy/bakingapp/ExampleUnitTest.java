@@ -1,4 +1,4 @@
-package com.vpaliy.backingapp;
+package com.vpaliy.bakingapp;
 
 import org.junit.Test;
 

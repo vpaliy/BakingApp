@@ -1,4 +1,4 @@
-package com.vpaliy.backingapp.domain.model;
+package com.vpaliy.bakingapp.domain.model;
 
 
 import java.util.List;

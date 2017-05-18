@@ -1,4 +1,4 @@
-package com.vpaliy.backingapp;
+package com.vpaliy.bakingapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

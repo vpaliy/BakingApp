@@ -1,4 +1,4 @@
-package com.vpaliy.backingapp;
+package com.vpaliy.bakingapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
