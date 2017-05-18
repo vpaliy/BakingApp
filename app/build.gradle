@@ -1,15 +1,19 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+def config = rootProject.ext.config
+def libs = rootProject.ext.libraries;
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
     defaultConfig {
-        applicationId "com.vpaliy.bakingapp"
-        minSdkVersion 13
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
     }
     buildTypes {
         release {
@@ -17,14 +21,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    repositories {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+
+    compile "com.github.bumptech.glide:glide:${libs.glideVersion}"
+    compile "com.google.dagger:dagger:${libs.daggerVersion}"
+    compile "com.jakewharton:butterknife:${libs.butterKnifeVersion}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterKnifeVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${libs.daggerVersion}"
+
+    compile "com.squareup.retrofit2:retrofit:${libs.retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${libs.retrofitConverterVersion}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofitAdapterVersion}"
+    compile "com.android.support.constraint:constraint-layout:${libs.constraintLayoutVersion}"
+    compile "com.google.guava:guava:${libs.guavaVersion}"
+    compile "com.android.support.constraint:constraint-layout:${libs.constraintLayoutVersion}"
+    compile "com.android.support:cardview-v7:${libs.supportVersion}"
+    compile "com.android.support:recyclerview-v7:${libs.supportVersion}"
+    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+    compile "com.android.support:design:${libs.supportVersion}"
+
 }
