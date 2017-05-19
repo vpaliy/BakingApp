@@ -1,15 +1,12 @@
 package com.vpaliy.bakingapp.data.remote;
 
 
-import com.vpaliy.bakingapp.domain.model.Recipe;
-
+import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import java.util.List;
-
-import retrofit2.http.GET;
 import rx.Observable;
+import retrofit2.http.GET;
 
-public interface RecipeAPI {
-
+interface RecipeAPI {
     @GET("/android-baking-app-json ")
-    Observable<List<Recipe>> queryRecipes();
+    Observable<List<RecipeEntity>> queryRecipes();
 }

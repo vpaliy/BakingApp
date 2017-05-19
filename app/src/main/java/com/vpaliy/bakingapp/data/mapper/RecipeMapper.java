@@ -73,4 +73,14 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
         }
         return entity;
     }
+
+    @Override
+    public List<Recipe> map(List<RecipeEntity> recipeEntities) {
+        if(recipeEntities==null||recipeEntities.isEmpty()) return null;
+        List<Recipe> result=new ArrayList<>(recipeEntities.size());
+        for(RecipeEntity entity:recipeEntities){
+            result.add(map(entity));
+        }
+        return result;
+    }
 }

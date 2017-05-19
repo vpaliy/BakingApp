@@ -3,6 +3,9 @@ package com.vpaliy.bakingapp.data.mapper;
 import com.vpaliy.bakingapp.data.model.StepEntity;
 import com.vpaliy.bakingapp.domain.model.Step;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StepMapper implements Mapper<Step,StepEntity> {
 
     @Override
@@ -25,5 +28,15 @@ public class StepMapper implements Mapper<Step,StepEntity> {
         stepEntity.setImageUrl(step.getImageUrl());
         stepEntity.setDescription(step.getDescription());
         return stepEntity;
+    }
+
+    @Override
+    public List<Step> map(List<StepEntity> stepEntities) {
+        if(stepEntities==null||stepEntities.isEmpty()) return null;
+        List<Step> result=new ArrayList<>(stepEntities.size());
+        for(StepEntity entity:stepEntities){
+            result.add(map(entity));
+        }
+        return result;
     }
 }

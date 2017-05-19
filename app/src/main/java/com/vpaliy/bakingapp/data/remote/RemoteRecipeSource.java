@@ -1,16 +1,27 @@
 package com.vpaliy.bakingapp.data.remote;
 
+import com.vpaliy.bakingapp.data.DataSource;
+import com.vpaliy.bakingapp.data.model.RecipeEntity;
+import com.vpaliy.bakingapp.utils.LogUtils;
 
-import android.support.annotation.NonNull;
+import java.util.List;
+import rx.Observable;
 import javax.inject.Inject;
+import android.support.annotation.NonNull;
 
-public class RemoteRecipeSource {
+public class RemoteRecipeSource extends DataSource<RecipeEntity> {
 
-    private RecipeAPI recipeAPI;
+    private final RecipeAPI recipeAPI;
 
     @Inject
     public RemoteRecipeSource(@NonNull RecipeAPI recipeAPI){
         this.recipeAPI=recipeAPI;
+    }
+
+    @Override
+    public Observable<List<RecipeEntity>> getRecipes() {
+        return recipeAPI.queryRecipes()
+                .doOnNext(list->LogUtils.log(list,this));
     }
 
 
