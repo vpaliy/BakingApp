@@ -45,17 +45,19 @@ public class RecipeRepository implements IRepository<Recipe> {
                     .doOnNext(this::cacheData)
                     .doOnNext(list-> LogUtils.logD(list,this));
         }
-        return null;
+        return localDataSource.getRecipes()
+                .map(mapper::map)
+                .doOnNext(this::cacheData)
+                .doOnNext(list->LogUtils.logD(list,this));
     }
 
     private void cacheData(List<Recipe> recipeList){
-        if(inMemoryCache.size()>100) inMemoryCache.clear();
-        Observable.from(recipeList)
-                .filter(recipe->inMemoryCache.get(recipe.getId())!=null)
-                .map(recipe -> {
-                    inMemoryCache.put(recipe.getId(),recipe);
-                    return recipe;
-                });
+        if(inMemoryCache.size()>=100) inMemoryCache.clear();
+        for(Recipe recipe:recipeList){
+            if(inMemoryCache.get(recipe.getId())==null){
+                inMemoryCache.put(recipe.getId(),recipe);
+            }
+        }
     }
 
     private void saveToDisk(List<RecipeEntity> list){
