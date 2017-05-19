@@ -6,20 +6,13 @@ import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.utils.LogUtils;
-
 import rx.Observable;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
-
+import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 public class RecipeRepository implements IRepository<Recipe> {
@@ -46,24 +39,27 @@ public class RecipeRepository implements IRepository<Recipe> {
     @Override
     public Observable<List<Recipe>> getRecipes() {
         if(isNetworkConnection()){
-            if(inMemoryCache.size()>100) inMemoryCache.clear();
             return remoteDataSource.getRecipes()
                     .doOnNext(this::saveToDisk)
                     .map(mapper::map)
-                    .doOnNext(recipes -> Observable.from(recipes)
-                            .filter(recipe->inMemoryCache.get(recipe.getId())!=null)
-                            .map(recipe -> {
-                                inMemoryCache.put(recipe.getId(),recipe);
-                                return recipe;
-                            }))
+                    .doOnNext(this::cacheData)
                     .doOnNext(list-> LogUtils.logD(list,this));
         }
-        //TODO query the local database
         return null;
     }
 
+    private void cacheData(List<Recipe> recipeList){
+        if(inMemoryCache.size()>100) inMemoryCache.clear();
+        Observable.from(recipeList)
+                .filter(recipe->inMemoryCache.get(recipe.getId())!=null)
+                .map(recipe -> {
+                    inMemoryCache.put(recipe.getId(),recipe);
+                    return recipe;
+                });
+    }
+
     private void saveToDisk(List<RecipeEntity> list){
-        //TODO save data to the database
+
     }
 
     @Override
