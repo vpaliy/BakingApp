@@ -3,12 +3,12 @@ package com.vpaliy.bakingapp.domain.model;
 
 public class Ingredient {
 
-    private String id;
+    private int id;
     private String measure;
     private String ingredient;
     private int quantity;
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -28,7 +28,7 @@ public class Ingredient {
         return quantity;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

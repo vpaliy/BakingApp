@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class IngredientEntity {
 
+    private int id;
+
     @SerializedName("measure")
     private String measure;
 
@@ -13,6 +15,14 @@ public class IngredientEntity {
 
     @SerializedName("quantity")
     private int quantity;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setIngredient(String ingredient) {
         this.ingredient = ingredient;

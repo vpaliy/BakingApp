@@ -7,11 +7,23 @@ public class StepMapper implements Mapper<Step,StepEntity> {
 
     @Override
     public Step map(StepEntity stepEntity) {
-        return null;
+        Step step=new Step();
+        step.setImageUrl(stepEntity.getImageUrl());
+        step.setDescription(stepEntity.getDescription());
+        step.setShortDescription(stepEntity.getShortDescription());
+        step.setVideoUrl(stepEntity.getVideoUrl());
+        step.setStepId(stepEntity.getId());
+        return step;
     }
 
     @Override
     public StepEntity reverseMap(Step step) {
-        return null;
+        StepEntity stepEntity=new StepEntity();
+        stepEntity.setId(step.getStepId());
+        stepEntity.setVideoUrl(step.getVideoUrl());
+        stepEntity.setShortDescription(step.getShortDescription());
+        stepEntity.setImageUrl(step.getImageUrl());
+        stepEntity.setDescription(step.getDescription());
+        return stepEntity;
     }
 }

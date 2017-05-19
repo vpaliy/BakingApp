@@ -7,11 +7,21 @@ public class IngredientMapper implements Mapper<Ingredient,IngredientEntity> {
 
     @Override
     public Ingredient map(IngredientEntity ingredientEntity) {
-        return null;
+        Ingredient ingredient=new Ingredient();
+        ingredient.setId(ingredientEntity.getId());
+        ingredient.setIngredient(ingredient.getIngredient());
+        ingredient.setMeasure(ingredientEntity.getMeasure());
+        ingredient.setQuantity(ingredientEntity.getQuantity());
+        return ingredient;
     }
 
     @Override
     public IngredientEntity reverseMap(Ingredient ingredient) {
-        return null;
+        IngredientEntity entity=new IngredientEntity();
+        entity.setId(ingredient.getId());
+        entity.setQuantity(ingredient.getQuantity());
+        entity.setMeasure(ingredient.getMeasure());
+        entity.setIngredient(ingredient.getIngredient());
+        return entity;
     }
 }

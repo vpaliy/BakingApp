@@ -19,10 +19,10 @@ public class RecipeEntity {
     private String imageUrl;
 
     @SerializedName("ingredients")
-    private List<Ingredient> ingredients;
+    private List<IngredientEntity> ingredients;
 
     @SerializedName("steps")
-    private List<Step> steps;
+    private List<StepEntity> steps;
 
     @SerializedName("servings")
     private int servings;
@@ -35,11 +35,11 @@ public class RecipeEntity {
         return name;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<IngredientEntity> getIngredients() {
         return ingredients;
     }
 
-    public List<Step> getSteps() {
+    public List<StepEntity> getSteps() {
         return steps;
     }
 
@@ -63,15 +63,15 @@ public class RecipeEntity {
         this.imageUrl = imageUrl;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setIngredients(List<IngredientEntity> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setSteps(List<StepEntity> steps) {
         this.steps = steps;
     }
 }
