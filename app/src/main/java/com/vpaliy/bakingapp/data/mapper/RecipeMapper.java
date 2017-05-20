@@ -34,16 +34,13 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
         recipe.setServings(recipeEntity.getServings());
         if(recipeEntity.getIngredients()!=null) {
             List<Ingredient> ingredientList = new ArrayList<>(recipeEntity.getIngredients().size());
-            for(IngredientEntity entity:recipeEntity.getIngredients()){
-                ingredientList.add(ingredientMapper.map(entity));
-            }
+            recipeEntity.getIngredients().forEach(ingredientEntity ->
+                    ingredientList.add(ingredientMapper.map(ingredientEntity)));
             recipe.setIngredients(ingredientList);
         }
         if(recipeEntity.getSteps()!=null){
             List<Step> stepList=new ArrayList<>(recipeEntity.getSteps().size());
-            for(StepEntity entity:recipeEntity.getSteps()){
-                stepList.add(stepMapper.map(entity));
-            }
+            recipeEntity.getSteps().forEach(step->stepList.add(stepMapper.map(step)));
             recipe.setSteps(stepList);
         }
         return recipe;
@@ -58,17 +55,13 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
         entity.setImageUrl(recipe.getImageUrl());
         if(recipe.getSteps()!=null){
             List<StepEntity> stepList=new ArrayList<>(recipe.getSteps().size());
-            for(Step step:recipe.getSteps()){
-                stepList.add(stepMapper.reverseMap(step));
-            }
+            recipe.getSteps().forEach(step->stepList.add(stepMapper.reverseMap(step)));
             entity.setSteps(stepList);
         }
 
         if(recipe.getIngredients()!=null){
             List<IngredientEntity> ingredientList=new ArrayList<>(recipe.getIngredients().size());
-            for(Ingredient ingredient:recipe.getIngredients()){
-                ingredientList.add(ingredientMapper.reverseMap(ingredient));
-            }
+            recipe.getIngredients().forEach(ingredient ->ingredientList.add(ingredientMapper.reverseMap(ingredient)));
             entity.setIngredients(ingredientList);
         }
         return entity;
@@ -78,9 +71,7 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
     public List<Recipe> map(List<RecipeEntity> recipeEntities) {
         if(recipeEntities==null||recipeEntities.isEmpty()) return null;
         List<Recipe> result=new ArrayList<>(recipeEntities.size());
-        for(RecipeEntity entity:recipeEntities){
-            result.add(map(entity));
-        }
+        recipeEntities.forEach(recipeEntity -> result.add(map(recipeEntity)));
         return result;
     }
 }

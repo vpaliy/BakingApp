@@ -12,6 +12,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.SparseArray;
+
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
@@ -53,11 +54,11 @@ public class RecipeRepository implements IRepository<Recipe> {
 
     private void cacheData(List<Recipe> recipeList){
         if(inMemoryCache.size()>=100) inMemoryCache.clear();
-        for(Recipe recipe:recipeList){
+        recipeList.forEach(recipe ->{
             if(inMemoryCache.get(recipe.getId())==null){
                 inMemoryCache.put(recipe.getId(),recipe);
             }
-        }
+        });
     }
 
     private void saveToDisk(List<RecipeEntity> list){

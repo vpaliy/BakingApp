@@ -32,9 +32,7 @@ public class IngredientMapper implements Mapper<Ingredient,IngredientEntity> {
     public List<Ingredient> map(List<IngredientEntity> ingredientEntities) {
         if(ingredientEntities==null||ingredientEntities.isEmpty()) return null;
         List<Ingredient> result=new ArrayList<>(ingredientEntities.size());
-        for(IngredientEntity entity:ingredientEntities) {
-            result.add(map(entity));
-        }
+        ingredientEntities.forEach(ingredientEntity -> result.add(map(ingredientEntity)));
         return result;
     }
 }

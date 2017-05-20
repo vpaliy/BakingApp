@@ -34,9 +34,7 @@ public class StepMapper implements Mapper<Step,StepEntity> {
     public List<Step> map(List<StepEntity> stepEntities) {
         if(stepEntities==null||stepEntities.isEmpty()) return null;
         List<Step> result=new ArrayList<>(stepEntities.size());
-        for(StepEntity entity:stepEntities){
-            result.add(map(entity));
-        }
+        stepEntities.forEach(stepEntity -> result.add(map(stepEntity)));
         return result;
     }
 }
