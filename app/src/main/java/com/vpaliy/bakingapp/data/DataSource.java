@@ -8,4 +8,6 @@ public abstract class DataSource<T> implements IRepository<T> {
     public Observable<T> getRecipeById(int id) {
         return null;
     }
+
+    public abstract void insert(T item);
 }

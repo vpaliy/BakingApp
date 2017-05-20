@@ -29,4 +29,14 @@ public class LocalRecipeSource extends DataSource<RecipeEntity> {
         return null;
     }
 
+    @Override
+    public void insert(RecipeEntity item) {
+        if(item!=null) {
+            int recipeId=item.getId();
+            RecipeHandler.start(contentResolver)
+                    .insert(item)
+                    .insertIngredients(recipeId, item.getIngredients())
+                    .insertSteps(recipeId, item.getSteps());
+        }
+    }
 }

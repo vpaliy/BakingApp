@@ -27,5 +27,8 @@ public class RemoteRecipeSource extends DataSource<RecipeEntity> {
                 .doOnNext(list->LogUtils.log(list,this));
     }
 
+    @Override
+    public void insert(RecipeEntity item) {
 
+    }
 }
