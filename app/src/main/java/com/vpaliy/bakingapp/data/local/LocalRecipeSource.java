@@ -1,6 +1,10 @@
 package com.vpaliy.bakingapp.data.local;
 
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.vpaliy.bakingapp.data.DataSource;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import java.util.List;
@@ -13,8 +17,12 @@ import rx.Observable;
 @Singleton
 public class LocalRecipeSource extends DataSource<RecipeEntity> {
 
+    private final ContentResolver contentResolver;
+
     @Inject
-    public LocalRecipeSource(){}
+    public LocalRecipeSource(@NonNull Context context){
+        this.contentResolver=context.getContentResolver();
+    }
 
     @Override
     public Observable<List<RecipeEntity>> getRecipes() {

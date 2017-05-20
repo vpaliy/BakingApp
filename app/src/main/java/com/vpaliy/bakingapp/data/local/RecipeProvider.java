@@ -3,16 +3,18 @@ package com.vpaliy.bakingapp.data.local;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import static com.vpaliy.bakingapp.data.local.RecipeDatabase.Tables;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 
 public class RecipeProvider extends ContentProvider {
 
@@ -24,34 +26,109 @@ public class RecipeProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+
+        final SQLiteDatabase db=database.getReadableDatabase();
+        final RecipeMatchEnum recipeMatchEnum=uriMatcher.match(uri);
+
+        SqlQueryBuilder builder=buildQuery(uri,recipeMatchEnum);
+        Cursor cursor=builder
+                .where(selection,selectionArgs)
+                .query(db,projection,sortOrder);
+
+        Context context = getContext();
+        if (null != context) {
+            cursor.setNotificationUri(context.getContentResolver(), uri);
+        }
+        return cursor;
     }
 
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return null;
+        return uriMatcher.getType(uri);
+    }
+
+    private void notifyChange(Uri uri) {
+        if (getContext()!=null) {
+            Context context = getContext();
+            context.getContentResolver().notifyChange(uri, null);
+        }
+    }
+
+    private void deleteDatabase(){
+        database.close();
+        Context context=getContext();
+        if(context!=null){
+            RecipeDatabase.deleteDatabase(context);
+            database=new RecipeDatabase(context);
+        }
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        if (uri == RecipeContract.BASE_CONTENT_URI) {
+            deleteDatabase();
+            notifyChange(uri);
+            return 1;
+        }
+        final SQLiteDatabase db=database.getWritableDatabase();
+        final RecipeMatchEnum recipeMatchEnum=uriMatcher.match(uri);
+        final SqlQueryBuilder builder=buildQuery(uri,recipeMatchEnum);
+
+        int retVal = builder.where(selection, selectionArgs).delete(db);
+        notifyChange(uri);
+        return retVal;
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+    public int update(@NonNull Uri uri, @Nullable ContentValues values,
+                      @Nullable String selection, @Nullable String[] selectionArgs) {
+        final SQLiteDatabase db=database.getWritableDatabase();
+        final RecipeMatchEnum recipeMatchEnum=uriMatcher.match(uri);
+        final SqlQueryBuilder builder=buildQuery(uri,recipeMatchEnum);
+
+        int retVal=builder
+                .where(selection,selectionArgs)
+                .update(db,values);
+        notifyChange(uri);
+        return retVal;
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+        if(values==null) throw new IllegalArgumentException("Values are null");
+        final SQLiteDatabase db=database.getWritableDatabase();
+        final RecipeMatchEnum recipeMatchEnum=uriMatcher.match(uri);
+        if(recipeMatchEnum.table!=null){
+            db.insertWithOnConflict(recipeMatchEnum.table,null,values,SQLiteDatabase.CONFLICT_REPLACE);
+            notifyChange(uri);
+        }
+        switch (recipeMatchEnum){
+            case RECIPES:
+                return Recipes.buildRecipeUri(values.getAsString(Recipes.RECIPE_ID));
+            case RECIPE_STEP_ID:
+                return Recipes.buildRecipeWithStepsUri(values.getAsString(Recipes.RECIPE_ID));
+            case RECIPE_INGREDIENTS_ID:
+                return Recipes.buildRecipeWithIngredienstUri(values.getAsString(Recipes.RECIPE_ID));
+            case INGREDIENTS:
+                return Ingredients.buildIngredientUri(values.getAsString(Ingredients.INGREDIENT_ID));
+            case INGREDIENT_RECIPES_ID:
+                return Ingredients.buildIngredientWithRecipesUri(values.getAsString(Ingredients.INGREDIENT_ID));
+            case STEPS:
+                return Steps.buildStepUri(values.getAsString(Steps.STEP_ID));
+            default:
+                throw new UnsupportedOperationException("Unknown URI"+uri);
+        }
     }
 
     @Override
     public boolean onCreate() {
-        return false;
+        if(getContext()!=null) {
+            this.database = new RecipeDatabase(getContext());
+            this.uriMatcher=new RecipeUriMatcher();
+        }
+        return database!=null;
     }
 
 
