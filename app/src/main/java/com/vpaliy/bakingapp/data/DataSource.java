@@ -1,7 +1,6 @@
 package com.vpaliy.bakingapp.data;
 
 import com.vpaliy.bakingapp.domain.IRepository;
-
 import rx.Observable;
 
 public abstract class DataSource<T> implements IRepository<T> {

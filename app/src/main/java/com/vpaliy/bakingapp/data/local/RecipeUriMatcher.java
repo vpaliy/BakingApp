@@ -5,13 +5,13 @@ import android.content.UriMatcher;
 import android.net.Uri;
 import android.util.SparseArray;
 
-public class RecipeMatchUri {
+public class RecipeUriMatcher {
 
 
     private UriMatcher uriMatcher;
     private SparseArray<RecipeMatchEnum> codeMap;
 
-    public RecipeMatchUri(){
+    public RecipeUriMatcher(){
         buildUriMatcher();
         buildUriMap();
     }
