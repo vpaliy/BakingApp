@@ -26,7 +26,7 @@ public class LocalRecipeSource extends DataSource<RecipeEntity> {
 
     @Override
     public Observable<List<RecipeEntity>> getRecipes() {
-        return null;
+        return Observable.fromCallable(()->RecipeHandler.start(contentResolver).queryAll());
     }
 
     @Override
