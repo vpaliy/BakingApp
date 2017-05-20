@@ -6,7 +6,7 @@ public class Ingredient {
     private int id;
     private String measure;
     private String ingredient;
-    private int quantity;
+    private double quantity;
 
     public void setId(int id) {
         this.id = id;
@@ -20,11 +20,11 @@ public class Ingredient {
         this.measure = measure;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 

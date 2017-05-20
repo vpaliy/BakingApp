@@ -36,6 +36,7 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterKnifeVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${libs.daggerVersion}"
 
+    compile "io.reactivex:rxandroid:${libs.rxAndroidVersion}"
     compile "com.squareup.retrofit2:retrofit:${libs.retrofitVersion}"
     compile "com.squareup.retrofit2:converter-gson:${libs.retrofitConverterVersion}"
     compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofitAdapterVersion}"

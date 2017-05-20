@@ -14,7 +14,7 @@ public class IngredientEntity {
     private String ingredient;
 
     @SerializedName("quantity")
-    private int quantity;
+    private double quantity;
 
     public int getId() {
         return id;
@@ -32,11 +32,11 @@ public class IngredientEntity {
         this.measure = measure;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 

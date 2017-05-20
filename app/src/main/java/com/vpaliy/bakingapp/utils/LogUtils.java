@@ -29,9 +29,7 @@ public class LogUtils {
             return;
         }
         Log.d(TAG,"Size is:"+Integer.toString(recipes.size()));
-        for(Recipe recipe:recipes){
-            logD(recipe,TAG);
-        }
+        recipes.forEach(recipe -> logD(recipe,TAG));
     }
 
     public static void log(List<RecipeEntity> recipes, Object clazz){
@@ -41,9 +39,7 @@ public class LogUtils {
             return;
         }
         Log.d(TAG,"Size is:"+Integer.toString(recipes.size()));
-        for(RecipeEntity recipe:recipes){
-            logD(recipe,TAG);
-        }
+        recipes.forEach(recipeEntity -> logD(recipeEntity,TAG));
     }
 
     public static void logD(Recipe recipe, String TAG){
@@ -101,9 +97,7 @@ public class LogUtils {
             return;
         }
         Log.d(TAG,"Size is:"+Integer.toString(ingredients.size()));
-        for(Ingredient ingredient:ingredients){
-            logD(ingredient,TAG);
-        }
+        ingredients.forEach(ingredient ->  logD(ingredient,TAG));
     }
 
     public static void log(List<IngredientEntity> ingredients, String TAG){
@@ -112,9 +106,7 @@ public class LogUtils {
             return;
         }
         Log.d(TAG,"Size is:"+Integer.toString(ingredients.size()));
-        for(IngredientEntity ingredient:ingredients){
-            logD(ingredient,TAG);
-        }
+        ingredients.forEach(ingredientEntity ->logD(ingredientEntity,TAG));
     }
 
     public static void logD(List<Step> steps, String TAG){
@@ -123,9 +115,7 @@ public class LogUtils {
             return;
         }
         Log.d(TAG,"Size is:"+Integer.toString(steps.size()));
-        for(Step step:steps){
-            logD(step,TAG);
-        }
+        steps.forEach(step -> logD(step,TAG));
     }
 
     public static void logDS(List<StepEntity> steps, String TAG){
@@ -134,9 +124,7 @@ public class LogUtils {
             return;
         }
         Log.d(TAG,"Size is:"+Integer.toString(steps.size()));
-        for(StepEntity step:steps){
-            logD(step,TAG);
-        }
+        steps.forEach(step -> logD(step,TAG));
     }
 
     public static void logD(Step step,String TAG){

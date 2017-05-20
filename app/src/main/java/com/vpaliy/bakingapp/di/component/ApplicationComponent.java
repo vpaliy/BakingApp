@@ -6,6 +6,7 @@ import com.vpaliy.bakingapp.di.module.DataModule;
 import com.vpaliy.bakingapp.di.module.NetworkModule;
 import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Recipe;
+import com.vpaliy.bakingapp.ui.activity.MainActivity;
 
 import javax.inject.Singleton;
 import dagger.Component;
@@ -17,6 +18,7 @@ import dagger.Component;
         ApplicationModule.class
 })
 public interface ApplicationComponent {
+    void inject(MainActivity activity);
     RecipeAPI recipeAPI();
     IRepository<Recipe> repository();
 }

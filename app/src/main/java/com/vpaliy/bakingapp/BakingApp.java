@@ -3,6 +3,10 @@ package com.vpaliy.bakingapp;
 import android.app.Application;
 
 import com.vpaliy.bakingapp.di.component.ApplicationComponent;
+import com.vpaliy.bakingapp.di.component.DaggerApplicationComponent;
+import com.vpaliy.bakingapp.di.module.ApplicationModule;
+import com.vpaliy.bakingapp.di.module.DataModule;
+import com.vpaliy.bakingapp.di.module.NetworkModule;
 
 public class BakingApp extends Application {
 
@@ -17,7 +21,10 @@ public class BakingApp extends Application {
     }
 
     private void installAppComponent(){
-        //TODO install the component
+        appComponent= DaggerApplicationComponent.builder()
+                .dataModule(new DataModule())
+                .applicationModule(new ApplicationModule(this))
+                .networkModule(new NetworkModule()).build();
     }
 
     public ApplicationComponent appComponent(){
