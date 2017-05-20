@@ -6,7 +6,14 @@ import com.vpaliy.bakingapp.domain.model.Step;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class StepMapper implements Mapper<Step,StepEntity> {
+
+    @Inject
+    public StepMapper(){}
 
     @Override
     public Step map(StepEntity stepEntity) {

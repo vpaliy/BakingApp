@@ -6,7 +6,14 @@ import com.vpaliy.bakingapp.domain.model.Ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class IngredientMapper implements Mapper<Ingredient,IngredientEntity> {
+
+    @Inject
+    public IngredientMapper(){}
 
     @Override
     public Ingredient map(IngredientEntity ingredientEntity) {

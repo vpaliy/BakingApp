@@ -1,7 +1,9 @@
-package com.vpaliy.bakingapp;
+package com.vpaliy.bakingapp.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.vpaliy.bakingapp.R;
 
 public class MainActivity extends AppCompatActivity {
 

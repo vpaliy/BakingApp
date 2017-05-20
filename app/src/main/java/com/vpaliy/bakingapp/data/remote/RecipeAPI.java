@@ -6,7 +6,7 @@ import java.util.List;
 import rx.Observable;
 import retrofit2.http.GET;
 
-interface RecipeAPI {
+public interface RecipeAPI {
     @GET("/android-baking-app-json ")
     Observable<List<RecipeEntity>> queryRecipes();
 }

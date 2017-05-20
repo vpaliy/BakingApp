@@ -1,11 +1,22 @@
 package com.vpaliy.bakingapp.di.component;
 
+import com.vpaliy.bakingapp.data.remote.RecipeAPI;
+import com.vpaliy.bakingapp.di.module.ApplicationModule;
 import com.vpaliy.bakingapp.di.module.DataModule;
 import com.vpaliy.bakingapp.di.module.NetworkModule;
+import com.vpaliy.bakingapp.domain.IRepository;
+import com.vpaliy.bakingapp.domain.model.Recipe;
 
+import javax.inject.Singleton;
 import dagger.Component;
 
-@Component(modules = {DataModule.class, NetworkModule.class})
+@Singleton
+@Component(modules = {
+        DataModule.class,
+        NetworkModule.class,
+        ApplicationModule.class
+})
 public interface ApplicationComponent {
-
+    RecipeAPI recipeAPI();
+    IRepository<Recipe> repository();
 }

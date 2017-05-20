@@ -2,6 +2,8 @@ package com.vpaliy.bakingapp.di.module;
 
 import com.vpaliy.bakingapp.data.DataSource;
 import com.vpaliy.bakingapp.data.RecipeRepository;
+import com.vpaliy.bakingapp.data.annotation.Local;
+import com.vpaliy.bakingapp.data.annotation.Remote;
 import com.vpaliy.bakingapp.data.local.LocalRecipeSource;
 import com.vpaliy.bakingapp.data.mapper.IngredientMapper;
 import com.vpaliy.bakingapp.data.mapper.Mapper;
@@ -49,12 +51,14 @@ public class DataModule {
 
     @Singleton
     @Provides
+    @Local
     DataSource<RecipeEntity> localRecipeDataSource(LocalRecipeSource recipeSource){
         return recipeSource;
     }
 
     @Singleton
     @Provides
+    @Remote
     DataSource<RecipeEntity> remoteRecipeDataSource(RemoteRecipeSource recipeSource){
         return recipeSource;
     }

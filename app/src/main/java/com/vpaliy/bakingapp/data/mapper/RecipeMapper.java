@@ -11,7 +11,9 @@ import java.util.List;
 
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
 
     private IngredientMapper ingredientMapper;

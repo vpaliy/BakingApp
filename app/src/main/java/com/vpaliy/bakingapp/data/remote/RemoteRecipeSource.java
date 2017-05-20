@@ -7,8 +7,11 @@ import com.vpaliy.bakingapp.utils.LogUtils;
 import java.util.List;
 import rx.Observable;
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import android.support.annotation.NonNull;
 
+@Singleton
 public class RemoteRecipeSource extends DataSource<RecipeEntity> {
 
     private final RecipeAPI recipeAPI;

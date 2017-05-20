@@ -1,6 +1,8 @@
 package com.vpaliy.bakingapp.data;
 
 
+import com.vpaliy.bakingapp.data.annotation.Local;
+import com.vpaliy.bakingapp.data.annotation.Remote;
 import com.vpaliy.bakingapp.data.mapper.Mapper;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.domain.IRepository;
@@ -15,7 +17,9 @@ import android.util.SparseArray;
 
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class RecipeRepository implements IRepository<Recipe> {
 
     private final Mapper<Recipe,RecipeEntity> mapper;
@@ -26,8 +30,8 @@ public class RecipeRepository implements IRepository<Recipe> {
     private SparseArray<Recipe> inMemoryCache;
 
     @Inject
-    public RecipeRepository(@NonNull DataSource<RecipeEntity> localDataSource,
-                            @NonNull DataSource<RecipeEntity> remoteDataSource,
+    public RecipeRepository(@NonNull @Local DataSource<RecipeEntity> localDataSource,
+                            @NonNull @Remote DataSource<RecipeEntity> remoteDataSource,
                             @NonNull Mapper<Recipe,RecipeEntity> mapper,
                             @NonNull Context context){
         this.localDataSource=localDataSource;
