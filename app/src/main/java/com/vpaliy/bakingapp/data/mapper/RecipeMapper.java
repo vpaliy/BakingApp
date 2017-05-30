@@ -32,7 +32,7 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
         Recipe recipe=new Recipe();
         recipe.setId(recipeEntity.getId());
         recipe.setImageUrl(recipeEntity.getImageUrl());
-        recipe.setName(recipe.getName());
+        recipe.setName(recipeEntity.getName());
         recipe.setServings(recipeEntity.getServings());
         if(recipeEntity.getIngredients()!=null) {
             List<Ingredient> ingredientList = new ArrayList<>(recipeEntity.getIngredients().size());

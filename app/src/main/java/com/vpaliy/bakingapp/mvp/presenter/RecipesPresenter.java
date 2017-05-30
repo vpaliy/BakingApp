@@ -10,12 +10,16 @@ import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
 import java.util.List;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import javax.inject.Inject;
 import com.vpaliy.bakingapp.di.scope.ViewScope;
 
 @ViewScope
 public class RecipesPresenter extends BaseRecipePresenter
         implements RecipesContract.Presenter {
+
+    private static final String TAG=RecipesPresenter.class.getSimpleName();
 
     private View view;
 

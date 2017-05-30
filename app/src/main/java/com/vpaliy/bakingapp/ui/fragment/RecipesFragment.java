@@ -5,6 +5,7 @@ import com.vpaliy.bakingapp.R;
 import java.util.List;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,11 @@ import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract.Presenter;
 import com.vpaliy.bakingapp.ui.adapter.RecipesAdapter;
+import com.vpaliy.bakingapp.ui.view.MarginDecoration;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import javax.inject.Inject;
 import butterknife.BindView;
 
 public class RecipesFragment extends BaseFragment
@@ -47,6 +50,8 @@ public class RecipesFragment extends BaseFragment
         if(view!=null){
             refresher.setOnRefreshListener(()->presenter.queryRecipes());
             adapter=new RecipesAdapter(getContext());
+            recipeList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+            recipeList.addItemDecoration(new MarginDecoration(getContext()));
             recipeList.setAdapter(adapter);
         }
     }
@@ -63,8 +68,9 @@ public class RecipesFragment extends BaseFragment
         presenter.stop();
     }
 
+    @Inject
     @Override
-    public void attachPresenter(@NonNull RecipesContract.Presenter presenter) {
+    public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;
         this.presenter.attachView(this);
     }

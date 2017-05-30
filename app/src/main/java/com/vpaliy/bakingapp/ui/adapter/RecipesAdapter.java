@@ -2,8 +2,10 @@ package com.vpaliy.bakingapp.ui.adapter;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +61,7 @@ public class RecipesAdapter extends
         }
 
         void applyColor(){
-            int color=colorMap.get(getAdapterPosition());
+            int color=colorMap.get(getAdapterPosition(),-1);
             if(color==-1){
                 color=randomColor.randomColor();
                 colorMap.put(getAdapterPosition(),color);
@@ -70,6 +72,7 @@ public class RecipesAdapter extends
             applyColor();
             Recipe recipe=at(getAdapterPosition());
             recipeTitle.setText(recipe.getName());
+
         }
     }
 

@@ -9,6 +9,8 @@ import com.vpaliy.bakingapp.mvp.contract.RecipeDetailsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeDetailsContract.Presenter;
 import android.support.annotation.NonNull;
 
+import javax.inject.Inject;
+
 public class RecipeDetailsFragment extends BaseFragment
         implements RecipeDetailsContract.View{
 
@@ -22,6 +24,7 @@ public class RecipeDetailsFragment extends BaseFragment
                 .build().inject(this);
     }
 
+    @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;
