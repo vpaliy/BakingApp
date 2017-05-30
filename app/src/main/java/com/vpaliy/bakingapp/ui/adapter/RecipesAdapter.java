@@ -12,11 +12,14 @@ import com.bumptech.glide.Glide;
 import com.github.lzyzsd.randomcolor.RandomColor;
 import com.vpaliy.bakingapp.R;
 import com.vpaliy.bakingapp.domain.model.Recipe;
+import com.vpaliy.bakingapp.ui.bus.RxBus;
+import com.vpaliy.bakingapp.ui.bus.event.OnRecipeClickEvent;
 import java.util.ArrayList;
 import java.util.List;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
+
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
@@ -26,13 +29,17 @@ public class RecipesAdapter extends
     private LayoutInflater inflater;
     private List<Recipe> data;
     private SparseIntArray colorMap;
+    private RxBus rxBus;
     private final RandomColor randomColor;
+    private boolean clicked;
 
-    public RecipesAdapter(@NonNull Context context){
+    public RecipesAdapter(@NonNull Context context,
+                          @NonNull RxBus rxBus){
         this.inflater=LayoutInflater.from(context);
         this.data=new ArrayList<>();
         this.colorMap=new SparseIntArray();
         this.randomColor=new RandomColor();
+        this.rxBus=rxBus;
     }
 
     public void setData(List<Recipe> data) {
@@ -42,7 +49,12 @@ public class RecipesAdapter extends
         }
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder {
+    public void resume(){
+        clicked=true;
+    }
+
+    public class RecipeViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
 
         @BindView(R.id.recipe_card)
         CardView recipeCard;
@@ -56,6 +68,16 @@ public class RecipesAdapter extends
         public RecipeViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(!clicked){
+                clicked=true;
+                OnRecipeClickEvent click=OnRecipeClickEvent.click(at(getAdapterPosition()).getId());
+                rxBus.send(click);
+            }
         }
 
         void applyColor(){

@@ -1,11 +1,12 @@
 package com.vpaliy.bakingapp.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
+import com.vpaliy.bakingapp.ui.bus.event.OnRecipeClickEvent;
 import com.vpaliy.bakingapp.ui.fragment.RecipesFragment;
+
+import android.support.annotation.NonNull;
 
 public class RecipeActivity extends BaseActivity {
 
@@ -13,7 +14,9 @@ public class RecipeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setUI();
+        if(savedInstanceState==null) {
+            setUI();
+        }
     }
 
     private void setUI(){
@@ -24,7 +27,13 @@ public class RecipeActivity extends BaseActivity {
 
     @Override
     void handleEvent(@NonNull Object event) {
+        if(event instanceof OnRecipeClickEvent){
+            showDetails(OnRecipeClickEvent.class.cast(event));
+        }
+    }
 
+    private void showDetails(OnRecipeClickEvent clickEvent){
+        navigator.navigateToRecipeDetails(this,clickEvent);
     }
 
     @Override

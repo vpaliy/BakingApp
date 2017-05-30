@@ -16,6 +16,7 @@ import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract.Presenter;
 import com.vpaliy.bakingapp.ui.adapter.RecipesAdapter;
+import com.vpaliy.bakingapp.ui.bus.RxBus;
 import com.vpaliy.bakingapp.ui.view.MarginDecoration;
 
 import android.support.annotation.NonNull;
@@ -35,6 +36,9 @@ public class RecipesFragment extends BaseFragment
     @BindView(R.id.refresher)
     protected SwipeRefreshLayout refresher;
 
+    @Inject
+    protected RxBus rxBus;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -49,11 +53,17 @@ public class RecipesFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             refresher.setOnRefreshListener(()->presenter.queryRecipes());
-            adapter=new RecipesAdapter(getContext());
+            adapter=new RecipesAdapter(getContext(),rxBus);
             recipeList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             recipeList.addItemDecoration(new MarginDecoration(getContext()));
             recipeList.setAdapter(adapter);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adapter!=null) adapter.resume();
     }
 
     @Override
