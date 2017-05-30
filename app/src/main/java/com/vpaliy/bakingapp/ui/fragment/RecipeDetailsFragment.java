@@ -1,6 +1,9 @@
 package com.vpaliy.bakingapp.ui.fragment;
 
 
+import com.vpaliy.bakingapp.BakingApp;
+import com.vpaliy.bakingapp.di.component.DaggerViewComponent;
+import com.vpaliy.bakingapp.di.module.PresenterModule;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.contract.RecipeDetailsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeDetailsContract.Presenter;
@@ -13,7 +16,10 @@ public class RecipeDetailsFragment extends BaseFragment
 
     @Override
     void initializeDependencies() {
-
+        DaggerViewComponent.builder()
+                .presenterModule(new PresenterModule())
+                .applicationComponent(BakingApp.appInstance().appComponent())
+                .build().inject(this);
     }
 
     @Override
