@@ -3,12 +3,15 @@ package com.vpaliy.bakingapp.ui.fragment;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.media.session.MediaSessionCompat;
 
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
 
 public class RecipeStepsFragment extends Fragment
         implements RecipeStepsContract.View {
+
+    private MediaSessionCompat mediaSession;
 
 
     @Override
