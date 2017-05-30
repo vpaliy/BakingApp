@@ -16,7 +16,7 @@ public abstract class AbstractAdapter<T> extends RecyclerView.Adapter<AbstractAd
 
     protected LayoutInflater inflater;
     protected RxBus rxBus;
-    private List<T> data;
+    protected List<T> data;
     private boolean locked;
 
     public AbstractAdapter(@NonNull Context context,

@@ -21,7 +21,7 @@ import dagger.Provides;
 @Module
 public class NetworkModule {
 
-    private static final String RECIPE_URL_BASE="http://go.udacity.com/";
+    private static final String RECIPE_URL_BASE="https://github.com/";
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024;
     private static final int CONNECT_TIMEOUT = 15;

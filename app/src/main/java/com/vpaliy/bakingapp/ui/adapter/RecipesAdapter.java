@@ -54,10 +54,8 @@ public class RecipesAdapter extends AbstractAdapter<Recipe>{
 
         @Override
         public void onClick(View view) {
-            Log.d(TAG,"Click - O");
             if(!isLocked()){
                 lock();
-                Log.d(TAG,"Click - I");
                 OnRecipeClickEvent click=OnRecipeClickEvent.click(at(getAdapterPosition()).getId());
                 rxBus.send(click);
             }
