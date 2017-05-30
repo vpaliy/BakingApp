@@ -8,29 +8,22 @@ import com.vpaliy.bakingapp.mvp.contract.RecipesContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract.View;
 import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
 import java.util.List;
-import rx.subscriptions.CompositeSubscription;
 
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import com.vpaliy.bakingapp.di.scope.ViewScope;
 
 @ViewScope
-public class RecipesPresenter implements RecipesContract.Presenter {
+public class RecipesPresenter extends BaseRecipePresenter
+        implements RecipesContract.Presenter {
 
-    private final IRepository<Recipe> repository;
-    private final BaseSchedulerProvider schedulerProvider;
-    private final CompositeSubscription subscriptions;
-    private final MessageProvider messageProvider;
     private View view;
 
     @Inject
     public RecipesPresenter(@NonNull IRepository<Recipe> repository,
                             @NonNull BaseSchedulerProvider schedulerProvider,
                             @NonNull MessageProvider messageProvider){
-        this.repository=repository;
-        this.schedulerProvider=schedulerProvider;
-        this.messageProvider=messageProvider;
-        this.subscriptions=new CompositeSubscription();
+        super(repository,schedulerProvider,messageProvider);
     }
 
     @Override
