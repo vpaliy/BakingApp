@@ -11,10 +11,11 @@ import com.vpaliy.bakingapp.ui.fragment.RecipeStepsFragment;
 import com.vpaliy.bakingapp.ui.fragment.RecipeSummaryFragment;
 import com.vpaliy.bakingapp.utils.Constants;
 import com.vpaliy.bakingapp.utils.messenger.Messenger;
+import android.support.v4.app.FragmentManager;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
+
 
 public class RecipeDetailsActivity extends BaseActivity {
 
@@ -25,7 +26,6 @@ public class RecipeDetailsActivity extends BaseActivity {
         if(savedInstanceState==null){
             setUI(getIntent().getExtras());
         }
-
     }
 
     private void setUI(Bundle args){
@@ -59,6 +59,7 @@ public class RecipeDetailsActivity extends BaseActivity {
                     .commit();
         }
     }
+
 
     @Override
     void initializeDependencies() {
