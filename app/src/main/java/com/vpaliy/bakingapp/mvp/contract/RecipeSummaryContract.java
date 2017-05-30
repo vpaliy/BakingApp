@@ -5,7 +5,7 @@ import com.vpaliy.bakingapp.mvp.BasePresenter;
 import com.vpaliy.bakingapp.mvp.BaseView;
 import android.support.annotation.NonNull;
 
-public interface RecipeDetailsContract {
+public interface RecipeSummaryContract {
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);

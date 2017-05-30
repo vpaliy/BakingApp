@@ -1,8 +1,8 @@
 package com.vpaliy.bakingapp.di.module;
 
-import com.vpaliy.bakingapp.mvp.contract.RecipeDetailsContract;
+import com.vpaliy.bakingapp.mvp.contract.RecipeSummaryContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract;
-import com.vpaliy.bakingapp.mvp.presenter.RecipeDetailsPresenter;
+import com.vpaliy.bakingapp.mvp.presenter.RecipeSummaryPresenter;
 import com.vpaliy.bakingapp.mvp.presenter.RecipesPresenter;
 
 import com.vpaliy.bakingapp.di.scope.ViewScope;
@@ -21,7 +21,7 @@ public class PresenterModule {
 
     @ViewScope
     @Provides
-    RecipeDetailsContract.Presenter recipeDetailsPresenter(RecipeDetailsPresenter presenter){
+    RecipeSummaryContract.Presenter recipeDetailsPresenter(RecipeSummaryPresenter presenter){
         return presenter;
     }
 

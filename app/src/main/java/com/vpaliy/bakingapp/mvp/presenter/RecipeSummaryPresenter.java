@@ -4,8 +4,8 @@ package com.vpaliy.bakingapp.mvp.presenter;
 import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.MessageProvider;
-import com.vpaliy.bakingapp.mvp.contract.RecipeDetailsContract;
-import com.vpaliy.bakingapp.mvp.contract.RecipeDetailsContract.View;
+import com.vpaliy.bakingapp.mvp.contract.RecipeSummaryContract;
+import com.vpaliy.bakingapp.mvp.contract.RecipeSummaryContract.View;
 import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
 
 import javax.inject.Inject;
@@ -13,13 +13,13 @@ import android.support.annotation.NonNull;
 import com.vpaliy.bakingapp.di.scope.ViewScope;
 
 @ViewScope
-public class RecipeDetailsPresenter extends BaseRecipePresenter
-        implements RecipeDetailsContract.Presenter{
+public class RecipeSummaryPresenter extends BaseRecipePresenter
+        implements RecipeSummaryContract.Presenter{
 
     private View view;
 
     @Inject
-    public RecipeDetailsPresenter(@NonNull IRepository<Recipe> repository,
+    public RecipeSummaryPresenter(@NonNull IRepository<Recipe> repository,
                                   @NonNull BaseSchedulerProvider schedulerProvider,
                                   @NonNull MessageProvider messageProvider){
         super(repository,schedulerProvider,messageProvider);
