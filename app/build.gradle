@@ -48,6 +48,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${libs.supportVersion}"
     compile "com.android.support:appcompat-v7:${libs.supportVersion}"
     compile "com.android.support:design:${libs.supportVersion}"
+    compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
 
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:${testLibs.espresso}", {
         exclude group: 'com.android.support', module: 'support-annotations'
