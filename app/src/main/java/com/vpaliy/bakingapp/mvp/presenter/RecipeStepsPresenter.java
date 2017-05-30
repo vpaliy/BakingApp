@@ -1,13 +1,12 @@
 package com.vpaliy.bakingapp.mvp.presenter;
 
-
-import android.support.annotation.NonNull;
-
 import com.vpaliy.bakingapp.domain.model.Step;
 import com.vpaliy.bakingapp.mvp.MessageProvider;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.View;
 import java.util.List;
+
+import android.support.annotation.NonNull;
 
 public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
 
