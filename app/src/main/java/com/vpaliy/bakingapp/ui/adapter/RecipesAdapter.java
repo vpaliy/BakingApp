@@ -3,6 +3,7 @@ package com.vpaliy.bakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.support.annotation.NonNull;
 import butterknife.BindView;
 
 public class RecipesAdapter extends AbstractAdapter<Recipe>{
+
+    private static final String TAG=RecipesAdapter.class.getSimpleName();
 
     private SparseIntArray colorMap;
     private final RandomColor randomColor;
@@ -51,8 +54,10 @@ public class RecipesAdapter extends AbstractAdapter<Recipe>{
 
         @Override
         public void onClick(View view) {
+            Log.d(TAG,"Click - O");
             if(!isLocked()){
                 lock();
+                Log.d(TAG,"Click - I");
                 OnRecipeClickEvent click=OnRecipeClickEvent.click(at(getAdapterPosition()).getId());
                 rxBus.send(click);
             }

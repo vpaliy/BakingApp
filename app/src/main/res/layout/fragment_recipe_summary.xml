@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/recipe_ingredients"
         layout="@layout/layout_recipe_ingredients"/>
 
     <include

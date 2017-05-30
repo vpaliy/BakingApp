@@ -7,6 +7,7 @@ import com.vpaliy.bakingapp.ui.bus.event.OnRecipeClickEvent;
 import com.vpaliy.bakingapp.ui.fragment.RecipesFragment;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 public class RecipeActivity extends BaseActivity {
 
@@ -33,6 +34,7 @@ public class RecipeActivity extends BaseActivity {
     }
 
     private void showDetails(OnRecipeClickEvent clickEvent){
+        Log.d(RecipeActivity.class.getSimpleName(),"showDetails()");
         navigator.navigateToRecipeDetails(this,clickEvent);
     }
 

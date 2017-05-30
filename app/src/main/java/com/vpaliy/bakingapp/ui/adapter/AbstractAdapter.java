@@ -12,12 +12,12 @@ import com.vpaliy.bakingapp.ui.bus.RxBus;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractAdapter<T> extends RecyclerView.Adapter<AbstractAdapter.AbstractViewHolder>{
+public abstract class AbstractAdapter<T> extends RecyclerView.Adapter<AbstractAdapter<T>.AbstractViewHolder>{
 
     protected LayoutInflater inflater;
     protected RxBus rxBus;
     private List<T> data;
-    private boolean clicked;
+    private boolean locked;
 
     public AbstractAdapter(@NonNull Context context,
                            @NonNull RxBus rxBus){
@@ -40,15 +40,15 @@ public abstract class AbstractAdapter<T> extends RecyclerView.Adapter<AbstractAd
     }
 
     public boolean isLocked(){
-        return clicked;
+        return locked;
     }
 
     public void lock(){
-        clicked=false;
+        locked=true;
     }
 
     public void unlock(){
-        clicked=true;
+        locked=false;
     }
 
     public void resume(){

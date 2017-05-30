@@ -24,6 +24,8 @@ import java.util.List;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
+
 import javax.inject.Inject;
 import butterknife.BindView;
 
@@ -34,7 +36,7 @@ public class RecipeSummaryFragment extends BaseFragment
     private StepsAdapter adapter;
     private int recipeId;
 
-    @BindView(R.id.recipe_ingredients)
+    @BindView(R.id.ingredient_list)
     protected ViewGroup ingredients;
 
     @BindView(R.id.recipe_steps)
@@ -114,7 +116,11 @@ public class RecipeSummaryFragment extends BaseFragment
     }
 
     private void showIngredients(@NonNull List<Ingredient> ingredientList){
-
+        for(Ingredient ingredient:ingredientList){
+            TextView view=new TextView(getContext());
+            view.setText(ingredient.getIngredient());
+            ingredients.addView(view);
+        }
     }
 
     private void showSteps(@NonNull List<Step> steps){
