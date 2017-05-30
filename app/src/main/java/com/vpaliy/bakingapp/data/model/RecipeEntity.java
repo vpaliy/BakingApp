@@ -2,9 +2,6 @@ package com.vpaliy.bakingapp.data.model;
 
 
 import com.google.gson.annotations.SerializedName;
-import com.vpaliy.bakingapp.domain.model.Ingredient;
-import com.vpaliy.bakingapp.domain.model.Step;
-
 import java.util.List;
 
 public class RecipeEntity {

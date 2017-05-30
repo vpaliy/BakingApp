@@ -1,8 +1,5 @@
 package com.vpaliy.bakingapp.data;
 
-
-import com.vpaliy.bakingapp.data.annotation.Local;
-import com.vpaliy.bakingapp.data.annotation.Remote;
 import com.vpaliy.bakingapp.data.mapper.Mapper;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.domain.IRepository;
@@ -18,6 +15,8 @@ import android.util.SparseArray;
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import com.vpaliy.bakingapp.data.annotation.Local;
+import com.vpaliy.bakingapp.data.annotation.Remote;
 
 @Singleton
 public class RecipeRepository implements IRepository<Recipe> {
@@ -66,7 +65,9 @@ public class RecipeRepository implements IRepository<Recipe> {
     }
 
     private void saveToDisk(List<RecipeEntity> list){
-
+        if(list!=null){
+            list.forEach(localDataSource::insert);
+        }
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.vpaliy.bakingapp.mvp;
 
 
+import android.support.annotation.NonNull;
 
-public class BasePresenter {
+public interface BasePresenter<V extends BaseView> {
+    void attachView(@NonNull V view);
 }

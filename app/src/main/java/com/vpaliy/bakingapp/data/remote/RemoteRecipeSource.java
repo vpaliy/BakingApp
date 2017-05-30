@@ -28,7 +28,5 @@ public class RemoteRecipeSource extends DataSource<RecipeEntity> {
     }
 
     @Override
-    public void insert(RecipeEntity item) {
-
-    }
+    public void insert(RecipeEntity item) {}
 }
