@@ -9,6 +9,7 @@ public interface RecipeDetailsContract {
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
+        void stop();
         void fetchById(int recipeId);
     }
 

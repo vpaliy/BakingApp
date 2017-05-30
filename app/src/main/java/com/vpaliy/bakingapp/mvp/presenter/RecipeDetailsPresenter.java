@@ -1,7 +1,6 @@
 package com.vpaliy.bakingapp.mvp.presenter;
 
 
-import com.vpaliy.bakingapp.di.scope.ViewScope;
 import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.MessageProvider;
@@ -11,6 +10,7 @@ import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
 
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
+import com.vpaliy.bakingapp.di.scope.ViewScope;
 
 @ViewScope
 public class RecipeDetailsPresenter extends BaseRecipePresenter
@@ -29,6 +29,11 @@ public class RecipeDetailsPresenter extends BaseRecipePresenter
     public void attachView(@NonNull View view) {
         //TODO check for null
         this.view=view;
+    }
+
+    @Override
+    public void stop() {
+        subscriptions.clear();
     }
 
     @Override

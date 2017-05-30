@@ -4,7 +4,6 @@ import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract;
 import java.util.List;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract.Presenter;
-
 import android.support.annotation.NonNull;
 
 public class RecipesFragment extends BaseFragment
