@@ -13,6 +13,7 @@ android {
         applicationId config.applicationId
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
+        vectorDrawables.useSupportLibrary=true
         versionCode config.versionCode
         versionName config.versionName
     }
