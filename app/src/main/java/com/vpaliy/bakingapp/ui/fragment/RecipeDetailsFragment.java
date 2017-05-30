@@ -15,6 +15,7 @@ public class RecipeDetailsFragment extends BaseFragment
         implements RecipeDetailsContract.View{
 
     private Presenter presenter;
+    private int recipeId;
 
     @Override
     void initializeDependencies() {

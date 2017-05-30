@@ -25,6 +25,7 @@
             android:id="@+id/recipe_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:scaleType="centerCrop"
             tools:src="@mipmap/ic_launcher"
             android:layout_marginRight="32dp"
             app:layout_constraintRight_toRightOf="parent"

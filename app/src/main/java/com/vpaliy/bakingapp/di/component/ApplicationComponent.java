@@ -8,6 +8,7 @@ import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.MessageProvider;
 import com.vpaliy.bakingapp.ui.activity.BaseActivity;
+import com.vpaliy.bakingapp.ui.bus.RxBus;
 import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
 
 import javax.inject.Singleton;
@@ -25,4 +26,5 @@ public interface ApplicationComponent {
     IRepository<Recipe> repository();
     BaseSchedulerProvider schedulerProvider();
     MessageProvider messageProvider();
+    RxBus bus();
 }

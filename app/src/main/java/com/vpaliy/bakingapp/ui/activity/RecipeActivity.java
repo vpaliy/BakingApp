@@ -1,6 +1,8 @@
 package com.vpaliy.bakingapp.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
 import com.vpaliy.bakingapp.ui.fragment.RecipesFragment;
@@ -19,6 +21,12 @@ public class RecipeActivity extends BaseActivity {
                 .replace(R.id.frame,new RecipesFragment())
                 .commit();
     }
+
+    @Override
+    void handleEvent(@NonNull Object event) {
+
+    }
+
     @Override
     void initializeDependencies() {
         BakingApp.appInstance()

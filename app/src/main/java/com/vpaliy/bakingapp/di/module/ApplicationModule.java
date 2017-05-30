@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.vpaliy.bakingapp.mvp.MessageProvider;
+import com.vpaliy.bakingapp.ui.bus.RxBus;
 import com.vpaliy.bakingapp.utils.messenger.Messenger;
 import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
 import com.vpaliy.bakingapp.utils.scheduler.SchedulerProvider;
@@ -37,5 +38,11 @@ public class ApplicationModule {
     @Provides
     MessageProvider provideMessenger(Messenger messenger){
         return messenger;
+    }
+
+    @Singleton
+    @Provides
+    RxBus provideBus(){
+        return new RxBus();
     }
 }
