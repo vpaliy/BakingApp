@@ -8,11 +8,15 @@ public interface IPlayback {
     void pause();
     void stop();
     boolean isPlaying();
+    String getResource();
+    MediaSessionCallback getMediaSessionCallback();
 
     interface Callback {
-        void onPlay();
-        void onStop();
-        void onCompletetion();
+        void onMediaPlay();
+        void onMediaStop();
+        void onCompletion();
         void onStateChanged(int state);
     }
+
+
 }

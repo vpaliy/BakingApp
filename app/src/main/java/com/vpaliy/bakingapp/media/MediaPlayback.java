@@ -7,13 +7,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 import android.support.annotation.NonNull;
 
 public class MediaPlayback implements IPlayback,
         AudioManager.OnAudioFocusChangeListener,
         MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnPreparedListener{
+        MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnSeekCompleteListener {
 
     private MediaPlayer mediaPlayer;
     private Callback callback;
@@ -23,6 +25,7 @@ public class MediaPlayback implements IPlayback,
     private AudioManager audioManager;
     private MediaSessionCallback mediaSessionCallback;
     private volatile String currentSource;
+    private volatile long currentPosition;
     private int state;
 
     private final IntentFilter audioBecomingNoisyIntent=
@@ -39,21 +42,29 @@ public class MediaPlayback implements IPlayback,
         }
     };
 
-    public MediaPlayback(@NonNull Context context){
+    public MediaPlayback(@NonNull Context context,
+                         @NonNull AudioManager audioManager){
         this.context=context;
+        this.audioManager=audioManager;
     }
 
 
     @Override
     public boolean isPlaying() {
-        return mediaPlayer!=null && mediaPlayer.isPlaying();
+        return focusGained && mediaPlayer!=null && mediaPlayer.isPlaying();
     }
 
     @Override
     public void play(String source) {
-
         requestFocus();
-        if(callback!=null) callback.onPlay();
+        boolean hasChanged = !TextUtils.equals(source, this.currentSource);
+        if(hasChanged){
+            this.currentPosition=0;
+        }
+        if(state== PlaybackStateCompat.STATE_PAUSED && mediaPlayer!=null){
+
+        }
+        if(callback!=null) callback.onMediaPlay();
         setUpPlayer();
         registerReceiver();
     }
@@ -61,9 +72,19 @@ public class MediaPlayback implements IPlayback,
     @Override
     public void stop() {
         releaseFocus();
-        if(callback!=null) callback.onStop();
+        if(callback!=null) callback.onMediaStop();
         releasePlayer();
         unregisterReceiver();
+    }
+
+    @Override
+    public MediaSessionCallback getMediaSessionCallback() {
+        return mediaSessionCallback;
+    }
+
+    @Override
+    public String getResource() {
+        return currentSource;
     }
 
     @Override
@@ -77,13 +98,18 @@ public class MediaPlayback implements IPlayback,
     }
 
     @Override
-    public void onCompletion(MediaPlayer mp) {
+    public void onSeekComplete(MediaPlayer player) {
 
     }
 
     @Override
-    public void onPrepared(MediaPlayer mp) {
+    public void onCompletion(MediaPlayer player) {
+        callback.onCompletion();
+    }
 
+    @Override
+    public void onPrepared(MediaPlayer player) {
+        configMediaPlayer();
     }
 
     @Override
@@ -91,32 +117,6 @@ public class MediaPlayback implements IPlayback,
         this.callback=callback;
     }
 
-    private class MediaSessionCallback extends MediaSessionCompat.Callback {
-
-        @Override
-        public void onPlay() {
-            super.onPlay();
-            play(currentSource);
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            pause();
-        }
-
-        @Override
-        public void onStop() {
-            super.onStop();
-            stop();
-        }
-
-        @Override
-        public void onSeekTo(long pos) {
-            super.onSeekTo(pos);
-            seekTo(pos);
-        }
-    }
 
     @Override
     public void onAudioFocusChange(int focusChange) {
@@ -133,6 +133,10 @@ public class MediaPlayback implements IPlayback,
 
 
     private void releaseFocus(){
+
+    }
+
+    private void configMediaPlayer(){
 
     }
 
