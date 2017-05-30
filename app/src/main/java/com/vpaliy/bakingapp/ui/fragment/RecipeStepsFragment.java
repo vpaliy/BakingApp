@@ -2,12 +2,14 @@ package com.vpaliy.bakingapp.ui.fragment;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
 
-public class RecipeStepsFragment
+public class RecipeStepsFragment extends Fragment
         implements RecipeStepsContract.View {
+
 
     @Override
     public void showMessage(@NonNull String message) {

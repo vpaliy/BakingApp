@@ -11,16 +11,14 @@ import android.support.annotation.NonNull;
 public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
 
     private View view;
-    private List<Step> steps;
     private MessageProvider messageProvider;
     private Step currentStep;
-    private int currentIndex;
+    private StepsWrapper wrapper;
 
-    public RecipeStepsPresenter(@NonNull List<Step> steps,
+    public RecipeStepsPresenter(@NonNull StepsWrapper wrapper,
                                 @NonNull MessageProvider messageProvider){
-        this.steps=steps;
+        this.wrapper=wrapper;
         this.messageProvider=messageProvider;
-        this.currentIndex=0;
     }
 
     @Override
@@ -36,8 +34,8 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
     @Override
     public void showCurrent() {
         Step step=currentStep;
-        if(currentIndex<=steps.size()){
-            step=steps.get(currentIndex);
+        if(wrapper.currentIndex <=wrapper.count()){
+            step=wrapper.current();
         }
         this.currentStep=step;
         manageButtons();
@@ -55,13 +53,13 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
     }
 
     private void manageButtons(){
-        if(currentIndex==0){
+        if(wrapper.currentIndex==0){
             view.hidePrevButton();
         }else{
             view.showPrevButton();
         }
 
-        if(currentIndex>=steps.size()){
+        if(wrapper.currentIndex>=wrapper.count()){
             view.hideNextButton();
         }else{
             view.showNextButton();
@@ -70,13 +68,35 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
 
     @Override
     public void showNext() {
-        currentIndex++;
+        wrapper.currentIndex++;
         showCurrent();
     }
 
     @Override
     public void showPrev() {
-        currentIndex--;
+        wrapper.currentIndex--;
         showCurrent();
+    }
+
+    public static class StepsWrapper {
+        private int currentIndex;
+        private List<Step> steps;
+
+        int count(){
+            return steps.size();
+        }
+
+        Step current(){
+            return steps.get(currentIndex);
+        }
+
+        private StepsWrapper(List<Step> steps,int currentStep){
+            this.steps=steps;
+            this.currentIndex =currentStep;
+        }
+
+        public static StepsWrapper wrap(List<Step> steps, int currentStep){
+            return new StepsWrapper(steps,currentStep);
+        }
     }
 }
