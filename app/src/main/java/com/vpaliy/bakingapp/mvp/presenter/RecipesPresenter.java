@@ -12,7 +12,9 @@ import rx.subscriptions.CompositeSubscription;
 
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
+import com.vpaliy.bakingapp.di.scope.ViewScope;
 
+@ViewScope
 public class RecipesPresenter implements RecipesContract.Presenter {
 
     private final IRepository<Recipe> repository;
@@ -33,6 +35,7 @@ public class RecipesPresenter implements RecipesContract.Presenter {
 
     @Override
     public void attachView(@NonNull View view) {
+        //TODO add check for null
         this.view=view;
     }
 
@@ -43,10 +46,11 @@ public class RecipesPresenter implements RecipesContract.Presenter {
     }
 
     private void load(){
+        view.setLoading(true);
         subscriptions.add(repository.getRecipes()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe(this::processData,this::catchError,()->{}));
+                .subscribe(this::processData,this::catchError,this::complete));
     }
 
     private void processData(List<Recipe> recipes){
@@ -60,6 +64,10 @@ public class RecipesPresenter implements RecipesContract.Presenter {
     private void catchError(Throwable error){
         error.printStackTrace();
         view.showMessage(messageProvider.noNetworkConnection());
+    }
+
+    private void complete(){
+        view.setLoading(false);
     }
 
     @Override

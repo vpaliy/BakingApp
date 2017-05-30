@@ -21,5 +21,6 @@ public interface RecipesContract {
         void attachPresenter(@NonNull Presenter presenter);
         void showRecipes(@NonNull List<Recipe> recipes);
         void showMessage(@NonNull String message);
+        void setLoading(boolean isLoading);
     }
 }
