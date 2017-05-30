@@ -3,8 +3,12 @@ package com.vpaliy.bakingapp.di.module;
 import android.app.Application;
 import android.content.Context;
 
-import javax.inject.Singleton;
+import com.vpaliy.bakingapp.mvp.MessageProvider;
+import com.vpaliy.bakingapp.utils.messenger.Messenger;
+import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
+import com.vpaliy.bakingapp.utils.scheduler.SchedulerProvider;
 
+import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,5 +25,17 @@ public class ApplicationModule {
     @Provides
     Context provideWithContext(){
         return application;
+    }
+
+    @Singleton
+    @Provides
+    BaseSchedulerProvider provideScheduler(){
+        return new SchedulerProvider();
+    }
+
+    @Singleton
+    @Provides
+    MessageProvider provideMessenger(Messenger messenger){
+        return messenger;
     }
 }

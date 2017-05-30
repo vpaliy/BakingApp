@@ -12,6 +12,7 @@ import dagger.Provides;
 @Module
 public class PresenterModule {
 
+
     @ViewScope
     @Provides
     RecipesContract.Presenter recipesPresenter(RecipesPresenter presenter){
