@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.vpaliy.bakingapp.ui.activity.RecipeDetailsActivity;
+import com.vpaliy.bakingapp.ui.activity.DetailsActivity;
 import com.vpaliy.bakingapp.ui.bus.event.OnRecipeClickEvent;
 import com.vpaliy.bakingapp.utils.Constants;
 
@@ -23,7 +23,7 @@ public class Navigator {
     public void navigateToRecipeDetails(@NonNull Activity activity,
                                         @NonNull OnRecipeClickEvent onRecipeClickEvent){
         Log.d(TAG,"Navigate to details activity");
-        Intent intent=new Intent(activity, RecipeDetailsActivity.class);
+        Intent intent=new Intent(activity, DetailsActivity.class);
         intent.putExtra(Constants.EXTRA_RECIPE_ID,onRecipeClickEvent.recipeId);
         activity.startActivity(intent);
     }

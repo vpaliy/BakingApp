@@ -4,5 +4,6 @@
     <string name="message_error_has_occurred">Error has occurred</string>
     <string name="message_no_network">No network connection</string>
     <string name="button_next_step">Next</string>
+    <string name="step">Step</string>
     <string name="button_prev_step">Previous</string>
 </resources>

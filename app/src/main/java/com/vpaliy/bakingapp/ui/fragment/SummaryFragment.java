@@ -12,6 +12,7 @@ import com.vpaliy.bakingapp.mvp.contract.RecipeSummaryContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeSummaryContract.Presenter;
 import com.vpaliy.bakingapp.ui.adapter.StepsAdapter;
 import com.vpaliy.bakingapp.ui.bus.RxBus;
+import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.view.MarginDecoration;
 import com.vpaliy.bakingapp.utils.Constants;
 import android.os.Bundle;
@@ -29,8 +30,10 @@ import android.widget.TextView;
 import javax.inject.Inject;
 import butterknife.BindView;
 
-public class RecipeSummaryFragment extends BaseFragment
+public class SummaryFragment extends BaseFragment
         implements RecipeSummaryContract.View{
+
+    private static final String TAG=SummaryFragment.class.getSimpleName();
 
     private Presenter presenter;
     private StepsAdapter adapter;
@@ -45,8 +48,8 @@ public class RecipeSummaryFragment extends BaseFragment
     @Inject
     protected RxBus rxBus;
 
-    public static RecipeSummaryFragment newInstance(Bundle bundle){
-        RecipeSummaryFragment fragment=new RecipeSummaryFragment();
+    public static SummaryFragment newInstance(Bundle bundle){
+        SummaryFragment fragment=new SummaryFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -111,6 +114,7 @@ public class RecipeSummaryFragment extends BaseFragment
 
     @Override
     public void showRecipe(@NonNull Recipe recipe) {
+        rxBus.send(OnChangeToolbarEvent.change(recipe.getName()));
         showIngredients(recipe.getIngredients());
         showSteps(recipe.getSteps());
     }

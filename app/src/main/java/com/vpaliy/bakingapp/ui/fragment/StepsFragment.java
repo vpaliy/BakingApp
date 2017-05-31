@@ -3,10 +3,10 @@ package com.vpaliy.bakingapp.ui.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompat;
 
-import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.vpaliy.bakingapp.BakingApp;
@@ -16,11 +16,15 @@ import com.vpaliy.bakingapp.di.module.PresenterModule;
 import com.vpaliy.bakingapp.media.IPlayback;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
+import com.vpaliy.bakingapp.ui.bus.RxBus;
+import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
+import com.vpaliy.bakingapp.ui.bus.event.OnChangeVisibilityEvent;
+
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.support.annotation.NonNull;
@@ -29,11 +33,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 
-public class RecipeStepsFragment extends BaseFragment
-        implements RecipeStepsContract.View, IPlayback.Callback {
+public class StepsFragment extends BaseFragment
+        implements RecipeStepsContract.View, IPlayback.Callback{
 
     private static final String SESSION_TAG="media_session_log_tag";
-    private static final String TAG=RecipeStepsFragment.class.getSimpleName();
+    private static final String TAG=StepsFragment.class.getSimpleName();
 
     @BindView(R.id.player)
     protected SimpleExoPlayerView playerView;
@@ -55,6 +59,9 @@ public class RecipeStepsFragment extends BaseFragment
 
     @Inject
     protected IPlayback<?> playback;
+
+    @Inject
+    protected RxBus rxBus;
 
     private Presenter presenter;
     private MediaSessionCompat mediaSession;
@@ -82,9 +89,24 @@ public class RecipeStepsFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.d(TAG,"onCreate()");
         View root=inflater.inflate(R.layout.fragment_recipe_steps,container,false);
         bind(root);
         return root;
+    }
+
+    private void setToolbar(){
+        rxBus.send(OnChangeVisibilityEvent.change(isPortrait()));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setToolbar();
+    }
+
+    private boolean isPortrait(){
+        return getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT;
     }
 
     @Override
@@ -139,6 +161,8 @@ public class RecipeStepsFragment extends BaseFragment
     public void showPageNumber(int currentPage, int total) {
         String result=Integer.toString(currentPage)+'/'+Integer.toString(total);
         pageTracker.setText(result);
+        result=getString(R.string.step)+":"+Integer.toString(currentPage);
+        rxBus.send(OnChangeToolbarEvent.change(result));
     }
 
     @Override

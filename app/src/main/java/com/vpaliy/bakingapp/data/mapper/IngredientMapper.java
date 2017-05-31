@@ -19,7 +19,7 @@ public class IngredientMapper implements Mapper<Ingredient,IngredientEntity> {
     public Ingredient map(IngredientEntity ingredientEntity) {
         Ingredient ingredient=new Ingredient();
         ingredient.setId(ingredientEntity.getId());
-        ingredient.setIngredient(ingredient.getIngredient());
+        ingredient.setIngredient(ingredientEntity.getIngredient());
         ingredient.setMeasure(ingredientEntity.getMeasure());
         ingredient.setQuantity(ingredientEntity.getQuantity());
         return ingredient;

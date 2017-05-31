@@ -5,9 +5,8 @@ import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
 import com.vpaliy.bakingapp.ui.bus.event.OnRecipeClickEvent;
 import com.vpaliy.bakingapp.ui.fragment.RecipesFragment;
-
-import android.support.annotation.NonNull;
 import android.util.Log;
+import android.support.annotation.NonNull;
 
 public class RecipeActivity extends BaseActivity {
 
