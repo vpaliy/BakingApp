@@ -33,8 +33,6 @@ import com.google.android.exoplayer2.util.Util;
 public class MediaPlayback21 implements IPlayback<ExoPlayer>,
         ExoPlayer.EventListener {
 
-    private static final String TAG=MediaPlayback21.class.getSimpleName();
-
     private Context context;
     private Callback callback;
     private ExoPlayer player;
@@ -48,7 +46,6 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     @Override
     public void play(String source) {
-        Log.d(TAG,"play:"+source);
         if(source!=null) {
             createPlayerIfNeeded();
             boolean hasChanged= TextUtils.equals(source,currentSource);
@@ -68,7 +65,6 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     @Override
     public void pause() {
-        Log.d(TAG,"pause()");
         if(player!=null){
             player.setPlayWhenReady(false);
             if(callback!=null){
@@ -79,7 +75,7 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     @Override
     public void stop() {
-        Log.d(TAG,"stop()");
+        currentSource=null;
         releasePlayer();
         if(callback!=null){
             callback.onMediaStop();
@@ -156,7 +152,6 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
     }
 
     private void createPlayerIfNeeded(){
-        Log.d(TAG,"create player");
         if(player==null){
             TransferListener<? super DataSource> bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory =
@@ -170,7 +165,6 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
     }
 
     private void releasePlayer() {
-        Log.d(TAG,"releasePlayer");
         if(player!=null) {
             player.stop();
             player.release();

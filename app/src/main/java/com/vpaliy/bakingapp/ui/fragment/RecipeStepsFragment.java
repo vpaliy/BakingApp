@@ -5,6 +5,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompat;
+
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.vpaliy.bakingapp.BakingApp;
@@ -15,10 +17,10 @@ import com.vpaliy.bakingapp.media.IPlayback;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.support.annotation.NonNull;
@@ -28,7 +30,7 @@ import butterknife.BindView;
 
 
 public class RecipeStepsFragment extends BaseFragment
-        implements RecipeStepsContract.View,IPlayback.Callback {
+        implements RecipeStepsContract.View, IPlayback.Callback {
 
     private static final String SESSION_TAG="media_session_log_tag";
     private static final String TAG=RecipeStepsFragment.class.getSimpleName();
@@ -55,7 +57,6 @@ public class RecipeStepsFragment extends BaseFragment
     protected IPlayback<?> playback;
 
     private Presenter presenter;
-
     private MediaSessionCompat mediaSession;
 
 
@@ -147,13 +148,7 @@ public class RecipeStepsFragment extends BaseFragment
     }
 
     @Override
-    public void showImage(String imageUrl) {
-
-    }
-
-    @Override
     public void playVideo(String videoUrl) {
-        Log.d(TAG,videoUrl);
         playback.play(videoUrl);
     }
 
@@ -175,8 +170,7 @@ public class RecipeStepsFragment extends BaseFragment
 
     private void hideButton(View view){
         view.animate()
-                .scaleY(0f)
-                .scaleX(0f)
+                .alpha(0f)
                 .setDuration(150)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
@@ -191,8 +185,7 @@ public class RecipeStepsFragment extends BaseFragment
     private void showButton(View view){
         view.setVisibility(View.VISIBLE);
         view.animate()
-                .scaleX(1f)
-                .scaleY(1.f)
+                .alpha(1f)
                 .setDuration(150)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override

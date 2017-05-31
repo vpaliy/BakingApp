@@ -17,7 +17,7 @@ public abstract class BaseFragment extends Fragment {
     @CallSuper
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        //setRetainInstance(true);
         initializeDependencies();
     }
 

@@ -7,6 +7,8 @@ import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.View;
 import java.util.List;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 
 public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
 
@@ -38,19 +40,25 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
             step=wrapper.current();
         }
         currentStep=step;
-        if(currentStep==null){
-            view.showMessage(messageProvider.emptyMessage());
-            return;
-        }
-        view.showPageNumber(wrapper.currentIndex+1,wrapper.count());
-        view.showDescription(currentStep.getShortDescription(),currentStep.getDescription());
-        if(currentStep.getVideoUrl()!=null && !currentStep.getVideoUrl().isEmpty()){
-            view.playVideo(currentStep.getVideoUrl());
-        }else if(currentStep.getImageUrl()!=null){
+        if(currentStep!=null){
+            view.showPageNumber(wrapper.currentIndex+1,wrapper.count());
+            view.showDescription(currentStep.getShortDescription(),currentStep.getDescription());
+            manageButtons();
+            if(playVideo(currentStep.getVideoUrl())||playVideo(currentStep.getImageUrl())){
+                return;
+            }
             view.hidePlayer();
-            view.showImage(currentStep.getImageUrl());
+        }else{
+            view.showMessage(messageProvider.emptyMessage());
         }
-        manageButtons();
+    }
+
+    private boolean playVideo(String url){
+        if(!TextUtils.isEmpty(url)){
+            view.playVideo(url);
+            return true;
+        }
+        return false;
     }
 
     private void manageButtons(){

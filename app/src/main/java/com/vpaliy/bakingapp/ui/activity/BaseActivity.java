@@ -44,6 +44,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @CallSuper
+    @Override
+    protected void onStop(){
+        super.onStop();
+        disposables.clear();
+    }
+
     abstract void handleEvent(@NonNull Object event);
 
     abstract void initializeDependencies();

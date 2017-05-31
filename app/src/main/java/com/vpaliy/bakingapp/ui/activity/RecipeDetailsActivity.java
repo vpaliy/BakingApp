@@ -12,12 +12,15 @@ import com.vpaliy.bakingapp.ui.fragment.RecipeSummaryFragment;
 import com.vpaliy.bakingapp.utils.Constants;
 import com.vpaliy.bakingapp.utils.messenger.Messenger;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.util.List;
 
 
 public class RecipeDetailsActivity extends BaseActivity {
@@ -27,15 +30,17 @@ public class RecipeDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recipe_details);
+        Log.d(TAG,"onActivityCreated()");
         if(savedInstanceState==null){
             setUI(getIntent().getExtras());
         }
     }
 
     private void setUI(Bundle args){
+        Log.d(TAG,"create fragment");
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame, RecipeSummaryFragment.newInstance(args), Constants.SUMMARY_TAG)
+                .replace(R.id.frame, RecipeSummaryFragment.newInstance(args), Constants.SUMMARY_TAG)
                 .commit();
     }
 
@@ -47,7 +52,7 @@ public class RecipeDetailsActivity extends BaseActivity {
     }
 
     private void showSteps(OnStepClickEvent clickEvent){
-        Log.d(TAG,"showSteps()");
+        Log.d(TAG,"onStepClicked()");
         FragmentManager manager=getSupportFragmentManager();
         if(manager.findFragmentByTag(Constants.STEPS_TAG)!=null){
             manager.beginTransaction()
@@ -55,14 +60,14 @@ public class RecipeDetailsActivity extends BaseActivity {
                     .show(manager.findFragmentByTag(Constants.STEPS_TAG))
                     .commit();
         }else{
-            Log.d(TAG,"Show steps inside");
             StepsWrapper wrapper=StepsWrapper.wrap(clickEvent.steps,clickEvent.currentStep);
             Presenter presenter=new RecipeStepsPresenter(wrapper,new Messenger(this));
             RecipeStepsFragment fragment=new RecipeStepsFragment();
             fragment.attachPresenter(presenter);
             manager.beginTransaction()
+                    .addToBackStack(Constants.SUMMARY_TAG)
                     .hide(manager.findFragmentByTag(Constants.SUMMARY_TAG))
-                    .replace(R.id.frame,fragment,Constants.STEPS_TAG)
+                    .add(R.id.frame,fragment,Constants.STEPS_TAG)
                     .commit();
         }
     }
@@ -70,17 +75,19 @@ public class RecipeDetailsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         FragmentManager manager=getSupportFragmentManager();
-        Fragment fragment=manager.findFragmentByTag(Constants.STEPS_TAG);
-        if(fragment!=null){
-            if(fragment.isVisible()){
-                manager.beginTransaction()
-                        .detach(fragment)
-                        .show(manager.findFragmentByTag(Constants.SUMMARY_TAG))
-                        .commit();
-                return;
-            }
+        if(manager.getBackStackEntryCount()>0){
+            manager.popBackStack();
+            manager.beginTransaction()
+                    .show(manager.findFragmentByTag(Constants.SUMMARY_TAG))
+                    .commit();
+            return;
         }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

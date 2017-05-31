@@ -3,6 +3,7 @@ package com.vpaliy.bakingapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,6 @@ public class RecipesAdapter extends AbstractAdapter<Recipe>{
 
         }
     }
-
 
     @Override
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
