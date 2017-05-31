@@ -13,7 +13,6 @@ import com.vpaliy.bakingapp.media.IPlayback;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +38,15 @@ public class RecipeStepsFragment extends BaseFragment
 
     @BindView(R.id.step_description)
     protected TextView description;
+
+    @BindView(R.id.pages)
+    protected TextView pageTracker;
+
+    @BindView(R.id.step_next)
+    protected View next;
+
+    @BindView(R.id.step_prev)
+    protected View previous;
 
     @Inject
     protected IPlayback<?> playback;
@@ -80,6 +88,22 @@ public class RecipeStepsFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             presenter.showCurrent();
+            next.setOnClickListener(v->{
+                presenter.showNext();onStepChanged();
+            });
+            previous.setOnClickListener(v->{
+                presenter.showPrev();onStepChanged();
+            });
+        }
+    }
+
+    private void onStepChanged(){
+        if(playerView.getVisibility()==View.GONE){
+            playerView.setVisibility(View.VISIBLE);
+        }else{
+            playback.stop();
+            playerView.setPlayer(null);
+            playerView.setVisibility(View.GONE);
         }
     }
 
@@ -113,6 +137,12 @@ public class RecipeStepsFragment extends BaseFragment
     }
 
     @Override
+    public void showPageNumber(int currentPage, int total) {
+        String result=Integer.toString(currentPage)+'/'+Integer.toString(total);
+        pageTracker.setText(result);
+    }
+
+    @Override
     public void showDescription(String shortDescription,String description) {
         this.shortDescription.setText(shortDescription);
         this.description.setText(description);
@@ -125,7 +155,6 @@ public class RecipeStepsFragment extends BaseFragment
 
     @Override
     public void playVideo(String videoUrl) {
-        Log.d(TAG,"playVideo()");
         playback.play(videoUrl);
     }
 
@@ -142,22 +171,38 @@ public class RecipeStepsFragment extends BaseFragment
 
     @Override
     public void hidePrevButton() {
-
+        previous.animate()
+                .scaleY(0f)
+                .scaleX(0f)
+                .setDuration(150)
+                .start();
     }
 
     @Override
     public void hideNextButton() {
-
+        next.animate()
+                .scaleY(0f)
+                .scaleX(0f)
+                .setDuration(150)
+                .start();
     }
 
     @Override
     public void showNextButton() {
-
+        next.animate()
+                .scaleX(1f)
+                .scaleY(1.f)
+                .setDuration(150)
+                .start();
     }
 
     @Override
     public void showPrevButton() {
-
+        previous.animate()
+                .scaleX(1f)
+                .scaleY(1.f)
+                .setDuration(150)
+                .start();
     }
 
     @Override

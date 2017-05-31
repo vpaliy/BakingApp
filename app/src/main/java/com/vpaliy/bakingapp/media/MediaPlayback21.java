@@ -171,9 +171,11 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     private void releasePlayer() {
         Log.d(TAG,"releasePlayer");
-        player.stop();
-        player.release();
-        player = null;
+        if(player!=null) {
+            player.stop();
+            player.release();
+            player = null;
+        }
     }
 
     @Override

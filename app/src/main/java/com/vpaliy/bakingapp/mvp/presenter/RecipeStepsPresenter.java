@@ -43,6 +43,7 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
             view.showMessage(messageProvider.emptyMessage());
             return;
         }
+        view.showPageNumber(wrapper.currentIndex+1,wrapper.count());
         view.showDescription(currentStep.getShortDescription(),currentStep.getDescription());
         if(currentStep.getVideoUrl()!=null && !currentStep.getVideoUrl().isEmpty()){
             view.playVideo(currentStep.getVideoUrl());
@@ -59,7 +60,7 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
             view.showPrevButton();
         }
 
-        if(wrapper.currentIndex>=wrapper.count()){
+        if(wrapper.currentIndex>=wrapper.count()-1){
             view.hideNextButton();
         }else{
             view.showNextButton();

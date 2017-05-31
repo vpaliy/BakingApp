@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BottomBar" parent="Widget.AppCompat.ButtonBar">
+        <item name="android:color">#fff</item>
+    </style>
 </resources>
