@@ -10,6 +10,7 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         app:resize_mode="fixed_height"
+        android:visibility="gone"
         android:layout_height="300dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

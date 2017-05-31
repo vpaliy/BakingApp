@@ -13,15 +13,15 @@ import android.support.annotation.NonNull;
 import com.vpaliy.bakingapp.di.scope.ViewScope;
 
 @ViewScope
-public class RecipeSummaryPresenter extends BaseRecipePresenter
+public class SummaryPresenter extends BaseRecipePresenter
         implements RecipeSummaryContract.Presenter{
 
     private View view;
 
     @Inject
-    public RecipeSummaryPresenter(@NonNull IRepository<Recipe> repository,
-                                  @NonNull BaseSchedulerProvider schedulerProvider,
-                                  @NonNull MessageProvider messageProvider){
+    public SummaryPresenter(@NonNull IRepository<Recipe> repository,
+                            @NonNull BaseSchedulerProvider schedulerProvider,
+                            @NonNull MessageProvider messageProvider){
         super(repository,schedulerProvider,messageProvider);
     }
 

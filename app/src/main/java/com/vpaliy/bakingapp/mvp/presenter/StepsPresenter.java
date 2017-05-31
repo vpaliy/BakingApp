@@ -8,17 +8,16 @@ import java.util.List;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
-public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
+public class StepsPresenter implements RecipeStepsContract.Presenter{
 
     private View view;
     private MessageProvider messageProvider;
     private Step currentStep;
     private StepsWrapper wrapper;
 
-    public RecipeStepsPresenter(@NonNull StepsWrapper wrapper,
-                                @NonNull MessageProvider messageProvider){
+    public StepsPresenter(@NonNull StepsWrapper wrapper,
+                          @NonNull MessageProvider messageProvider){
         this.wrapper=wrapper;
         this.messageProvider=messageProvider;
     }

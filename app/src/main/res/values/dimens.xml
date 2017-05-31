@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="item_margin">5dp</dimen>
+    <dimen name="player_height">300dp</dimen>
 </resources>

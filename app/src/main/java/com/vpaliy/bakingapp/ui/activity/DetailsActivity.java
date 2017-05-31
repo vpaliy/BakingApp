@@ -4,8 +4,8 @@ import android.os.Bundle;
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
-import com.vpaliy.bakingapp.mvp.presenter.RecipeStepsPresenter;
-import com.vpaliy.bakingapp.mvp.presenter.RecipeStepsPresenter.StepsWrapper;
+import com.vpaliy.bakingapp.mvp.presenter.StepsPresenter;
+import com.vpaliy.bakingapp.mvp.presenter.StepsPresenter.StepsWrapper;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeVisibilityEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnStepClickEvent;
@@ -54,6 +54,8 @@ public class DetailsActivity extends BaseActivity {
     private void setActionBar(){
         setSupportActionBar(actionBar);
         if(getSupportActionBar()!=null){
+            if(actionBar.getTitle()!=null)
+            Log.d(TAG,actionBar.getTitle().toString());
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -76,7 +78,6 @@ public class DetailsActivity extends BaseActivity {
     }
 
     private void changeVisibility(OnChangeVisibilityEvent event){
-        Log.d(TAG,"onChangeVisibility()");
         if(!event.visible){
             if(Permissions.checkForVersion(19)){
                 View decorView = getWindow().getDecorView();
@@ -86,10 +87,16 @@ public class DetailsActivity extends BaseActivity {
                                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
             if(getSupportActionBar()!=null){
                 getSupportActionBar().hide();
+            }
+        }else{
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(0);
+            if(getSupportActionBar()!=null){
+                getSupportActionBar().show();
             }
         }
     }
@@ -103,7 +110,7 @@ public class DetailsActivity extends BaseActivity {
                     .commit();
         }else{
             StepsWrapper wrapper=StepsWrapper.wrap(clickEvent.steps,clickEvent.currentStep);
-            Presenter presenter=new RecipeStepsPresenter(wrapper,new Messenger(this));
+            Presenter presenter=new StepsPresenter(wrapper,new Messenger(this));
             StepsFragment fragment=new StepsFragment();
             fragment.attachPresenter(presenter);
             manager.beginTransaction()
