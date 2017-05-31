@@ -15,9 +15,12 @@ import android.support.v4.app.FragmentManager;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 
 public class RecipeDetailsActivity extends BaseActivity {
+
+    private static final String TAG=RecipeDetailsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class RecipeDetailsActivity extends BaseActivity {
     }
 
     private void showSteps(OnStepClickEvent clickEvent){
+        Log.d(TAG,"showSteps()");
         FragmentManager manager=getSupportFragmentManager();
         if(manager.findFragmentByTag(Constants.STEPS_TAG)!=null){
             manager.beginTransaction()
@@ -49,13 +53,14 @@ public class RecipeDetailsActivity extends BaseActivity {
                     .show(manager.findFragmentByTag(Constants.STEPS_TAG))
                     .commit();
         }else{
+            Log.d(TAG,"Show steps inside");
             StepsWrapper wrapper=StepsWrapper.wrap(clickEvent.steps,clickEvent.currentStep);
             Presenter presenter=new RecipeStepsPresenter(wrapper,new Messenger(this));
             RecipeStepsFragment fragment=new RecipeStepsFragment();
             fragment.attachPresenter(presenter);
             manager.beginTransaction()
                     .hide(manager.findFragmentByTag(Constants.SUMMARY_TAG))
-                    .show(fragment)
+                    .replace(R.id.frame,fragment,Constants.STEPS_TAG)
                     .commit();
         }
     }

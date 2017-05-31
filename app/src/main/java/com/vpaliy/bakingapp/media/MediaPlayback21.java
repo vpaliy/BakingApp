@@ -5,25 +5,35 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 
 public class MediaPlayback21 implements IPlayback<ExoPlayer>,
         ExoPlayer.EventListener {
+
+    private static final String TAG=MediaPlayback21.class.getSimpleName();
 
     private Context context;
     private Callback callback;
@@ -38,10 +48,11 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     @Override
     public void play(String source) {
+        Log.d(TAG,"play:"+source);
         if(source!=null) {
             createPlayerIfNeeded();
             boolean hasChanged= TextUtils.equals(source,currentSource);
-            if(hasChanged) {
+            if(!hasChanged) {
                 this.currentSource=source;
                 String userAgent = Util.getUserAgent(context, context.getApplicationInfo().name);
                 MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(source), new DefaultDataSourceFactory(context,
@@ -57,6 +68,7 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     @Override
     public void pause() {
+        Log.d(TAG,"pause()");
         if(player!=null){
             player.setPlayWhenReady(false);
             if(callback!=null){
@@ -67,6 +79,7 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     @Override
     public void stop() {
+        Log.d(TAG,"stop()");
         releasePlayer();
         if(callback!=null){
             callback.onMediaStop();
@@ -83,6 +96,11 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
 
     @Override
     public void onPositionDiscontinuity() {
+    }
+
+    @Override
+    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
     }
 
     @Override
@@ -138,16 +156,21 @@ public class MediaPlayback21 implements IPlayback<ExoPlayer>,
     }
 
     private void createPlayerIfNeeded(){
+        Log.d(TAG,"create player");
         if(player==null){
-            TrackSelector selector=new DefaultTrackSelector();
-            LoadControl loadControl=new DefaultLoadControl();
-            player= ExoPlayerFactory.newSimpleInstance(context, selector, loadControl);
+            TransferListener<? super DataSource> bandwidthMeter = new DefaultBandwidthMeter();
+            TrackSelection.Factory videoTrackSelectionFactory =
+                    new AdaptiveTrackSelection.Factory((BandwidthMeter) bandwidthMeter);
+            TrackSelector trackSelector =
+                    new DefaultTrackSelector(videoTrackSelectionFactory);
+            player= ExoPlayerFactory.newSimpleInstance(context, trackSelector);
             player.addListener(this);
 
         }
     }
 
     private void releasePlayer() {
+        Log.d(TAG,"releasePlayer");
         player.stop();
         player.release();
         player = null;

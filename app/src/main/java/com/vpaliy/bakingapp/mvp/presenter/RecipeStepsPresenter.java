@@ -43,8 +43,8 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
             view.showMessage(messageProvider.emptyMessage());
             return;
         }
-        view.showDescription(currentStep.getDescription());
-        if(currentStep.getVideoUrl()!=null){
+        view.showDescription(currentStep.getShortDescription(),currentStep.getDescription());
+        if(currentStep.getVideoUrl()!=null && !currentStep.getVideoUrl().isEmpty()){
             view.playVideo(currentStep.getVideoUrl());
         }else if(currentStep.getImageUrl()!=null){
             view.showImage(currentStep.getImageUrl());

@@ -1,5 +1,13 @@
 package com.vpaliy.bakingapp.di.module;
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+
+import com.vpaliy.bakingapp.media.IPlayback;
+import com.vpaliy.bakingapp.media.MediaPlayback;
+import com.vpaliy.bakingapp.media.MediaPlayback21;
 import com.vpaliy.bakingapp.mvp.contract.RecipeSummaryContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipesContract;
 import com.vpaliy.bakingapp.mvp.presenter.RecipeSummaryPresenter;
@@ -23,6 +31,16 @@ public class PresenterModule {
     @Provides
     RecipeSummaryContract.Presenter recipeDetailsPresenter(RecipeSummaryPresenter presenter){
         return presenter;
+    }
+
+    @ViewScope
+    @Provides
+    IPlayback<?> providePlayback(Context context){
+        AudioManager audioManager=AudioManager.class.cast(context.getSystemService(Context.AUDIO_SERVICE));
+        if(Build.VERSION_CODES.LOLLIPOP<=Build.VERSION.SDK_INT){
+            return new MediaPlayback21(context);
+        }
+        return new MediaPlayback(context,audioManager);
     }
 
 }

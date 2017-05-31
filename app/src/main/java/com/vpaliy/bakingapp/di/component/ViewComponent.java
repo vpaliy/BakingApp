@@ -1,5 +1,6 @@
 package com.vpaliy.bakingapp.di.component;
 
+import com.vpaliy.bakingapp.di.module.MediaModule;
 import com.vpaliy.bakingapp.di.module.PresenterModule;
 import com.vpaliy.bakingapp.di.scope.ViewScope;
 import com.vpaliy.bakingapp.ui.fragment.RecipeStepsFragment;

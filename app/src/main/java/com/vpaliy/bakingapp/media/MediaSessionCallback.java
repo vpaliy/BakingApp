@@ -5,12 +5,10 @@ import android.support.v4.media.session.MediaSessionCompat;
 import com.vpaliy.bakingapp.di.scope.ViewScope;
 import javax.inject.Inject;
 
-@ViewScope
 public class MediaSessionCallback extends MediaSessionCompat.Callback {
 
     private final IPlayback<?> playback;
 
-    @Inject
     public MediaSessionCallback(IPlayback<?> playback){
         this.playback=playback;
 

@@ -1,5 +1,7 @@
 package com.vpaliy.bakingapp.di.component;
 
+import android.content.Context;
+
 import com.vpaliy.bakingapp.data.remote.RecipeAPI;
 import com.vpaliy.bakingapp.di.module.ApplicationModule;
 import com.vpaliy.bakingapp.di.module.DataModule;
@@ -27,4 +29,5 @@ public interface ApplicationComponent {
     BaseSchedulerProvider schedulerProvider();
     MessageProvider messageProvider();
     RxBus bus();
+    Context context();
 }

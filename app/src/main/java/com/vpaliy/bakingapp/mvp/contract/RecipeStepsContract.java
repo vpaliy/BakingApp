@@ -25,6 +25,6 @@ public interface RecipeStepsContract {
         void showNextButton();
         void showPrevButton();
         void showImage(String imageUrl);
-        void showDescription(String description);
+        void showDescription(String shortDescription,String description);
     }
 }
