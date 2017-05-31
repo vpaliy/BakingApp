@@ -11,6 +11,8 @@ import com.vpaliy.bakingapp.ui.fragment.RecipeStepsFragment;
 import com.vpaliy.bakingapp.ui.fragment.RecipeSummaryFragment;
 import com.vpaliy.bakingapp.utils.Constants;
 import com.vpaliy.bakingapp.utils.messenger.Messenger;
+
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import android.support.annotation.NonNull;
@@ -33,7 +35,7 @@ public class RecipeDetailsActivity extends BaseActivity {
 
     private void setUI(Bundle args){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame, RecipeSummaryFragment.newInstance(args), Constants.SUMMARY_TAG)
+                .add(R.id.frame, RecipeSummaryFragment.newInstance(args), Constants.SUMMARY_TAG)
                 .commit();
     }
 
@@ -65,6 +67,21 @@ public class RecipeDetailsActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager manager=getSupportFragmentManager();
+        Fragment fragment=manager.findFragmentByTag(Constants.STEPS_TAG);
+        if(fragment!=null){
+            if(fragment.isVisible()){
+                manager.beginTransaction()
+                        .detach(fragment)
+                        .show(manager.findFragmentByTag(Constants.SUMMARY_TAG))
+                        .commit();
+                return;
+            }
+        }
+        super.onBackPressed();
+    }
 
     @Override
     void initializeDependencies() {

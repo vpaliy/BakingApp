@@ -1,6 +1,8 @@
 package com.vpaliy.bakingapp.ui.fragment;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompat;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -13,6 +15,7 @@ import com.vpaliy.bakingapp.media.IPlayback;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,30 +91,25 @@ public class RecipeStepsFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             presenter.showCurrent();
-            next.setOnClickListener(v->{
-                presenter.showNext();onStepChanged();
-            });
-            previous.setOnClickListener(v->{
-                presenter.showPrev();onStepChanged();
-            });
+            next.setOnClickListener(v->
+                 presenter.showNext());
+            previous.setOnClickListener(v->
+                 presenter.showPrev());
         }
     }
 
-    private void onStepChanged(){
-        if(playerView.getVisibility()==View.GONE){
-            playerView.setVisibility(View.VISIBLE);
-        }else{
-            playback.stop();
-            playerView.setPlayer(null);
-            playerView.setVisibility(View.GONE);
-        }
+    @Override
+    public void hidePlayer() {
+        playback.stop();
+        playerView.setPlayer(null);
+        playerView.setVisibility(View.GONE);
     }
 
     @Override
     public void onMediaPlay() {
         mediaSession.setActive(true);
+        playerView.setVisibility(View.VISIBLE);
         if(playerView.getPlayer()==null){
-            playerView.setVisibility(View.VISIBLE);
             playerView.setPlayer(SimpleExoPlayer.class.cast(playback.getPlayer()));
         }
     }
@@ -155,6 +153,7 @@ public class RecipeStepsFragment extends BaseFragment
 
     @Override
     public void playVideo(String videoUrl) {
+        Log.d(TAG,videoUrl);
         playback.play(videoUrl);
     }
 
@@ -171,38 +170,51 @@ public class RecipeStepsFragment extends BaseFragment
 
     @Override
     public void hidePrevButton() {
-        previous.animate()
+        hideButton(previous);
+    }
+
+    private void hideButton(View view){
+        view.animate()
                 .scaleY(0f)
                 .scaleX(0f)
                 .setDuration(150)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.setVisibility(View.GONE);
+                    }
+                })
                 .start();
     }
 
+    private void showButton(View view){
+        view.setVisibility(View.VISIBLE);
+        view.animate()
+                .scaleX(1f)
+                .scaleY(1.f)
+                .setDuration(150)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                    }
+                })
+                .start();
+    }
     @Override
     public void hideNextButton() {
-        next.animate()
-                .scaleY(0f)
-                .scaleX(0f)
-                .setDuration(150)
-                .start();
+        hideButton(next);
     }
 
     @Override
     public void showNextButton() {
-        next.animate()
-                .scaleX(1f)
-                .scaleY(1.f)
-                .setDuration(150)
-                .start();
+        showButton(next);
     }
 
     @Override
     public void showPrevButton() {
-        previous.animate()
-                .scaleX(1f)
-                .scaleY(1.f)
-                .setDuration(150)
-                .start();
+       showButton(previous);
     }
 
     @Override

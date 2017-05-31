@@ -37,8 +37,7 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
         if(wrapper.currentIndex <=wrapper.count()){
             step=wrapper.current();
         }
-        this.currentStep=step;
-        manageButtons();
+        currentStep=step;
         if(currentStep==null){
             view.showMessage(messageProvider.emptyMessage());
             return;
@@ -48,9 +47,10 @@ public class RecipeStepsPresenter implements RecipeStepsContract.Presenter{
         if(currentStep.getVideoUrl()!=null && !currentStep.getVideoUrl().isEmpty()){
             view.playVideo(currentStep.getVideoUrl());
         }else if(currentStep.getImageUrl()!=null){
+            view.hidePlayer();
             view.showImage(currentStep.getImageUrl());
         }
-
+        manageButtons();
     }
 
     private void manageButtons(){
