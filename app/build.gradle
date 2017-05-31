@@ -56,6 +56,9 @@ dependencies {
     compile "com.android.support:palette-v7:${libs.supportVersion}"
     compile "com.jakewharton.rxrelay2:rxrelay:${libs.rxRelayVersion}"
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
+
+
 
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:${testLibs.espresso}", {
         exclude group: 'com.android.support', module: 'support-annotations'

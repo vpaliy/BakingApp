@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.di.component.DaggerViewComponent;
 import com.vpaliy.bakingapp.di.module.PresenterModule;
@@ -31,6 +33,7 @@ public class RecipeStepsFragment extends BaseFragment
     private MediaSessionCompat mediaSession;
     private PlaybackStateCompat.Builder stateBuilder;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,9 @@ public class RecipeStepsFragment extends BaseFragment
         mediaSession.setMediaButtonReceiver(null);
         stateBuilder=new PlaybackStateCompat.Builder()
                 .setActions(PlaybackStateCompat.ACTION_PLAY |
-                            PlaybackStateCompat.ACTION_PAUSE);
+                        PlaybackStateCompat.ACTION_PAUSE|
+                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
+                        PlaybackStateCompat.ACTION_PLAY_PAUSE);
         mediaSession.setPlaybackState(stateBuilder.build());
         mediaSession.setCallback(playback.getMediaSessionCallback());
 

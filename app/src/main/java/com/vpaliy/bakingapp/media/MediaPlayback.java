@@ -11,7 +11,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
 import android.support.annotation.NonNull;
 
-public class MediaPlayback implements IPlayback,
+public class MediaPlayback implements IPlayback<MediaPlayer>,
         AudioManager.OnAudioFocusChangeListener,
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener,
@@ -67,6 +67,14 @@ public class MediaPlayback implements IPlayback,
         if(callback!=null) callback.onMediaPlay();
         setUpPlayer();
         registerReceiver();
+    }
+
+    @Override
+    public long getStreamingPosition() {
+        if(mediaPlayer!=null){
+            return mediaPlayer.getCurrentPosition();
+        }
+        return 0;
     }
 
     @Override
@@ -131,7 +139,6 @@ public class MediaPlayback implements IPlayback,
 
     }
 
-
     private void releaseFocus(){
 
     }
@@ -162,4 +169,8 @@ public class MediaPlayback implements IPlayback,
         }
     }
 
+    @Override
+    public MediaPlayer getPlayer() {
+        return mediaPlayer;
+    }
 }

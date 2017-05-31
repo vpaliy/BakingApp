@@ -8,10 +8,10 @@ import javax.inject.Inject;
 @ViewScope
 public class MediaSessionCallback extends MediaSessionCompat.Callback {
 
-    private final IPlayback playback;
+    private final IPlayback<?> playback;
 
     @Inject
-    public MediaSessionCallback(IPlayback playback){
+    public MediaSessionCallback(IPlayback<?> playback){
         this.playback=playback;
 
     }

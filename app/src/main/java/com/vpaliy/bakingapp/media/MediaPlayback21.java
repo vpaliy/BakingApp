@@ -1,58 +1,170 @@
 package com.vpaliy.bakingapp.media;
 
 import android.content.Context;
-import android.media.AudioManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 
-public class MediaPlayback21 implements IPlayback {
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
+
+public class MediaPlayback21 implements IPlayback<ExoPlayer>,
+        ExoPlayer.EventListener {
 
     private Context context;
-    private AudioManager audioManager;
-    private int state;
+    private Callback callback;
+    private ExoPlayer player;
+    private String currentSource;
+    private MediaSessionCallback mediaSessionCallback;
 
-    public MediaPlayback21(@NonNull Context context, AudioManager audioManager){
-        this.audioManager=audioManager;
+    public MediaPlayback21(@NonNull Context context){
         this.context=context;
-
+        this.mediaSessionCallback=new MediaSessionCallback(this);
     }
 
     @Override
     public void play(String source) {
-
+        if(source!=null) {
+            createPlayerIfNeeded();
+            boolean hasChanged= TextUtils.equals(source,currentSource);
+            if(hasChanged) {
+                this.currentSource=source;
+                String userAgent = Util.getUserAgent(context, context.getApplicationInfo().name);
+                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(source), new DefaultDataSourceFactory(context,
+                        userAgent), new DefaultExtractorsFactory(), null, null);
+                player.prepare(mediaSource);
+            }
+            player.setPlayWhenReady(true);
+            if (callback != null) {
+                callback.onMediaPlay();
+            }
+        }
     }
 
     @Override
     public void pause() {
-
+        if(player!=null){
+            player.setPlayWhenReady(false);
+            if(callback!=null){
+                callback.onMediaStop();
+            }
+        }
     }
 
     @Override
     public void stop() {
-
+        releasePlayer();
+        if(callback!=null){
+            callback.onMediaStop();
+        }
     }
 
     @Override
     public void setCallback(Callback callback) {
+        this.callback=callback;
+    }
 
+    @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {}
+
+    @Override
+    public void onPositionDiscontinuity() {
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        if(callback!=null){
+            callback.onStateChanged(convertState(playbackState,playWhenReady));
+        }
+    }
+
+    private int convertState(int playbackState, boolean playWhenReady){
+        switch (playbackState){
+            case ExoPlayer.STATE_BUFFERING:
+                return PlaybackStateCompat.STATE_BUFFERING;
+            case ExoPlayer.STATE_READY:
+                return playWhenReady?PlaybackStateCompat.STATE_PLAYING:PlaybackStateCompat.STATE_PAUSED;
+            case ExoPlayer.STATE_ENDED:
+                return PlaybackStateCompat.STATE_STOPPED;
+            default:
+                return PlaybackStateCompat.STATE_NONE;
+        }
+    }
+
+    @Override
+    public long getStreamingPosition() {
+        if(player!=null){
+            return player.getCurrentPosition();
+        }
+        return 0;
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
     }
 
     @Override
     public boolean isPlaying() {
-        return false;
+        return player!=null && player.getPlayWhenReady();
     }
 
     @Override
     public void seekTo(long position) {
+        if(player!=null){
+            player.seekTo(position);
+        }
+    }
 
+    private void createPlayerIfNeeded(){
+        if(player==null){
+            TrackSelector selector=new DefaultTrackSelector();
+            LoadControl loadControl=new DefaultLoadControl();
+            player= ExoPlayerFactory.newSimpleInstance(context, selector, loadControl);
+            player.addListener(this);
+
+        }
+    }
+
+    private void releasePlayer() {
+        player.stop();
+        player.release();
+        player = null;
+    }
+
+    @Override
+    public ExoPlayer getPlayer() {
+        return player;
     }
 
     @Override
     public MediaSessionCallback getMediaSessionCallback() {
-        return null;
+        return mediaSessionCallback;
     }
 
     @Override
     public String getResource() {
-        return null;
+        return currentSource;
     }
 }
