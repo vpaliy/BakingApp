@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import javax.inject.Inject;
+
+import butterknife.BindBool;
 import butterknife.BindView;
 
 
@@ -70,6 +72,9 @@ public class StepsFragment extends BaseFragment
 
     @BindView(R.id.cardView)
     protected CardView cardView;
+
+    @BindBool(R.bool.is_tablet)
+    protected boolean isTablet;
 
     private Presenter presenter;
     private MediaSessionCompat mediaSession;
@@ -169,7 +174,7 @@ public class StepsFragment extends BaseFragment
         String result=Integer.toString(currentPage)+'/'+Integer.toString(total);
         pageTracker.setText(result);
         result=getString(R.string.step)+":"+Integer.toString(currentPage);
-        rxBus.send(OnChangeToolbarEvent.change(result));
+        if(!isTablet) rxBus.send(OnChangeToolbarEvent.change(result));
     }
 
     @Override
