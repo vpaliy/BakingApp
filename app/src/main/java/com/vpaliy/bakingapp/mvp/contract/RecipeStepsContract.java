@@ -13,6 +13,7 @@ public interface RecipeStepsContract {
         void showNext();
         void showPrev();
         void showCurrent();
+        void requestStep(int step);
     }
 
     interface View extends BaseView<Presenter> {

@@ -110,7 +110,6 @@ public class StepsFragment extends BaseFragment
     public void onResume() {
         super.onResume();
         presenter.showCurrent();
-        new Handler().post(this::updateSystemUI);
     }
 
     private boolean isPortrait(){

@@ -75,6 +75,14 @@ public class StepsPresenter implements RecipeStepsContract.Presenter{
     }
 
     @Override
+    public void requestStep(int step) {
+        if(step>=0 && step<wrapper.count()){
+            wrapper.currentIndex=step;
+            showCurrent();
+        }
+    }
+
+    @Override
     public void showNext() {
         wrapper.currentIndex++;
         showCurrent();

@@ -19,9 +19,9 @@ import android.support.v4.app.FragmentManager;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
+import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,12 +33,16 @@ public class DetailsActivity extends BaseActivity {
     @BindView(R.id.action_bar)
     protected Toolbar actionBar;
 
+    @BindBool(R.bool.is_tablet)
+    protected boolean isTablet;
+
+    private Presenter stepsPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
         ButterKnife.bind(this);
-        Log.d(TAG,"onCreate()");
         setActionBar();
         if(savedInstanceState==null){
             setUI(getIntent().getExtras());
@@ -47,15 +51,13 @@ public class DetailsActivity extends BaseActivity {
 
     private void setUI(Bundle args){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame, SummaryFragment.newInstance(args), Constants.SUMMARY_TAG)
+                .replace(R.id.recipe, SummaryFragment.newInstance(args), Constants.SUMMARY_TAG)
                 .commit();
     }
 
     private void setActionBar(){
         setSupportActionBar(actionBar);
         if(getSupportActionBar()!=null){
-            if(actionBar.getTitle()!=null)
-            Log.d(TAG,actionBar.getTitle().toString());
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -102,6 +104,14 @@ public class DetailsActivity extends BaseActivity {
     }
 
     private void showSteps(OnStepClickEvent clickEvent){
+        if(!isTablet){
+            stepsSeparately(clickEvent);
+        }else{
+            updateSteps(clickEvent);
+        }
+    }
+
+    private void stepsSeparately(OnStepClickEvent clickEvent){
         FragmentManager manager=getSupportFragmentManager();
         if(manager.findFragmentByTag(Constants.STEPS_TAG)!=null){
             manager.beginTransaction()
@@ -110,26 +120,48 @@ public class DetailsActivity extends BaseActivity {
                     .commit();
         }else{
             StepsWrapper wrapper=StepsWrapper.wrap(clickEvent.steps,clickEvent.currentStep);
-            Presenter presenter=new StepsPresenter(wrapper,new Messenger(this));
+            stepsPresenter=new StepsPresenter(wrapper,new Messenger(this));
             StepsFragment fragment=new StepsFragment();
-            fragment.attachPresenter(presenter);
+            fragment.attachPresenter(stepsPresenter);
             manager.beginTransaction()
                     .addToBackStack(Constants.SUMMARY_TAG)
                     .remove(manager.findFragmentByTag(Constants.SUMMARY_TAG))
-                    .add(R.id.frame,fragment,Constants.STEPS_TAG)
+                    .add(R.id.recipe,fragment,Constants.STEPS_TAG)
                     .commit();
+        }
+    }
+
+    private void updateSteps(OnStepClickEvent clickEvent){
+        if(stepsPresenter==null){
+            StepsWrapper wrapper=StepsWrapper.wrap(clickEvent.steps,clickEvent.currentStep);
+            stepsPresenter=new StepsPresenter(wrapper,new Messenger(this));
+            StepsFragment fragment=new StepsFragment();
+            fragment.attachPresenter(stepsPresenter);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.recipe_steps,fragment,Constants.STEPS_TAG)
+                    .commit();
+        }else{
+            stepsPresenter.requestStep(clickEvent.currentStep);
         }
     }
 
     @Override
     public void onBackPressed() {
-        FragmentManager manager=getSupportFragmentManager();
-        if(manager.getBackStackEntryCount()>0){
-            manager.popBackStack();
-            manager.beginTransaction()
-                    .show(manager.findFragmentByTag(Constants.SUMMARY_TAG))
-                    .commit();
-            return;
+        if(isTablet) {
+            FragmentManager manager = getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() > 0) {
+                manager.popBackStack();
+                manager.beginTransaction()
+                        .show(manager.findFragmentByTag(Constants.SUMMARY_TAG))
+                        .commit();
+                return;
+            }
+
+            if(getSupportActionBar()!=null){
+                if(!getSupportActionBar().isShowing()){
+                    changeVisibility(OnChangeVisibilityEvent.change(true));
+                }
+            }
         }
         super.onBackPressed();
     }
