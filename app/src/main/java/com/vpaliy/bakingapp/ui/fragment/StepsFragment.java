@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.media.session.MediaSessionCompat;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
@@ -22,15 +21,12 @@ import com.vpaliy.bakingapp.ui.bus.RxBus;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeVisibilityEvent;
 import com.vpaliy.bakingapp.utils.Permissions;
-
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.CardView;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import android.support.annotation.NonNull;
@@ -126,9 +122,9 @@ public class StepsFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             next.setOnClickListener(v->
-                 presenter.showNext());
+                    presenter.showNext());
             previous.setOnClickListener(v->
-                 presenter.showPrev());
+                    presenter.showPrev());
         }
     }
 
@@ -238,19 +234,13 @@ public class StepsFragment extends BaseFragment
 
     @Override
     public void showPrevButton() {
-       showButton(previous);
+        showButton(previous);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG,"onPause()");
-    }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG,"onStop()");
         presenter.stop();
     }
 
@@ -275,10 +265,8 @@ public class StepsFragment extends BaseFragment
             }
         }else{
             if(isVisible){
-                playerView.post(()->{
-                    playerView.getLayoutParams().width=ViewGroup.LayoutParams.MATCH_PARENT;
-                    playerView.getLayoutParams().height=(int)getResources().getDimension(R.dimen.player_height);
-                });
+                playerView.getLayoutParams().width=ViewGroup.LayoutParams.MATCH_PARENT;
+                playerView.getLayoutParams().height=(int)getResources().getDimension(R.dimen.player_height);
                 footer.setVisibility(View.VISIBLE);
                 cardView.setVisibility(View.VISIBLE);
                 updateSystemUI();
