@@ -56,22 +56,13 @@ public class RecipesAdapter extends AbstractAdapter<Recipe>{
         public void onClick(View view) {
             if(!isLocked()){
                 lock();
-                OnRecipeClickEvent click=OnRecipeClickEvent.click(at(getAdapterPosition()).getId());
+                Recipe recipe=at(getAdapterPosition());
+                OnRecipeClickEvent click=OnRecipeClickEvent.click(recipe.getId());
                 rxBus.send(click);
             }
         }
 
-        void applyColor(){
-            int color=colorMap.get(getAdapterPosition(),-1);
-            if(color==-1){
-                color=randomColor.randomColor();
-                colorMap.put(getAdapterPosition(),color);
-            }
-            recipeCard.setBackgroundColor(color);
-        }
-
         void onBind(){
-            applyColor();
             Recipe recipe=at(getAdapterPosition());
             recipeTitle.setText(recipe.getName());
             Glide.with(inflater.getContext())

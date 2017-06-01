@@ -135,9 +135,14 @@ public class DetailsActivity extends BaseActivity {
         if(stepsPresenter==null){
             StepsWrapper wrapper=StepsWrapper.wrap(clickEvent.steps,clickEvent.currentStep);
             stepsPresenter=new StepsPresenter(wrapper,new Messenger(this));
-            StepsFragment fragment=StepsFragment.class.cast(getSupportFragmentManager().findFragmentById(R.id.recipe_steps));
+            StepsFragment fragment=new StepsFragment();
             fragment.attachPresenter(stepsPresenter);
-            stepsPresenter.showCurrent();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.recipe_steps,fragment)
+                    .commitNow();
+            //StepsFragment fragment=StepsFragment.class.cast(getSupportFragmentManager().findFragmentById(R.id.recipe_steps));
+            //fragment.attachPresenter(stepsPresenter);
+         //   stepsPresenter.showCurrent();
         }else{
             stepsPresenter.requestStep(clickEvent.currentStep);
         }

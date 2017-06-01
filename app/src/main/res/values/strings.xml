@@ -6,4 +6,5 @@
     <string name="button_next_step">Next</string>
     <string name="step">Step</string>
     <string name="button_prev_step">Previous</string>
+    <string name="ingredients_headline">Ingredients</string>
 </resources>

@@ -40,7 +40,7 @@ public class SummaryFragment extends BaseFragment
     private int recipeId;
 
     @BindView(R.id.ingredient_list)
-    protected ViewGroup ingredients;
+    protected TextView ingredients;
 
     @BindView(R.id.recipe_steps)
     protected RecyclerView recipeSteps;
@@ -88,6 +88,7 @@ public class SummaryFragment extends BaseFragment
             recipeSteps.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             recipeSteps.addItemDecoration(new MarginDecoration(getContext()));
             recipeSteps.setAdapter(adapter);
+            recipeSteps.setNestedScrollingEnabled(false);
         }
     }
 
@@ -120,11 +121,17 @@ public class SummaryFragment extends BaseFragment
     }
 
     private void showIngredients(@NonNull List<Ingredient> ingredientList){
+        StringBuilder builder=new StringBuilder();
+        final String BLANK=" ";
         for(Ingredient ingredient:ingredientList){
-            TextView view=new TextView(getContext());
-            view.setText(ingredient.getIngredient());
-            ingredients.addView(view);
+            builder.append(ingredient.getQuantity());
+            builder.append(BLANK);
+            builder.append(ingredient.getMeasure());
+            builder.append(BLANK);
+            builder.append(ingredient.getIngredient());
+            builder.append('\n');
         }
+        ingredients.setText(builder.toString());
     }
 
     private void showSteps(@NonNull List<Step> steps){

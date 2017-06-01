@@ -1,4 +1,4 @@
-<ScrollView
+<com.vpaliy.bakingapp.ui.view.ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -12,9 +12,8 @@
             layout="@layout/layout_recipe_ingredients"/>
 
         <include
-            android:id="@+id/recipe_steps"
             layout="@layout/layout_recipe_steps"/>
 
     </LinearLayout>
 
-</ScrollView>
+</com.vpaliy.bakingapp.ui.view.ScrollView>

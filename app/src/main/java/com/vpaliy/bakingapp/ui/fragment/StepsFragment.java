@@ -33,7 +33,6 @@ import android.widget.TextView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import javax.inject.Inject;
-
 import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.OnClick;
