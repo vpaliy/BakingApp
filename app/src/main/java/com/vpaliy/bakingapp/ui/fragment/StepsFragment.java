@@ -114,7 +114,7 @@ public class StepsFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        presenter.showCurrent();
+        if(presenter!=null) presenter.showCurrent();
     }
 
     private boolean isPortrait(){
@@ -255,22 +255,28 @@ public class StepsFragment extends BaseFragment
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        boolean isVisible=playerView.getVisibility()==View.VISIBLE;
-        if(Permissions.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
+        if(!isTablet) {
+            handleScreenRotation();
+        }
+    }
+
+    private void handleScreenRotation(){
+        boolean isVisible = playerView.getVisibility() == View.VISIBLE;
+        if (Permissions.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
             TransitionManager.beginDelayedTransition(getRoot());
         }
-        if(!isPortrait()){
-            if(isVisible){
+        if (!isPortrait()) {
+            if (isVisible) {
                 footer.setVisibility(View.GONE);
                 cardView.setVisibility(View.GONE);
-                playerView.getLayoutParams().width=ViewGroup.LayoutParams.MATCH_PARENT;
-                playerView.getLayoutParams().height=ViewGroup.LayoutParams.MATCH_PARENT;
+                playerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                playerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                 updateSystemUI();
             }
-        }else{
-            if(isVisible){
-                playerView.getLayoutParams().width=ViewGroup.LayoutParams.MATCH_PARENT;
-                playerView.getLayoutParams().height=(int)getResources().getDimension(R.dimen.player_height);
+        } else {
+            if (isVisible) {
+                playerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                playerView.getLayoutParams().height = (int) getResources().getDimension(R.dimen.player_height);
                 footer.setVisibility(View.VISIBLE);
                 cardView.setVisibility(View.VISIBLE);
                 updateSystemUI();
