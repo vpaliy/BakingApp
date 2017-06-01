@@ -14,28 +14,5 @@
         android:layout_marginRight="12dp"
         app:resize_mode="fixed_width"/>
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:id="@+id/cardView">
-        <LinearLayout
-            android:padding="8dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/step_short_description"
-                tools:text="Preparation Introduction"
-                style="@style/Base.TextAppearance.AppCompat.Title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <TextView
-                android:id="@+id/step_description"
-                android:layout_marginTop="8dp"
-                tools:text="@string/message_no_network"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    <include layout="@layout/layout_recipe_description"/>
 </LinearLayout>

@@ -40,8 +40,13 @@ public class StepsPresenter implements RecipeStepsContract.Presenter{
         }
         currentStep=step;
         if(currentStep!=null){
-            view.showPageNumber(wrapper.currentIndex+1,wrapper.count());
-            view.showDescription(currentStep.getShortDescription(),currentStep.getDescription());
+            view.showPageNumber(wrapper.currentIndex,wrapper.count());
+            String shortDescription=currentStep.getShortDescription();
+            String description=currentStep.getDescription();
+            if(TextUtils.equals(shortDescription,description)){
+                description=null;
+            }
+            view.showDescription(shortDescription,description);
             manageButtons();
             if(playVideo(currentStep.getVideoUrl())||playVideo(currentStep.getImageUrl())){
                 return;

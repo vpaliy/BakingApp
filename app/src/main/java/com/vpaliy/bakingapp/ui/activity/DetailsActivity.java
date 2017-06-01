@@ -25,9 +25,9 @@ import android.support.annotation.Nullable;
 import butterknife.BindBool;
 import butterknife.BindView;
 
-public class DetailsActivity extends BaseActivity {
 
-    private static final String TAG="+"+DetailsActivity.class.getSimpleName();
+
+public class DetailsActivity extends BaseActivity {
 
     @BindView(R.id.action_bar)
     protected Toolbar actionBar;

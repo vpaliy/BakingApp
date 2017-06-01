@@ -189,13 +189,13 @@ public class StepsFragment extends BaseFragment
     @Override
     public void showPageNumber(int currentPage, int total) {
         if(pageTracker!=null) {
-            String result = Integer.toString(currentPage) + '/' + Integer.toString(total);
+            String result = Integer.toString(currentPage+1) + '/' + Integer.toString(total);
             pageTracker.setText(result);
             result = getString(R.string.step) + ":" + Integer.toString(currentPage);
             if (!isTablet) rxBus.send(OnChangeToolbarEvent.change(result));
         }
         if(isTablet){
-            rxBus.send(OnMoveToStepEvent.move(currentPage-1));
+            rxBus.send(OnMoveToStepEvent.move(currentPage));
         }
     }
 

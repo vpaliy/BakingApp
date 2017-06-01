@@ -1,0 +1,52 @@
+<RelativeLayout
+    android:id="@+id/footer"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#ffff"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/step_prev"
+        android:text="@string/button_prev_step"
+        android:drawableStart="@drawable/ic_keyboard_arrow_left_black_24dp"
+        android:gravity="center_vertical"
+        android:drawablePadding="5dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.5"
+        style="@style/TextAppearance.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp" />
+    <TextView
+        android:id="@+id/pages"
+        tools:text="1/3"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/step_next"
+        android:text="@string/button_next_step"
+        android:gravity="center"
+        android:letterSpacing="0.5"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        style="@style/TextAppearance.AppCompat.Button"
+        android:drawablePadding="5dp"
+        android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBaseline="@+id/pages"
+        android:layout_alignBottom="@+id/pages"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp" />
+</RelativeLayout>
