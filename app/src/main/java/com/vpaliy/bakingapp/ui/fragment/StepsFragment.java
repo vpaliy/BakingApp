@@ -27,6 +27,7 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import android.support.annotation.NonNull;
@@ -35,13 +36,14 @@ import javax.inject.Inject;
 
 import butterknife.BindBool;
 import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.Optional;
+
+import static com.vpaliy.bakingapp.utils.Constants.SESSION_TAG;
 
 
 public class StepsFragment extends BaseFragment
         implements RecipeStepsContract.View, IPlayback.Callback{
-
-    private static final String SESSION_TAG="media_session_log_tag";
-    private static final String TAG=StepsFragment.class.getSimpleName();
 
     @BindView(R.id.player)
     protected SimpleExoPlayerView playerView;
@@ -52,12 +54,15 @@ public class StepsFragment extends BaseFragment
     @BindView(R.id.step_description)
     protected TextView description;
 
+    @Nullable
     @BindView(R.id.pages)
     protected TextView pageTracker;
 
+    @Nullable
     @BindView(R.id.step_next)
     protected View next;
 
+    @Nullable
     @BindView(R.id.step_prev)
     protected View previous;
 
@@ -67,6 +72,7 @@ public class StepsFragment extends BaseFragment
     @Inject
     protected RxBus rxBus;
 
+    @Nullable
     @BindView(R.id.footer)
     protected View footer;
 
@@ -125,13 +131,22 @@ public class StepsFragment extends BaseFragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
-            next.setOnClickListener(v->
-                    presenter.showNext());
-            previous.setOnClickListener(v->
-                    presenter.showPrev());
+
         }
     }
 
+
+    @Optional
+    @OnClick(R.id.step_next)
+    public void clickNext(){
+        presenter.showNext();
+    }
+
+    @Optional
+    @OnClick(R.id.step_prev)
+    public void clickPrev(){
+        presenter.showPrev();
+    }
 
     @Override
     public void hidePlayer() {
@@ -171,10 +186,12 @@ public class StepsFragment extends BaseFragment
 
     @Override
     public void showPageNumber(int currentPage, int total) {
-        String result=Integer.toString(currentPage)+'/'+Integer.toString(total);
-        pageTracker.setText(result);
-        result=getString(R.string.step)+":"+Integer.toString(currentPage);
-        if(!isTablet) rxBus.send(OnChangeToolbarEvent.change(result));
+        if(pageTracker!=null) {
+            String result = Integer.toString(currentPage) + '/' + Integer.toString(total);
+            pageTracker.setText(result);
+            result = getString(R.string.step) + ":" + Integer.toString(currentPage);
+            if (!isTablet) rxBus.send(OnChangeToolbarEvent.change(result));
+        }
     }
 
     @Override
@@ -201,7 +218,7 @@ public class StepsFragment extends BaseFragment
 
     @Override
     public void hidePrevButton() {
-        hideButton(previous);
+        if(previous!=null) hideButton(previous);
     }
 
     private void hideButton(View view){
@@ -228,17 +245,17 @@ public class StepsFragment extends BaseFragment
     }
     @Override
     public void hideNextButton() {
-        hideButton(next);
+        if(next!=null) hideButton(next);
     }
 
     @Override
     public void showNextButton() {
-        showButton(next);
+        if(next!=null) showButton(next);
     }
 
     @Override
     public void showPrevButton() {
-        showButton(previous);
+        if(previous!=null) showButton(previous);
     }
 
 
@@ -257,7 +274,41 @@ public class StepsFragment extends BaseFragment
         super.onConfigurationChanged(newConfig);
         if(!isTablet) {
             handleScreenRotation();
+        }else{
+            handleTabletScreenRotation();
         }
+    }
+
+    private void handleTabletScreenRotation(){
+        boolean isVisible=playerView.getVisibility()==View.VISIBLE;
+        if(Permissions.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
+            TransitionManager.beginDelayedTransition(getRoot());
+        }
+
+        if(!isPortrait()){
+            if(isVisible){
+                LinearLayout.LayoutParams params= LinearLayout.
+                        LayoutParams.class.cast(cardView.getLayoutParams());
+                params.weight=1;
+                cardView.setLayoutParams(params);
+                params= LinearLayout.
+                        LayoutParams.class.cast(playerView.getLayoutParams());
+                params.weight=5;
+                playerView.setLayoutParams(params);
+            }
+        }else{
+            if(isVisible){
+                LinearLayout.LayoutParams params= LinearLayout.
+                        LayoutParams.class.cast(cardView.getLayoutParams());
+                params.weight=3;
+                cardView.setLayoutParams(params);
+                params= LinearLayout.
+                        LayoutParams.class.cast(playerView.getLayoutParams());
+                params.weight=5;
+                playerView.setLayoutParams(params);
+            }
+        }
+
     }
 
     private void handleScreenRotation(){
@@ -267,7 +318,7 @@ public class StepsFragment extends BaseFragment
         }
         if (!isPortrait()) {
             if (isVisible) {
-                footer.setVisibility(View.GONE);
+                if(footer!=null) footer.setVisibility(View.GONE);
                 cardView.setVisibility(View.GONE);
                 playerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 playerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -277,7 +328,7 @@ public class StepsFragment extends BaseFragment
             if (isVisible) {
                 playerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 playerView.getLayoutParams().height = (int) getResources().getDimension(R.dimen.player_height);
-                footer.setVisibility(View.VISIBLE);
+                if(footer!=null) footer.setVisibility(View.VISIBLE);
                 cardView.setVisibility(View.VISIBLE);
                 updateSystemUI();
             }
