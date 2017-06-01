@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 
 public class StepsAdapter extends AbstractAdapter<Step>{
 
+    private int highlightedPosition=-1;
+
     public StepsAdapter(@NonNull Context context,
                         @NonNull RxBus rxBus){
         super(context,rxBus);
@@ -46,9 +48,24 @@ public class StepsAdapter extends AbstractAdapter<Step>{
         void onBind(){
             Step step=at(getAdapterPosition());
             shortDescription.setText(step.getShortDescription());
+            if(highlightedPosition==getAdapterPosition()){
+                itemView.setBackgroundResource(R.drawable.background_selected);
+            }else{
+                itemView.setBackgroundResource(R.drawable.background_simple);
+            }
         }
     }
 
+    public void highlightPosition(int position){
+        if(highlightedPosition!=position){
+            int prev=highlightedPosition;
+            this.highlightedPosition=position;
+            notifyItemChanged(highlightedPosition);
+            if(prev!=-1){
+                notifyItemChanged(prev);
+            }
+        }
+    }
 
     @Override
     public StepViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

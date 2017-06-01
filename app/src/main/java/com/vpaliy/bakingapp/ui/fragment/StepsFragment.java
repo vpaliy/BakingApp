@@ -6,9 +6,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.media.session.MediaSessionCompat;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
@@ -20,10 +20,12 @@ import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
 import com.vpaliy.bakingapp.ui.bus.RxBus;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeVisibilityEvent;
+import com.vpaliy.bakingapp.ui.bus.event.OnMoveToStepEvent;
 import com.vpaliy.bakingapp.utils.Permissions;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.CardView;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +45,8 @@ import static com.vpaliy.bakingapp.utils.Constants.SESSION_TAG;
 
 public class StepsFragment extends BaseFragment
         implements RecipeStepsContract.View, IPlayback.Callback{
+
+    private static final String TAG=StepsFragment.class.getSimpleName();
 
     @BindView(R.id.player)
     protected SimpleExoPlayerView playerView;
@@ -78,9 +82,8 @@ public class StepsFragment extends BaseFragment
     @BindView(R.id.cardView)
     protected CardView cardView;
 
-    @BindBool(R.bool.is_tablet)
-    protected boolean isTablet;
 
+    private boolean isRotated;
     private Presenter presenter;
     private MediaSessionCompat mediaSession;
 
@@ -122,16 +125,16 @@ public class StepsFragment extends BaseFragment
         if(presenter!=null) presenter.showCurrent();
     }
 
-    private boolean isPortrait(){
-        return getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT;
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
-
+            if(presenter!=null) presenter.showCurrent();
         }
+    }
+
+    private boolean isPortrait(){
+        return getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT;
     }
 
 
@@ -191,6 +194,9 @@ public class StepsFragment extends BaseFragment
             result = getString(R.string.step) + ":" + Integer.toString(currentPage);
             if (!isTablet) rxBus.send(OnChangeToolbarEvent.change(result));
         }
+        if(isTablet){
+            rxBus.send(OnMoveToStepEvent.move(currentPage-1));
+        }
     }
 
     @Override
@@ -202,6 +208,7 @@ public class StepsFragment extends BaseFragment
     @Override
     public void playVideo(String videoUrl) {
         playback.play(videoUrl);
+        makeRotationIfNeeded();
     }
 
     @Override
@@ -264,6 +271,14 @@ public class StepsFragment extends BaseFragment
         presenter.stop();
     }
 
+    private void makeRotationIfNeeded(){
+        if(!isRotated){
+            if(!isPortrait()){
+                rotate();
+            }
+        }
+    }
+
     private ViewGroup getRoot(){
         return ViewGroup.class.cast(getView());
     }
@@ -271,43 +286,18 @@ public class StepsFragment extends BaseFragment
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        rotate();
+    }
+
+    private void rotate(){
         if(!isTablet) {
             handleScreenRotation();
         }else{
-            handleTabletScreenRotation();
+           handleTabletScreenRotation();
         }
     }
 
     private void handleTabletScreenRotation(){
-        boolean isVisible=playerView.getVisibility()==View.VISIBLE;
-        if(Permissions.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-            TransitionManager.beginDelayedTransition(getRoot());
-        }
-
-        if(!isPortrait()){
-            if(isVisible){
-                LinearLayout.LayoutParams params= LinearLayout.
-                        LayoutParams.class.cast(cardView.getLayoutParams());
-                params.weight=1;
-                cardView.setLayoutParams(params);
-                params= LinearLayout.
-                        LayoutParams.class.cast(playerView.getLayoutParams());
-                params.weight=5;
-                playerView.setLayoutParams(params);
-            }
-        }else{
-            if(isVisible){
-                LinearLayout.LayoutParams params= LinearLayout.
-                        LayoutParams.class.cast(cardView.getLayoutParams());
-                params.weight=3;
-                cardView.setLayoutParams(params);
-                params= LinearLayout.
-                        LayoutParams.class.cast(playerView.getLayoutParams());
-                params.weight=5;
-                playerView.setLayoutParams(params);
-            }
-        }
-
     }
 
     private void handleScreenRotation(){
@@ -317,16 +307,16 @@ public class StepsFragment extends BaseFragment
         }
         if (!isPortrait()) {
             if (isVisible) {
+                isRotated=true;
                 if(footer!=null) footer.setVisibility(View.GONE);
                 cardView.setVisibility(View.GONE);
-                playerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                playerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                 updateSystemUI();
+                playerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
             }
         } else {
             if (isVisible) {
-                playerView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                playerView.getLayoutParams().height = (int) getResources().getDimension(R.dimen.player_height);
+                isRotated=false;
+                playerView.post(()->playerView.getLayoutParams().height = (int) getResources().getDimension(R.dimen.player_height));
                 if(footer!=null) footer.setVisibility(View.VISIBLE);
                 cardView.setVisibility(View.VISIBLE);
                 updateSystemUI();

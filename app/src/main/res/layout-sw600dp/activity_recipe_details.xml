@@ -31,10 +31,12 @@
             android:layout_height="match_parent">
         </View>
 
-        <FrameLayout
+        <fragment
             android:id="@+id/recipe_steps"
+            android:name="com.vpaliy.bakingapp.ui.fragment.StepsFragment"
             android:layout_weight="3"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_recipe_steps" />
     </LinearLayout>
 </RelativeLayout>

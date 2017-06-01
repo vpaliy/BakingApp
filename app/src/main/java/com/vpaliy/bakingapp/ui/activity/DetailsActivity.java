@@ -8,6 +8,7 @@ import com.vpaliy.bakingapp.mvp.presenter.StepsPresenter;
 import com.vpaliy.bakingapp.mvp.presenter.StepsPresenter.StepsWrapper;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeVisibilityEvent;
+import com.vpaliy.bakingapp.ui.bus.event.OnMoveToStepEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnStepClickEvent;
 import com.vpaliy.bakingapp.ui.fragment.StepsFragment;
 import com.vpaliy.bakingapp.ui.fragment.SummaryFragment;
@@ -16,15 +17,13 @@ import com.vpaliy.bakingapp.utils.Permissions;
 import com.vpaliy.bakingapp.utils.messenger.Messenger;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
+import butterknife.ButterKnife;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
-
 import butterknife.BindBool;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-
 
 public class DetailsActivity extends BaseActivity {
 
@@ -72,6 +71,16 @@ public class DetailsActivity extends BaseActivity {
             changeToolbar(OnChangeToolbarEvent.class.cast(event));
         }else if(event instanceof OnChangeVisibilityEvent){
             changeVisibility(OnChangeVisibilityEvent.class.cast(event));
+        }else if(event instanceof OnMoveToStepEvent){
+            moveToStep(OnMoveToStepEvent.class.cast(event));
+        }
+    }
+
+    private void moveToStep(OnMoveToStepEvent event){
+        SummaryFragment fragment=SummaryFragment.class.cast
+                (getSupportFragmentManager().findFragmentByTag(Constants.SUMMARY_TAG));
+        if(fragment!=null){
+            fragment.highlightStep(event.step);
         }
     }
 
@@ -125,8 +134,7 @@ public class DetailsActivity extends BaseActivity {
             fragment.attachPresenter(stepsPresenter);
             manager.beginTransaction()
                     .addToBackStack(Constants.SUMMARY_TAG)
-                    .remove(manager.findFragmentByTag(Constants.SUMMARY_TAG))
-                    .add(R.id.recipe,fragment,Constants.STEPS_TAG)
+                    .replace(R.id.recipe,fragment,Constants.STEPS_TAG)
                     .commit();
         }
     }
@@ -135,14 +143,10 @@ public class DetailsActivity extends BaseActivity {
         if(stepsPresenter==null){
             StepsWrapper wrapper=StepsWrapper.wrap(clickEvent.steps,clickEvent.currentStep);
             stepsPresenter=new StepsPresenter(wrapper,new Messenger(this));
-            StepsFragment fragment=new StepsFragment();
+            StepsFragment fragment=StepsFragment.class.cast(
+                    getSupportFragmentManager().findFragmentById(R.id.recipe_steps));
             fragment.attachPresenter(stepsPresenter);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.recipe_steps,fragment)
-                    .commitNow();
-            //StepsFragment fragment=StepsFragment.class.cast(getSupportFragmentManager().findFragmentById(R.id.recipe_steps));
-            //fragment.attachPresenter(stepsPresenter);
-         //   stepsPresenter.showCurrent();
+            stepsPresenter.showCurrent();
         }else{
             stepsPresenter.requestStep(clickEvent.currentStep);
         }
@@ -150,25 +154,23 @@ public class DetailsActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(isTablet) {
+        if(!isTablet) {
             FragmentManager manager = getSupportFragmentManager();
             if (manager.getBackStackEntryCount() > 0) {
                 manager.popBackStack();
                 manager.beginTransaction()
                         .show(manager.findFragmentByTag(Constants.SUMMARY_TAG))
                         .commit();
-                return;
-            }
-
-            if(getSupportActionBar()!=null){
-                if(!getSupportActionBar().isShowing()){
-                    changeVisibility(OnChangeVisibilityEvent.change(true));
+                if(getSupportActionBar()!=null){
+                    if(!getSupportActionBar().isShowing()){
+                        changeVisibility(OnChangeVisibilityEvent.change(true));
+                    }
                 }
+                return;
             }
         }
         super.onBackPressed();
     }
-
 
     @Override
     void initializeDependencies() {

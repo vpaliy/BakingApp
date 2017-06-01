@@ -84,14 +84,18 @@ public class StepsPresenter implements RecipeStepsContract.Presenter{
 
     @Override
     public void showNext() {
-        wrapper.currentIndex++;
-        showCurrent();
+        if((wrapper.currentIndex+1)<wrapper.count()) {
+            wrapper.currentIndex++;
+            showCurrent();
+        }
     }
 
     @Override
     public void showPrev() {
-        wrapper.currentIndex--;
-        showCurrent();
+        if((wrapper.currentIndex-1)>=0) {
+            wrapper.currentIndex--;
+            showCurrent();
+        }
     }
 
     public static class StepsWrapper {

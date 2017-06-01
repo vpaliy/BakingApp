@@ -13,20 +13,21 @@ import com.vpaliy.bakingapp.mvp.contract.RecipeSummaryContract.Presenter;
 import com.vpaliy.bakingapp.ui.adapter.StepsAdapter;
 import com.vpaliy.bakingapp.ui.bus.RxBus;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
+import com.vpaliy.bakingapp.ui.bus.event.OnStepClickEvent;
 import com.vpaliy.bakingapp.ui.view.MarginDecoration;
 import com.vpaliy.bakingapp.utils.Constants;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
+import android.widget.TextView;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.TextView;
-
 import javax.inject.Inject;
 import butterknife.BindView;
 
@@ -47,6 +48,7 @@ public class SummaryFragment extends BaseFragment
 
     @Inject
     protected RxBus rxBus;
+
 
     public static SummaryFragment newInstance(Bundle bundle){
         SummaryFragment fragment=new SummaryFragment();
@@ -76,6 +78,7 @@ public class SummaryFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG,"onResume()");
         if(adapter!=null) adapter.resume();
     }
 
@@ -91,7 +94,6 @@ public class SummaryFragment extends BaseFragment
             recipeSteps.setNestedScrollingEnabled(false);
         }
     }
-
 
     @Override
     void initializeDependencies() {
@@ -118,6 +120,7 @@ public class SummaryFragment extends BaseFragment
         rxBus.send(OnChangeToolbarEvent.change(recipe.getName()));
         showIngredients(recipe.getIngredients());
         showSteps(recipe.getSteps());
+        if(isTablet) rxBus.send(OnStepClickEvent.click(recipe.getSteps(),0));
     }
 
     private void showIngredients(@NonNull List<Ingredient> ingredientList){
@@ -132,6 +135,11 @@ public class SummaryFragment extends BaseFragment
             builder.append('\n');
         }
         ingredients.setText(builder.toString());
+    }
+
+    public void highlightStep(int step){
+        adapter.resume();
+        adapter.highlightPosition(step);
     }
 
     private void showSteps(@NonNull List<Step> steps){

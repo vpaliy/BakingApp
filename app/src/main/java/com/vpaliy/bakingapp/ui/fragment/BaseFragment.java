@@ -5,15 +5,22 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.View;
+
+import butterknife.BindBool;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 
+import com.vpaliy.bakingapp.R;
+
 public abstract class BaseFragment extends Fragment {
 
     protected Unbinder unbinder;
+
+    @BindBool(R.bool.is_tablet)
+    protected boolean isTablet;
 
     @Override
     @CallSuper
