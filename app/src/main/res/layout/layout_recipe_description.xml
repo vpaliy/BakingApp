@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="12dp"
     android:id="@+id/cardView"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
@@ -15,11 +14,7 @@
         <TextView
             android:id="@+id/step_short_description"
             tools:text="Preparation Introduction"
-            android:textStyle="italic"
-            android:layout_gravity="center_horizontal"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/RecipeHeadline"/>
         <TextView
             android:id="@+id/step_description"
             android:layout_marginTop="8dp"

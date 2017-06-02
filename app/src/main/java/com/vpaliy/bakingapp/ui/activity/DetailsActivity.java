@@ -1,5 +1,7 @@
 package com.vpaliy.bakingapp.ui.activity;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
@@ -57,9 +59,15 @@ public class DetailsActivity extends BaseActivity {
     private void setActionBar(){
         setSupportActionBar(actionBar);
         if(getSupportActionBar()!=null){
+            actionBar.setTitleTextColor(getResources().getColor(R.color.colorText));
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            Drawable drawable=actionBar.getNavigationIcon();
+            actionBar.setNavigationOnClickListener(v->onBackPressed());
+            if(drawable!=null){
+                drawable.setColorFilter(getResources().getColor(R.color.colorText), PorterDuff.Mode.SRC_ATOP);
+            }
         }
     }
 

@@ -16,6 +16,8 @@ import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnStepClickEvent;
 import com.vpaliy.bakingapp.ui.view.MarginDecoration;
 import com.vpaliy.bakingapp.utils.Constants;
+
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -126,12 +128,16 @@ public class SummaryFragment extends BaseFragment
     private void showIngredients(@NonNull List<Ingredient> ingredientList){
         StringBuilder builder=new StringBuilder();
         final String BLANK=" ";
+        final String bullet="\u25CF";
         for(Ingredient ingredient:ingredientList){
+            builder.append(bullet);
+            builder.append(BLANK);
             builder.append(ingredient.getQuantity());
             builder.append(BLANK);
             builder.append(ingredient.getMeasure());
             builder.append(BLANK);
             builder.append(ingredient.getIngredient());
+            builder.append('\n');
             builder.append('\n');
         }
         ingredients.setText(builder.toString());

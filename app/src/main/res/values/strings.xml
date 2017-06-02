@@ -7,4 +7,6 @@
     <string name="step">Step</string>
     <string name="button_prev_step">PREVIOUS</string>
     <string name="ingredients_headline">Ingredients</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

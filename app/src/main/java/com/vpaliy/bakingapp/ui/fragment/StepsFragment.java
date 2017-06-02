@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompat;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
@@ -25,23 +24,26 @@ import com.vpaliy.bakingapp.utils.Permissions;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.CardView;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import javax.inject.Inject;
-import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Optional;
 
 import static com.vpaliy.bakingapp.utils.Constants.SESSION_TAG;
 
+//// TODO: 01/06/17 change font
+//// TODO: 01/06/17 make corners
+//// TODO: 01/06/17 add colors
+//// TODO: 01/06/17 when null hide
+//// TODO: 01/06/17 add back button
+//// TODO: 01/06/17 add divider
 
 public class StepsFragment extends BaseFragment
         implements RecipeStepsContract.View, IPlayback.Callback{
@@ -172,18 +174,14 @@ public class StepsFragment extends BaseFragment
     }
 
     @Override
-    public void onCompletion() {
-
-    }
+    public void onCompletion() {}
 
     @Override
     public void onStateChanged(int state) {
-
     }
 
     @Override
     public void showMessage(@NonNull String message) {
-
     }
 
     @Override
@@ -201,8 +199,19 @@ public class StepsFragment extends BaseFragment
 
     @Override
     public void showDescription(String shortDescription,String description) {
-        this.shortDescription.setText(shortDescription);
-        this.description.setText(description);
+        setText(this.shortDescription,shortDescription);
+        setText(this.description,description);
+    }
+
+    private void setText(TextView textView, String text){
+        if(text==null) {
+            textView.setVisibility(View.GONE);
+        }else{
+            if(textView.getVisibility()!=View.VISIBLE) {
+                textView.setVisibility(View.VISIBLE);
+            }
+            textView.setText(text);
+        }
     }
 
     @Override
