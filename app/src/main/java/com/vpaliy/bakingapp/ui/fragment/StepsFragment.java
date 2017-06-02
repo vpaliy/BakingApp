@@ -38,13 +38,6 @@ import butterknife.Optional;
 
 import static com.vpaliy.bakingapp.utils.Constants.SESSION_TAG;
 
-//// TODO: 01/06/17 change font
-//// TODO: 01/06/17 make corners
-//// TODO: 01/06/17 add colors
-//// TODO: 01/06/17 when null hide
-//// TODO: 01/06/17 add back button
-//// TODO: 01/06/17 add divider
-
 public class StepsFragment extends BaseFragment
         implements RecipeStepsContract.View, IPlayback.Callback{
 
