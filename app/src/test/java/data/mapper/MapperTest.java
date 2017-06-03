@@ -9,6 +9,7 @@ import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.domain.model.Step;
 
 import java.util.Arrays;
+import java.util.List;
 
 class MapperTest {
 
@@ -59,12 +60,30 @@ class MapperTest {
         return step;
     }
 
+    List<Step> provideStepList(){
+        return Arrays.asList(provideStep(),provideStep(),
+                provideStep(),provideStep(),provideStep());
+    }
+
+    List<StepEntity> provideStepEntityList(){
+        return Arrays.asList(provideStepEntity(),provideStepEntity(),
+                provideStepEntity(),provideStepEntity(),provideStepEntity());
+    }
+
+    List<IngredientEntity> provideIngredientEntityList(){
+        return Arrays.asList(provideIngredientEntity(), provideIngredientEntity(),
+                provideIngredientEntity(), provideIngredientEntity());
+    }
+
+    List<Ingredient> provideIngredientList(){
+        return Arrays.asList(provideIngredient(), provideIngredient(),
+                provideIngredient(), provideIngredient());
+    }
+
     RecipeEntity provideRecipeEntity(){
         RecipeEntity recipeEntity=new RecipeEntity();
-        recipeEntity.setIngredients(Arrays.asList(provideIngredientEntity(), provideIngredientEntity(),
-                provideIngredientEntity(), provideIngredientEntity()));
-        recipeEntity.setSteps(Arrays.asList(provideStepEntity(),provideStepEntity(),
-                provideStepEntity(),provideStepEntity(),provideStepEntity()));
+        recipeEntity.setIngredients(provideIngredientEntityList());
+        recipeEntity.setSteps(provideStepEntityList());
         recipeEntity.setName(FAKE_NAME);
         recipeEntity.setServings(FAKE_SERVINGS);
         recipeEntity.setId(FAKE_ID);
@@ -74,10 +93,8 @@ class MapperTest {
 
     Recipe provideRecipe(){
         Recipe recipe=new Recipe();
-        recipe.setIngredients(Arrays.asList(provideIngredient(), provideIngredient(),
-                provideIngredient(), provideIngredient()));
-        recipe.setSteps(Arrays.asList(provideStep(),provideStep(),
-                provideStep(),provideStep(),provideStep()));
+        recipe.setIngredients(provideIngredientList());
+        recipe.setSteps(provideStepList());
         recipe.setName(FAKE_NAME);
         recipe.setServings(FAKE_SERVINGS);
         recipe.setId(FAKE_ID);

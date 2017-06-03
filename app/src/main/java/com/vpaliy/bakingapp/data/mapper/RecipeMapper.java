@@ -36,15 +36,10 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
         recipe.setName(recipeEntity.getName());
         recipe.setServings(recipeEntity.getServings());
         if(recipeEntity.getIngredients()!=null) {
-            List<Ingredient> ingredientList = new ArrayList<>(recipeEntity.getIngredients().size());
-            recipeEntity.getIngredients().forEach(ingredientEntity ->
-                    ingredientList.add(ingredientMapper.map(ingredientEntity)));
-            recipe.setIngredients(ingredientList);
+            recipe.setIngredients(ingredientMapper.map(recipeEntity.getIngredients()));
         }
         if(recipeEntity.getSteps()!=null){
-            List<Step> stepList=new ArrayList<>(recipeEntity.getSteps().size());
-            recipeEntity.getSteps().forEach(step->stepList.add(stepMapper.map(step)));
-            recipe.setSteps(stepList);
+            recipe.setSteps(stepMapper.map(recipeEntity.getSteps()));
         }
         return recipe;
     }
