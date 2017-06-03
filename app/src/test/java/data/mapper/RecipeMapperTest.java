@@ -9,14 +9,21 @@ import com.vpaliy.bakingapp.domain.model.Ingredient;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.domain.model.Step;
 
+import static data.RecipeTestUtils.FAKE_ID;
+import static data.RecipeTestUtils.FAKE_IMAGE_URL;
+import static data.RecipeTestUtils.FAKE_NAME;
+import static data.RecipeTestUtils.FAKE_SERVINGS;
+import static data.RecipeTestUtils.provideIngredientEntity;
+import static data.RecipeTestUtils.provideIngredientList;
+import static data.RecipeTestUtils.provideRecipe;
+import static data.RecipeTestUtils.provideRecipeEntity;
+import static data.RecipeTestUtils.provideRecipeEntityList;
+import static data.RecipeTestUtils.provideStepEntity;
+import static data.RecipeTestUtils.provideStepList;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
@@ -31,7 +38,7 @@ import java.util.List;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class RecipeMapperTest extends MapperTest {
+public class RecipeMapperTest  {
 
     @Mock
     private Mapper<Step,StepEntity> stepMapper;

@@ -16,7 +16,7 @@ import java.util.List;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
-import static com.vpaliy.bakingapp.data.local.RecipeDatabase.RecipesIngredients;
+import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.RecipesIngredients;
 
 class RecipeHandler {
 
@@ -34,7 +34,7 @@ class RecipeHandler {
 
     public RecipeHandler insert(RecipeEntity recipeEntity){
         if(recipeEntity!=null){
-            ContentValues values=recipeToValues(recipeEntity);
+            ContentValues values=DatabaseUtils.toValues(recipeEntity);
             contentResolver.insert(Recipes.CONTENT_URI,values);
         }
         return this;
@@ -51,12 +51,7 @@ class RecipeHandler {
                 contentResolver.insert(contentUri, values);
                 contentUri=Ingredients.buildIngredientWithRecipesUri(Integer.toString(ingredient.getId()));
                 contentResolver.insert(contentUri,values);
-                values.clear();
-                values.put(Ingredients.INGREDIENT_ID,ingredient.getId());
-                values.put(Ingredients.INGREDIENT_MEASURE,ingredient.getMeasure());
-                values.put(Ingredients.INGREDIENT_NAME,ingredient.getIngredient());
-                values.put(Ingredients.INGREDIENT_QUANTITY,ingredient.getQuantity());
-                contentResolver.insert(Ingredients.CONTENT_URI,values);
+                contentResolver.insert(Ingredients.CONTENT_URI, DatabaseUtils.toValues(ingredient));
             });
         }
         return this;
@@ -68,7 +63,7 @@ class RecipeHandler {
             Log.d(TAG,"Cursor for RecipeEntity size:"+Integer.toString(cursor.getCount()));
             List<RecipeEntity> recipes=new ArrayList<>(cursor.getCount());
             while(cursor.moveToNext()){
-                RecipeEntity recipeEntity=convertToRecipe(cursor);
+                RecipeEntity recipeEntity=DatabaseUtils.toRecipe(cursor);
                 queryStepsFor(recipeEntity).queryIngredientsFor(recipeEntity);
                 recipes.add(recipeEntity);
             }
@@ -86,23 +81,7 @@ class RecipeHandler {
                 Log.d(TAG,"Cursor count:"+Integer.toString(cursor.getCount()));
                 List<StepEntity> steps=new ArrayList<>(cursor.getCount());
                 while(cursor.moveToNext()){
-                    int stepId=cursor.getInt(cursor.getColumnIndex(Steps.STEP_ID));
-                    String videoUrl=cursor.getString(cursor.getColumnIndex(Steps.STEP_VIDEO_URL));
-                    String imageUrl=cursor.getString(cursor.getColumnIndex(Steps.STEP_IMAGE_URL));
-                    String description=cursor.getString(cursor.getColumnIndex(Steps.STEP_DESCRIPTION));
-                    String shortDescription=cursor.getString(cursor.getColumnIndex(Steps.STEP_SHORT_DESCRIPTION));
-                    Log.d(TAG,"#Step description:"+description);
-                    Log.d(TAG,"#Step id:"+stepId);
-                    Log.d(TAG,"#Step image url:"+imageUrl);
-                    Log.d(TAG,"#Step short description:"+shortDescription);
-                    Log.d(TAG,"#Step video url:"+videoUrl);
-                    StepEntity step=new StepEntity();
-                    step.setId(stepId);
-                    step.setDescription(description);
-                    step.setShortDescription(shortDescription);
-                    step.setImageUrl(imageUrl);
-                    step.setVideoUrl(videoUrl);
-                    steps.add(step);
+                    steps.add(DatabaseUtils.toSteps(cursor));
                 }
                 entity.setSteps(steps);
                 if(!cursor.isClosed()) cursor.close();
@@ -120,22 +99,7 @@ class RecipeHandler {
                 Log.d(TAG,"Cursor count:"+Integer.toString(cursor.getCount()));
                 List<IngredientEntity> ingredients=new ArrayList<>(cursor.getCount());
                 while(cursor.moveToNext()){
-                    int ingredientId=cursor.getInt(cursor.getColumnIndex(Ingredients.INGREDIENT_ID));
-                    String ingredientName=cursor.getString(cursor.getColumnIndex(Ingredients.INGREDIENT_NAME));
-                    String measure=cursor.getString(cursor.getColumnIndex(Ingredients.INGREDIENT_MEASURE));
-                    float quantity=cursor.getFloat(cursor.getColumnIndex(Ingredients.INGREDIENT_QUANTITY));
-
-                    Log.d(TAG,"#Ingredient id:"+Integer.toString(ingredientId));
-                    Log.d(TAG,"#Ingredient name:"+ingredientName);
-                    Log.d(TAG,"#Ingredient measure:"+measure);
-                    Log.d(TAG,"#Ingredient quantity:"+Float.toString(quantity));
-
-                    IngredientEntity entity=new IngredientEntity();
-                    entity.setIngredient(ingredientName);
-                    entity.setMeasure(measure);
-                    entity.setId(ingredientId);
-                    entity.setQuantity(quantity);
-                    ingredients.add(entity);
+                    ingredients.add(DatabaseUtils.toIngredient(cursor));
                 }
                 if(!cursor.isClosed()) cursor.close();
                 recipe.setIngredients(ingredients);
@@ -146,14 +110,8 @@ class RecipeHandler {
 
     public RecipeHandler insertSteps(int recipeId, List<StepEntity> steps){
         if (steps != null) {
-            ContentValues values=new ContentValues();
             steps.forEach(stepEntity -> {
-                values.put(Steps.STEP_ID,stepEntity.getId());
-                values.put(Steps.STEP_DESCRIPTION,stepEntity.getDescription());
-                values.put(Steps.STEP_SHORT_DESCRIPTION,stepEntity.getShortDescription());
-                values.put(Steps.STEP_IMAGE_URL,stepEntity.getImageUrl());
-                values.put(Steps.STEP_VIDEO_URL,stepEntity.getVideoUrl());
-                values.put(Steps.STEP_RECIPE_ID,recipeId);
+                ContentValues values=DatabaseUtils.toValues(stepEntity,recipeId);
                 contentResolver.insert(Steps.CONTENT_URI,values);
                 values.clear();
             });
@@ -161,32 +119,4 @@ class RecipeHandler {
         return this;
     }
 
-    private RecipeEntity convertToRecipe(Cursor cursor){
-        if(cursor!=null){
-            RecipeEntity recipe=new RecipeEntity();
-            String imageUrl=cursor.getString(cursor.getColumnIndex(Recipes.RECIPE_IMAGE_URL));
-            String recipeName=cursor.getString(cursor.getColumnIndex(Recipes.RECIPE_NAME));
-            int recipeId=cursor.getInt(cursor.getColumnIndex(Recipes.RECIPE_ID));
-            int recipeServings=cursor.getInt(cursor.getColumnIndex(Recipes.RECIPE_SERVINGS));
-            Log.d(TAG,"#Recipe image:"+imageUrl);
-            Log.d(TAG,"#Recipe servings:"+Integer.toString(recipeServings));
-            Log.d(TAG,"#Recipe id:"+Integer.toString(recipeId));
-            Log.d(TAG,"#Recipe name:"+recipeName);
-            recipe.setImageUrl(imageUrl);
-            recipe.setId(recipeId);
-            recipe.setServings(recipeServings);
-            recipe.setName(recipeName);
-            return recipe;
-        }
-        return null;
-    }
-
-    private ContentValues recipeToValues(RecipeEntity recipe){
-        ContentValues values=new ContentValues();
-        values.put(Recipes.RECIPE_ID,recipe.getId());
-        values.put(Recipes.RECIPE_IMAGE_URL,recipe.getImageUrl());
-        values.put(Recipes.RECIPE_NAME,recipe.getName());
-        values.put(Recipes.RECIPE_SERVINGS,recipe.getServings());
-        return values;
-    }
 }

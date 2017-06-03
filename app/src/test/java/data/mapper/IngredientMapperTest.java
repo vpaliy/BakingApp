@@ -12,12 +12,20 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import data.RecipeTestUtils;
+
+import static data.RecipeTestUtils.FAKE_ID;
+import static data.RecipeTestUtils.FAKE_NAME;
+import static data.RecipeTestUtils.FAKE_QUANTITY;
+import static data.RecipeTestUtils.FAKE_TEXT;
+import static data.RecipeTestUtils.provideIngredient;
+import static data.RecipeTestUtils.provideIngredientEntity;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IngredientMapperTest extends MapperTest{
+public class IngredientMapperTest{
 
     private Mapper<Ingredient,IngredientEntity> mapper;
 

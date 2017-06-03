@@ -1,5 +1,7 @@
-package data.mapper;
+package data;
 
+
+import android.content.ContentValues;
 
 import com.vpaliy.bakingapp.data.model.IngredientEntity;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
@@ -8,22 +10,24 @@ import com.vpaliy.bakingapp.domain.model.Ingredient;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.domain.model.Step;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
+import com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
+import com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
 
-class MapperTest {
+public class RecipeTestUtils {
 
-    static final int FAKE_ID=123;
-    static final int FAKE_SERVINGS=45;
-    static final double FAKE_QUANTITY=1.5F;
-    static final String FAKE_NAME="fake_name";
-    static final String FAKE_TEXT ="fake_text";
-    static final String FAKE_IMAGE_URL="fake_image_url";
-    static final String FAKE_VIDEO_URL="fake_video_url";
-    static final String FAKE_DESCRIPTION="fake_description";
+    public static final int FAKE_ID=123;
+    public static final int FAKE_SERVINGS=45;
+    public static final double FAKE_QUANTITY=1.5F;
+    public static final String FAKE_NAME="fake_name";
+    public static final String FAKE_TEXT ="fake_text";
+    public static final String FAKE_IMAGE_URL="fake_image_url";
+    public static final String FAKE_VIDEO_URL="fake_video_url";
+    public static final String FAKE_DESCRIPTION="fake_description";
 
-    IngredientEntity provideIngredientEntity(){
+    public static IngredientEntity provideIngredientEntity(){
         IngredientEntity entity=new IngredientEntity();
         entity.setId(FAKE_ID);
         entity.setQuantity(FAKE_QUANTITY);
@@ -32,7 +36,7 @@ class MapperTest {
         return entity;
     }
 
-    StepEntity provideStepEntity(){
+    public static StepEntity provideStepEntity(){
         StepEntity stepEntity=new StepEntity();
         stepEntity.setImageUrl(FAKE_IMAGE_URL);
         stepEntity.setVideoUrl(FAKE_VIDEO_URL);
@@ -42,7 +46,7 @@ class MapperTest {
         return stepEntity;
     }
 
-    Ingredient provideIngredient(){
+    public static Ingredient provideIngredient(){
         Ingredient ingredient=new Ingredient();
         ingredient.setId(FAKE_ID);
         ingredient.setQuantity(FAKE_QUANTITY);
@@ -51,7 +55,7 @@ class MapperTest {
         return ingredient;
     }
 
-    Step provideStep(){
+    public static Step provideStep(){
         Step step=new Step();
         step.setImageUrl(FAKE_IMAGE_URL);
         step.setVideoUrl(FAKE_VIDEO_URL);
@@ -61,37 +65,37 @@ class MapperTest {
         return step;
     }
 
-    List<Step> provideStepList(){
+    public static List<Step> provideStepList(){
         return Arrays.asList(provideStep(),provideStep(),
                 provideStep(),provideStep(),provideStep());
     }
 
-    List<StepEntity> provideStepEntityList(){
+    public static List<StepEntity> provideStepEntityList(){
         return Arrays.asList(provideStepEntity(),provideStepEntity(),
                 provideStepEntity(),provideStepEntity(),provideStepEntity());
     }
 
-    List<IngredientEntity> provideIngredientEntityList(){
+    public static List<IngredientEntity> provideIngredientEntityList(){
         return Arrays.asList(provideIngredientEntity(), provideIngredientEntity(),
                 provideIngredientEntity(), provideIngredientEntity());
     }
 
-    List<Ingredient> provideIngredientList(){
+    public static List<Ingredient> provideIngredientList(){
         return Arrays.asList(provideIngredient(), provideIngredient(),
                 provideIngredient(), provideIngredient());
     }
 
-    List<RecipeEntity> provideRecipeEntityList(){
+    public static List<RecipeEntity> provideRecipeEntityList(){
         return Arrays.asList(provideRecipeEntity(),provideRecipeEntity(),
                 provideRecipeEntity(),provideRecipeEntity(),provideRecipeEntity());
     }
 
-    List<Recipe> provideRecipeList(){
+    public static List<Recipe> provideRecipeList(){
         return Arrays.asList(provideRecipe(),provideRecipe(),provideRecipe(),
                 provideRecipe(),provideRecipe(),provideRecipe());
     }
 
-    RecipeEntity provideRecipeEntity(){
+    public static RecipeEntity provideRecipeEntity(){
         RecipeEntity recipeEntity=new RecipeEntity();
         recipeEntity.setIngredients(provideIngredientEntityList());
         recipeEntity.setSteps(provideStepEntityList());
@@ -102,7 +106,7 @@ class MapperTest {
         return recipeEntity;
     }
 
-    Recipe provideRecipe(){
+    public static Recipe provideRecipe(){
         Recipe recipe=new Recipe();
         recipe.setIngredients(provideIngredientList());
         recipe.setSteps(provideStepList());
@@ -113,4 +117,32 @@ class MapperTest {
         return recipe;
     }
 
+    public static ContentValues toValues(RecipeEntity recipe){
+        ContentValues values=new ContentValues();
+        values.put(Recipes.RECIPE_ID,recipe.getId());
+        values.put(Recipes.RECIPE_NAME,recipe.getName());
+        values.put(Recipes.RECIPE_SERVINGS,recipe.getServings());
+        values.put(Recipes.RECIPE_IMAGE_URL,recipe.getImageUrl());
+        return values;
+    }
+
+    public static ContentValues toValues(IngredientEntity ingredient){
+        ContentValues values=new ContentValues();
+        values.put(Ingredients.INGREDIENT_ID,ingredient.getId());
+        values.put(Ingredients.INGREDIENT_NAME,ingredient.getIngredient());
+        values.put(Ingredients.INGREDIENT_QUANTITY,ingredient.getQuantity());
+        values.put(Ingredients.INGREDIENT_MEASURE,ingredient.getMeasure());
+        return values;
+    }
+
+    public static ContentValues toValues(StepEntity step, int recipeId){
+        ContentValues values=new ContentValues();
+        values.put(Steps.STEP_ID,step.getId());
+        values.put(Steps.STEP_DESCRIPTION,step.getDescription());
+        values.put(Steps.STEP_SHORT_DESCRIPTION,step.getShortDescription());
+        values.put(Steps.STEP_VIDEO_URL,step.getVideoUrl());
+        values.put(Steps.STEP_IMAGE_URL,step.getImageUrl());
+        values.put(Steps.STEP_RECIPE_ID,recipeId);
+        return values;
+    }
 }

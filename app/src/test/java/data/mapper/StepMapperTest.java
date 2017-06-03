@@ -7,10 +7,16 @@ import com.vpaliy.bakingapp.data.model.StepEntity;
 import com.vpaliy.bakingapp.domain.model.Step;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static data.RecipeTestUtils.FAKE_DESCRIPTION;
+import static data.RecipeTestUtils.FAKE_ID;
+import static data.RecipeTestUtils.FAKE_IMAGE_URL;
+import static data.RecipeTestUtils.FAKE_TEXT;
+import static data.RecipeTestUtils.FAKE_VIDEO_URL;
+import static data.RecipeTestUtils.provideStep;
+import static data.RecipeTestUtils.provideStepEntity;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class StepMapperTest extends MapperTest{
+public class StepMapperTest {
 
     private Mapper<Step,StepEntity> mapper;
 

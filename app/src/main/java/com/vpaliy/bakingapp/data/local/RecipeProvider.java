@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import static com.vpaliy.bakingapp.data.local.RecipeDatabase.Tables;
+import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.Tables;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
@@ -19,7 +19,7 @@ import android.support.annotation.Nullable;
 public class RecipeProvider extends ContentProvider {
 
     private RecipeUriMatcher uriMatcher;
-    private RecipeDatabase database;
+    private RecipeDatabaseHelper database;
 
 
     @Nullable
@@ -59,8 +59,8 @@ public class RecipeProvider extends ContentProvider {
         database.close();
         Context context=getContext();
         if(context!=null){
-            RecipeDatabase.deleteDatabase(context);
-            database=new RecipeDatabase(context);
+            RecipeDatabaseHelper.deleteDatabase(context);
+            database=new RecipeDatabaseHelper(context);
         }
     }
 
@@ -125,7 +125,7 @@ public class RecipeProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         if(getContext()!=null) {
-            this.database = new RecipeDatabase(getContext());
+            this.database = new RecipeDatabaseHelper(getContext());
             this.uriMatcher=new RecipeUriMatcher();
         }
         return database!=null;

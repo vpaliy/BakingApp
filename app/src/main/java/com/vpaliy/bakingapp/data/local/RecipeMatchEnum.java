@@ -3,7 +3,7 @@ package com.vpaliy.bakingapp.data.local;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
-import static com.vpaliy.bakingapp.data.local.RecipeDatabase.Tables;
+import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.Tables;
 
 public enum RecipeMatchEnum {
 
