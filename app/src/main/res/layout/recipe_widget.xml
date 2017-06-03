@@ -1,21 +1,21 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#09C"
-    android:padding="@dimen/widget_margin">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/appwidget_text"
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/widget_recipe_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:loopViews="true"/>
+
+    <ProgressBar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
-
-</RelativeLayout>
+        android:layout_gravity="center" />
+</FrameLayout>
