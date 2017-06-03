@@ -7,7 +7,6 @@ import android.util.SparseArray;
 
 public class RecipeUriMatcher {
 
-
     private UriMatcher uriMatcher;
     private SparseArray<RecipeMatchEnum> codeMap;
 
@@ -35,7 +34,7 @@ public class RecipeUriMatcher {
     public RecipeMatchEnum match(Uri uri){
         final int code=uriMatcher.match(uri);
         if(codeMap.get(code)==null){
-            throw new UnsupportedOperationException("Unknown uri with code " + code);
+            throw new UnsupportedOperationException("Unknown uri:"+uri.toString()+" with code " + code);
         }
         return codeMap.get(code);
     }

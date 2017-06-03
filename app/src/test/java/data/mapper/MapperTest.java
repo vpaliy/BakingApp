@@ -8,6 +8,7 @@ import com.vpaliy.bakingapp.domain.model.Ingredient;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.domain.model.Step;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,6 +79,16 @@ class MapperTest {
     List<Ingredient> provideIngredientList(){
         return Arrays.asList(provideIngredient(), provideIngredient(),
                 provideIngredient(), provideIngredient());
+    }
+
+    List<RecipeEntity> provideRecipeEntityList(){
+        return Arrays.asList(provideRecipeEntity(),provideRecipeEntity(),
+                provideRecipeEntity(),provideRecipeEntity(),provideRecipeEntity());
+    }
+
+    List<Recipe> provideRecipeList(){
+        return Arrays.asList(provideRecipe(),provideRecipe(),provideRecipe(),
+                provideRecipe(),provideRecipe(),provideRecipe());
     }
 
     RecipeEntity provideRecipeEntity(){

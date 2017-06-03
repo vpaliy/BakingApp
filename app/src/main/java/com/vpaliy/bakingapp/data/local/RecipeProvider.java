@@ -110,7 +110,7 @@ public class RecipeProvider extends ContentProvider {
             case RECIPE_STEP_ID:
                 return Recipes.buildRecipeWithStepsUri(values.getAsString(Recipes.RECIPE_ID));
             case RECIPE_INGREDIENTS_ID:
-                return Recipes.buildRecipeWithIngredienstUri(values.getAsString(Recipes.RECIPE_ID));
+                return Recipes.buildRecipeWithIngredientsUri(values.getAsString(Recipes.RECIPE_ID));
             case INGREDIENTS:
                 return Ingredients.buildIngredientUri(values.getAsString(Ingredients.INGREDIENT_ID));
             case INGREDIENT_RECIPES_ID:

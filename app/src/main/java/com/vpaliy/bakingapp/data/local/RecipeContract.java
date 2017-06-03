@@ -63,7 +63,7 @@ public final class RecipeContract {
             return CONTENT_URI.buildUpon().appendPath(id).appendPath(PATH_STEP).build();
         }
 
-        public static Uri buildRecipeWithIngredienstUri(String id){
+        public static Uri buildRecipeWithIngredientsUri(String id){
             return CONTENT_URI.buildUpon().appendPath(id).appendPath(PATH_INGREDIENT).build();
         }
 

@@ -47,7 +47,7 @@ class RecipeHandler {
                 values.clear();
                 values.put(RecipesIngredients.RECIPE_ID, recipeId);
                 values.put(RecipesIngredients.INGREDIENT_ID, ingredient.getId());
-                Uri contentUri = Recipes.buildRecipeWithIngredienstUri(Integer.toString(recipeId));
+                Uri contentUri = Recipes.buildRecipeWithIngredientsUri(Integer.toString(recipeId));
                 contentResolver.insert(contentUri, values);
                 contentUri=Ingredients.buildIngredientWithRecipesUri(Integer.toString(ingredient.getId()));
                 contentResolver.insert(contentUri,values);
@@ -114,7 +114,7 @@ class RecipeHandler {
     public RecipeHandler queryIngredientsFor(RecipeEntity recipe){
         if(recipe!=null){
             Log.d(TAG,"Query ingredients for :"+recipe.getId());
-            Uri contentUri=Recipes.buildRecipeWithIngredienstUri(Integer.toString(recipe.getId()));
+            Uri contentUri=Recipes.buildRecipeWithIngredientsUri(Integer.toString(recipe.getId()));
             Cursor cursor=contentResolver.query(contentUri,null,null,null,null);
             if(cursor!=null){
                 Log.d(TAG,"Cursor count:"+Integer.toString(cursor.getCount()));

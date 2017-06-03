@@ -19,6 +19,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -59,14 +60,18 @@ dependencies {
     compile "com.jakewharton.rxrelay2:rxrelay:${libs.rxRelayVersion}"
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
     compile 'com.google.android.exoplayer:exoplayer:r2.4.0'
-
     testCompile "org.mockito:mockito-core:${testLibs.mockitoVersion}"
     testCompile "junit:junit:${testLibs.jUnitVersion}"
+    testCompile "org.robolectric:robolectric:${testLibs.robolectricVersion}",{
+        exclude group: 'com.google.guava', module:'guava'
+    }
+
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:${testLibs.espressoVersion}", {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.google.code.findbugs'
     }
 
 }

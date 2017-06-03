@@ -27,6 +27,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.List;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecipeMapperTest extends MapperTest {
@@ -72,6 +74,19 @@ public class RecipeMapperTest extends MapperTest {
         verify(ingredientMapper,times(recipe.getIngredients().size())).reverseMap(any(Ingredient.class));
     }
 
-
-
+    @Test
+    public void testMappingList(){
+        when(stepMapper.map(anyListOf(StepEntity.class))).thenReturn(provideStepList());
+        when(ingredientMapper.map(anyListOf(IngredientEntity.class))).thenReturn(provideIngredientList());
+        List<RecipeEntity> list=provideRecipeEntityList();
+        List<Recipe> result=mapper.map(list);
+        for(Recipe recipe:result){
+            assertThat(recipe.getId(),is(FAKE_ID));
+            assertThat(recipe.getImageUrl(),is(FAKE_IMAGE_URL));
+            assertThat(recipe.getName(),is(FAKE_NAME));
+            assertThat(recipe.getServings(),is(FAKE_SERVINGS));
+        }
+        verify(stepMapper,times(list.size())).map(anyListOf(StepEntity.class));
+        verify(ingredientMapper,times(list.size())).map(anyListOf(IngredientEntity.class));
+    }
 }

@@ -69,7 +69,7 @@ public class RecipeRepository implements IRepository<Recipe> {
 
     private void saveToDisk(List<RecipeEntity> list){
         if(list!=null){
-//            list.forEach(localDataSource::insert);
+            list.forEach(localDataSource::insert);
         }
     }
 
