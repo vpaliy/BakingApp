@@ -12,6 +12,10 @@ public final class RecipeContract {
         String RECIPE_NAME="recipe_name";
         String RECIPE_IMAGE_URL="recipe_image_url";
         String RECIPE_SERVINGS="recipe_servings";
+
+        String[] COLUMNS={RECIPE_ID,RECIPE_NAME,
+                RECIPE_IMAGE_URL,RECIPE_SERVINGS
+        };
     }
 
     interface StepColumns {
@@ -21,6 +25,10 @@ public final class RecipeContract {
         String STEP_VIDEO_URL="step_video_url";
         String STEP_IMAGE_URL="step_image_url";
         String STEP_RECIPE_ID=RecipeColumns.RECIPE_ID;
+
+        String[] COLUMNS={STEP_ID,STEP_SHORT_DESCRIPTION,STEP_DESCRIPTION,
+                STEP_VIDEO_URL,STEP_IMAGE_URL,STEP_RECIPE_ID
+        };
     }
 
     interface IngredientColumns {
@@ -28,6 +36,10 @@ public final class RecipeContract {
         String INGREDIENT_MEASURE="ingredient_measure";
         String INGREDIENT_NAME="ingredient_name";
         String INGREDIENT_QUANTITY="ingredient_quantity";
+
+        String[] COLUMNS={INGREDIENT_ID,INGREDIENT_MEASURE,
+                INGREDIENT_NAME,INGREDIENT_QUANTITY
+        };
     }
 
     public static final String CONTENT_AUTHORITY="com.vpaliy.bakingapp";

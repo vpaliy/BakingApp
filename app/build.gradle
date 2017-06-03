@@ -60,6 +60,7 @@ dependencies {
     compile "com.jakewharton.rxrelay2:rxrelay:${libs.rxRelayVersion}"
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
     compile 'com.google.android.exoplayer:exoplayer:r2.4.0'
+
     testCompile "org.mockito:mockito-core:${testLibs.mockitoVersion}"
     testCompile "junit:junit:${testLibs.jUnitVersion}"
     testCompile "org.robolectric:robolectric:${testLibs.robolectricVersion}",{

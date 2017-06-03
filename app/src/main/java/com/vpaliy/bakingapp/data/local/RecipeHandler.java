@@ -81,7 +81,7 @@ class RecipeHandler {
                 Log.d(TAG,"Cursor count:"+Integer.toString(cursor.getCount()));
                 List<StepEntity> steps=new ArrayList<>(cursor.getCount());
                 while(cursor.moveToNext()){
-                    steps.add(DatabaseUtils.toSteps(cursor));
+                    steps.add(DatabaseUtils.toStep(cursor));
                 }
                 entity.setSteps(steps);
                 if(!cursor.isClosed()) cursor.close();

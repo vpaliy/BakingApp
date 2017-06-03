@@ -11,6 +11,7 @@ import com.vpaliy.bakingapp.data.model.StepEntity;
 import com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
 import com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
 import com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
+import com.vpaliy.bakingapp.domain.model.Recipe;
 
 public class DatabaseUtils {
 
@@ -86,7 +87,7 @@ public class DatabaseUtils {
         return entity;
     }
 
-    public static StepEntity toSteps(Cursor cursor){
+    public static StepEntity toStep(Cursor cursor){
         if(cursor==null) return null;
         int stepId=cursor.getInt(cursor.getColumnIndex(Steps.STEP_ID));
         String videoUrl=cursor.getString(cursor.getColumnIndex(Steps.STEP_VIDEO_URL));
