@@ -17,6 +17,7 @@ public class IngredientMapper implements Mapper<Ingredient,IngredientEntity> {
 
     @Override
     public Ingredient map(IngredientEntity ingredientEntity) {
+        if(ingredientEntity==null) return null;
         Ingredient ingredient=new Ingredient();
         ingredient.setId(ingredientEntity.getId());
         ingredient.setIngredient(ingredientEntity.getIngredient());
@@ -27,6 +28,7 @@ public class IngredientMapper implements Mapper<Ingredient,IngredientEntity> {
 
     @Override
     public IngredientEntity reverseMap(Ingredient ingredient) {
+        if(ingredient==null) return null;
         IngredientEntity entity=new IngredientEntity();
         entity.setId(ingredient.getId());
         entity.setQuantity(ingredient.getQuantity());

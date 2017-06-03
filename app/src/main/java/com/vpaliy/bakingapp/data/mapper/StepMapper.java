@@ -17,6 +17,7 @@ public class StepMapper implements Mapper<Step,StepEntity> {
 
     @Override
     public Step map(StepEntity stepEntity) {
+        if(stepEntity==null) return null;
         Step step=new Step();
         step.setImageUrl(stepEntity.getImageUrl());
         step.setDescription(stepEntity.getDescription());
@@ -28,6 +29,7 @@ public class StepMapper implements Mapper<Step,StepEntity> {
 
     @Override
     public StepEntity reverseMap(Step step) {
+        if(step==null) return null;
         StepEntity stepEntity=new StepEntity();
         stepEntity.setId(step.getStepId());
         stepEntity.setVideoUrl(step.getVideoUrl());

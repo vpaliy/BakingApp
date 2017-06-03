@@ -16,12 +16,12 @@ import javax.inject.Singleton;
 @Singleton
 public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
 
-    private IngredientMapper ingredientMapper;
-    private StepMapper stepMapper;
+    private Mapper<Ingredient,IngredientEntity> ingredientMapper;
+    private Mapper<Step,StepEntity> stepMapper;
 
     @Inject
-    public RecipeMapper(@NonNull IngredientMapper ingredientMapper,
-                        @NonNull StepMapper stepMapper){
+    public RecipeMapper(@NonNull Mapper<Ingredient,IngredientEntity>  ingredientMapper,
+                        @NonNull Mapper<Step,StepEntity> stepMapper){
         this.ingredientMapper=ingredientMapper;
         this.stepMapper=stepMapper;
     }
@@ -29,6 +29,7 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
 
     @Override
     public Recipe map(RecipeEntity recipeEntity) {
+        if(recipeEntity==null) return null;
         Recipe recipe=new Recipe();
         recipe.setId(recipeEntity.getId());
         recipe.setImageUrl(recipeEntity.getImageUrl());
@@ -50,6 +51,7 @@ public class RecipeMapper implements Mapper<Recipe,RecipeEntity> {
 
     @Override
     public RecipeEntity reverseMap(Recipe recipe) {
+        if(recipe==null) return null;
         RecipeEntity entity=new RecipeEntity();
         entity.setId(recipe.getId());
         entity.setName(recipe.getName());
