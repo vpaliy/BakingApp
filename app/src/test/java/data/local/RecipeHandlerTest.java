@@ -6,48 +6,37 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.ContactsContract;
-import android.provider.Settings;
 import android.support.compat.BuildConfig;
-
 import com.vpaliy.bakingapp.data.local.DatabaseUtils;
-import com.vpaliy.bakingapp.data.local.RecipeContract;
 import com.vpaliy.bakingapp.data.local.RecipeHandler;
 import com.vpaliy.bakingapp.data.model.IngredientEntity;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.data.model.StepEntity;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Matchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.mockito.stubbing.OngoingStubbing;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.api.mockito.internal.PowerMockitoCore;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
-import org.junit.runner.RunWith;
-import org.robolectric.annotation.Config;
 import java.util.List;
 import data.RecipeTestUtils;
 import static data.RecipeTestUtils.FAKE_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunnerDelegate;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(RobolectricTestRunner.class)
@@ -68,8 +57,8 @@ public class RecipeHandlerTest {
 
     @Before
     public void setUp()throws Exception{
-        MockitoAnnotations.initMocks(this);
         PowerMockito.mockStatic(DatabaseUtils.class);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -105,13 +94,69 @@ public class RecipeHandlerTest {
     @Test
     public void handlesQueryForSteps(){
         RecipeEntity entity=RecipeTestUtils.provideRecipeEntity();
-        recipeHandler.queryStepsFor(entity);
         Cursor cursor=Mockito.mock(Cursor.class);
-
-        when(mockContentResolver.query(any(),any(),any(),any(),any())).thenReturn(cursor);
+        when(cursor.getCount()).thenReturn(3);
+        when(cursor.moveToNext())
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(false);
+        when(cursor.isClosed()).thenReturn(false);
+        when(mockContentResolver.query(any(Uri.class),any(),any(),any(),any())).thenReturn(cursor);
         PowerMockito.when(DatabaseUtils.toStep(cursor)).thenReturn(new StepEntity());
+
+        recipeHandler.queryStepsFor(entity);
 
         verify(mockContentResolver).query(any(),any(),any(),any(),any());
         verify(cursor).getCount();
+        verify(cursor,times(4)).moveToNext();
+        verify(cursor).isClosed();
+        verify(cursor).close();
+
+        PowerMockito.verifyStatic(times(3));
+        DatabaseUtils.toStep(cursor);
+    }
+
+    @Test
+    public void handlesQueryForIngredients(){
+        RecipeEntity entity=RecipeTestUtils.provideRecipeEntity();
+        Cursor cursor=Mockito.mock(Cursor.class);
+        when(cursor.getCount()).thenReturn(3);
+        when(cursor.moveToNext())
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(false);
+        when(cursor.isClosed()).thenReturn(false);
+        when(mockContentResolver.query(any(Uri.class),any(),any(),any(),any())).thenReturn(cursor);
+        PowerMockito.when(DatabaseUtils.toIngredient(cursor)).thenReturn(new IngredientEntity());
+
+        recipeHandler.queryIngredientsFor(entity);
+
+        verify(mockContentResolver).query(any(Uri.class),any(),any(),any(),any());
+        verify(cursor).getCount();
+        verify(cursor,times(4)).moveToNext();
+        verify(cursor).isClosed();
+        verify(cursor).close();
+
+        PowerMockito.verifyStatic(times(3));
+        DatabaseUtils.toIngredient(cursor);
+    }
+
+    @Test
+    public void handlesQueryRecipeById (){
+        Cursor cursor=Mockito.mock(Cursor.class);
+        when(cursor.isClosed()).thenReturn(false);
+        when(mockContentResolver.query(any(Uri.class),any(),any(),any(),any())).thenReturn(cursor);
+        PowerMockito.when(DatabaseUtils.toRecipe(cursor)).thenReturn(new RecipeEntity());
+
+        recipeHandler.queryById(FAKE_ID);
+
+        verify(mockContentResolver).query(any(Uri.class),any(),any(),any(),any());
+        verify(cursor).isClosed();
+        verify(cursor).close();
+
+        PowerMockito.verifyStatic();
+        DatabaseUtils.toRecipe(cursor);
     }
 }

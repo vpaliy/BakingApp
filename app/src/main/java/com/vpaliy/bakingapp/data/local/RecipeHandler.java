@@ -4,12 +4,9 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
-
 import com.vpaliy.bakingapp.data.model.IngredientEntity;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.data.model.StepEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +16,6 @@ import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
 import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.RecipesIngredients;
 
 public class RecipeHandler {
-
-    private static final String TAG=RecipeHandler.class.getSimpleName();
 
     private ContentResolver contentResolver;
 
@@ -55,6 +50,16 @@ public class RecipeHandler {
             });
         }
         return this;
+    }
+
+    public RecipeEntity queryById(int recipeId){
+        Uri uri=Recipes.buildRecipeUri(Integer.toString(recipeId));
+        Cursor cursor=contentResolver.query(uri,null,null,null,null);
+        RecipeEntity entity=DatabaseUtils.toRecipe(cursor);
+        if(cursor!=null){
+            if(!cursor.isClosed()) cursor.close();
+        }
+        return entity;
     }
 
     public List<RecipeEntity> queryAll(){

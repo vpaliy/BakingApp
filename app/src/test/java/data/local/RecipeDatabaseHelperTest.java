@@ -296,6 +296,5 @@ public class RecipeDatabaseHelperTest {
             assertThat(resultIngredient.getMeasure(), is(ingredientEntity.getMeasure()));
             assertTrue(resultIngredient.getId() == ingredientEntity.getId());
         }
-
     }
 }
