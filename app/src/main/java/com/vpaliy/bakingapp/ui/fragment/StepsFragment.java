@@ -294,12 +294,7 @@ public class StepsFragment extends BaseFragment
     private void rotate(){
         if(!isTablet) {
             handleScreenRotation();
-        }else{
-           handleTabletScreenRotation();
         }
-    }
-
-    private void handleTabletScreenRotation(){
     }
 
     private void handleScreenRotation(){

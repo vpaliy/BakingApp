@@ -12,14 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import data.RecipeTestUtils;
-
-import static data.RecipeTestUtils.FAKE_ID;
-import static data.RecipeTestUtils.FAKE_NAME;
-import static data.RecipeTestUtils.FAKE_QUANTITY;
-import static data.RecipeTestUtils.FAKE_TEXT;
-import static data.RecipeTestUtils.provideIngredient;
-import static data.RecipeTestUtils.provideIngredientEntity;
+import static common.RecipeTestUtils.FAKE_ID;
+import static common.RecipeTestUtils.FAKE_NAME;
+import static common.RecipeTestUtils.FAKE_QUANTITY;
+import static common.RecipeTestUtils.FAKE_TEXT;
+import static common.RecipeTestUtils.provideIngredient;
+import static common.RecipeTestUtils.provideIngredientEntity;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;

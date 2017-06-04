@@ -15,10 +15,10 @@ import com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.Tables;
 import com.vpaliy.bakingapp.data.model.StepEntity;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import data.RecipeTestUtils;
+import common.RecipeTestUtils;
 
-import static data.RecipeTestUtils.FAKER_ID;
-import static data.RecipeTestUtils.FAKE_ID;
+import static common.RecipeTestUtils.FAKER_ID;
+import static common.RecipeTestUtils.FAKE_ID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -72,7 +72,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void insertsIngredientEntityIntoDatabase(){
-        IngredientEntity entity=RecipeTestUtils.provideIngredientEntity();
+        IngredientEntity entity= RecipeTestUtils.provideIngredientEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.INGREDIENTS,null,DatabaseUtils.toValues(entity));
 
@@ -85,7 +85,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void insertsStepEntityIntoDatabase(){
-        StepEntity entity=RecipeTestUtils.provideStepEntity();
+        StepEntity entity= RecipeTestUtils.provideStepEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.STEPS,null,DatabaseUtils.toValues(entity, FAKE_ID));
 
@@ -98,8 +98,8 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void insertsRecipesAndIngredientsIntoJunctionTable(){
-        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
-        IngredientEntity ingredientEntity=RecipeTestUtils.provideIngredientEntity();
+        RecipeEntity recipeEntity= RecipeTestUtils.provideRecipeEntity();
+        IngredientEntity ingredientEntity= RecipeTestUtils.provideIngredientEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.RECIPES_INGREDIENTS,null,DatabaseUtils.toValues(ingredientEntity,recipeEntity));
 
@@ -120,7 +120,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test(expected = SQLiteConstraintException.class)
     public void failsIfInsertRecipeWithSameId(){
-        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity recipeEntity= RecipeTestUtils.provideRecipeEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insertOrThrow(Tables.RECIPES,null,DatabaseUtils.toValues(recipeEntity));
         db.insertOrThrow(Tables.RECIPES,null,DatabaseUtils.toValues(recipeEntity));
@@ -128,7 +128,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test(expected = SQLiteConstraintException.class)
     public void failsIfInsertStepThatHasNotUniqueRecipeId(){
-        StepEntity stepEntity=RecipeTestUtils.provideStepEntity();
+        StepEntity stepEntity= RecipeTestUtils.provideStepEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insertOrThrow(Tables.STEPS,null,DatabaseUtils.toValues(stepEntity,FAKE_ID));
         db.insertOrThrow(Tables.STEPS,null,DatabaseUtils.toValues(stepEntity,FAKE_ID));
@@ -137,8 +137,8 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void failsIfInsertRecipeAndIngredientWithSameId(){
-        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
-        IngredientEntity ingredientEntity=RecipeTestUtils.provideIngredientEntity();
+        RecipeEntity recipeEntity= RecipeTestUtils.provideRecipeEntity();
+        IngredientEntity ingredientEntity= RecipeTestUtils.provideIngredientEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insertOrThrow(Tables.RECIPES_INGREDIENTS,null,DatabaseUtils.toValues(ingredientEntity,recipeEntity));
         db.insertOrThrow(Tables.RECIPES_INGREDIENTS,null,DatabaseUtils.toValues(ingredientEntity,recipeEntity));
@@ -150,7 +150,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void queryAllRecipesFromDatabase(){
-        RecipeEntity entity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity entity= RecipeTestUtils.provideRecipeEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.RECIPES,null,DatabaseUtils.toValues(entity));
         entity.setId(FAKER_ID);
@@ -173,7 +173,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void queryAllIngredientsFromDatabase(){
-        IngredientEntity entity=RecipeTestUtils.provideIngredientEntity();
+        IngredientEntity entity= RecipeTestUtils.provideIngredientEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.INGREDIENTS,null,DatabaseUtils.toValues(entity));
         entity.setId(FAKER_ID);
@@ -218,7 +218,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void shouldJoinRecipeWithSteps(){
-        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity recipeEntity= RecipeTestUtils.provideRecipeEntity();
         StepEntity stepEntity= RecipeTestUtils.provideStepEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.RECIPES,null,DatabaseUtils.toValues(recipeEntity));
@@ -250,7 +250,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void shouldJoinRecipeWithIngredients(){
-        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity recipeEntity= RecipeTestUtils.provideRecipeEntity();
         IngredientEntity ingredientEntity= RecipeTestUtils.provideIngredientEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.INGREDIENTS,null,DatabaseUtils.toValues(ingredientEntity));
@@ -276,7 +276,7 @@ public class RecipeDatabaseHelperTest {
 
     @Test
     public void shouldJoinIngredientWithRecipes(){
-        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity recipeEntity= RecipeTestUtils.provideRecipeEntity();
         IngredientEntity ingredientEntity= RecipeTestUtils.provideIngredientEntity();
         SQLiteDatabase db=recipeDatabaseHelper.getWritableDatabase();
         db.insert(Tables.INGREDIENTS,null,DatabaseUtils.toValues(ingredientEntity));

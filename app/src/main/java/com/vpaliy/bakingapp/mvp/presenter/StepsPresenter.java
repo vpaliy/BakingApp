@@ -35,7 +35,7 @@ public class StepsPresenter implements RecipeStepsContract.Presenter{
     @Override
     public void showCurrent() {
         Step step=currentStep;
-        if(wrapper.currentIndex <=wrapper.count()){
+        if(wrapper.isInBounds()){
             step=wrapper.current();
         }
         currentStep=step;
@@ -107,12 +107,16 @@ public class StepsPresenter implements RecipeStepsContract.Presenter{
         private int currentIndex;
         private List<Step> steps;
 
-        int count(){
+        public int count(){
             return steps.size();
         }
 
-        Step current(){
+        public Step current(){
             return steps.get(currentIndex);
+        }
+
+        public boolean isInBounds(){
+            return currentIndex <=count();
         }
 
         private StepsWrapper(List<Step> steps,int currentStep){

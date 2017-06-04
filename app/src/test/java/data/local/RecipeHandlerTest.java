@@ -19,8 +19,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
 import java.util.List;
-import data.RecipeTestUtils;
-import static data.RecipeTestUtils.FAKE_ID;
+import common.RecipeTestUtils;
+import static common.RecipeTestUtils.FAKE_ID;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.times;
@@ -74,7 +74,7 @@ public class RecipeHandlerTest {
 
     @Test
     public void handlesInsertionOfIngredientValues(){
-        List<IngredientEntity> entityList=RecipeTestUtils.provideIngredientEntityList();
+        List<IngredientEntity> entityList= RecipeTestUtils.provideIngredientEntityList();
         PowerMockito.when(DatabaseUtils.toValues(any(IngredientEntity.class))).thenReturn(new ContentValues());
         recipeHandler.insertIngredients(FAKE_ID,entityList);
         verify(mockContentResolver,times(entityList.size()*3)).insert(any(Uri.class),any(ContentValues.class));
@@ -84,7 +84,7 @@ public class RecipeHandlerTest {
 
     @Test
     public void handlesInsertionOfStepValues(){
-        List<StepEntity> entityList=RecipeTestUtils.provideStepEntityList();
+        List<StepEntity> entityList= RecipeTestUtils.provideStepEntityList();
         PowerMockito.when(DatabaseUtils.toValues(any(StepEntity.class),anyInt())).thenReturn(new ContentValues());
         recipeHandler.insertSteps(FAKE_ID,entityList);
         verify(mockContentResolver,times(entityList.size())).insert(any(Uri.class),any(ContentValues.class));
@@ -94,7 +94,7 @@ public class RecipeHandlerTest {
 
     @Test
     public void handlesQueryForSteps(){
-        RecipeEntity entity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity entity= RecipeTestUtils.provideRecipeEntity();
         Cursor cursor=Mockito.mock(Cursor.class);
         when(cursor.getCount()).thenReturn(3);
         when(cursor.moveToNext())
@@ -120,7 +120,7 @@ public class RecipeHandlerTest {
 
     @Test
     public void handlesQueryForIngredients(){
-        RecipeEntity entity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity entity= RecipeTestUtils.provideRecipeEntity();
         Cursor cursor=Mockito.mock(Cursor.class);
         when(cursor.getCount()).thenReturn(3);
         when(cursor.moveToNext())

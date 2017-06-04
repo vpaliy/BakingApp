@@ -10,7 +10,6 @@ import com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.RecipesIngredients;
 import com.vpaliy.bakingapp.data.model.IngredientEntity;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import org.mockito.Mockito;
-import data.RecipeTestUtils;
 import org.robolectric.RobolectricTestRunner;
 import com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
 import com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
@@ -27,6 +26,9 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
+
+import common.RecipeTestUtils;
+
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,
@@ -58,8 +60,8 @@ public class DatabaseUtilsTest {
 
     @Test
     public void returnsContentValuesForJunctionTable(){
-        IngredientEntity ingredientEntity=RecipeTestUtils.provideIngredientEntity();
-        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
+        IngredientEntity ingredientEntity= RecipeTestUtils.provideIngredientEntity();
+        RecipeEntity recipeEntity= RecipeTestUtils.provideRecipeEntity();
         ContentValues values=DatabaseUtils.toValues(ingredientEntity,recipeEntity);
         assertThat(values,notNullValue());
         assertThat(values.getAsInteger(RecipesIngredients.RECIPE_ID),is(recipeEntity.getId()));
@@ -68,8 +70,8 @@ public class DatabaseUtilsTest {
 
     @Test
     public void shouldConvertStepEntityToContentValues(){
-        StepEntity entity=RecipeTestUtils.provideStepEntity();
-        ContentValues values=DatabaseUtils.toValues(entity,RecipeTestUtils.FAKE_ID);
+        StepEntity entity= RecipeTestUtils.provideStepEntity();
+        ContentValues values=DatabaseUtils.toValues(entity, RecipeTestUtils.FAKE_ID);
         assertThat(values,notNullValue());
         assertThat(values.getAsInteger(Steps.STEP_ID),is(entity.getId()));
         assertThat(values.getAsString(Steps.STEP_DESCRIPTION),is(entity.getDescription()));
@@ -81,7 +83,7 @@ public class DatabaseUtilsTest {
 
     @Test
     public void shouldConvertCursorToRecipeEntity(){
-        RecipeEntity entity=RecipeTestUtils.provideRecipeEntity();
+        RecipeEntity entity= RecipeTestUtils.provideRecipeEntity();
         Cursor cursor=createMockCursorFor(entity);
         RecipeEntity result=DatabaseUtils.toRecipe(cursor);
         assertThat(result,notNullValue());
@@ -94,8 +96,8 @@ public class DatabaseUtilsTest {
 
     @Test
     public void shouldConvertCursorToStepEntity(){
-        StepEntity entity=RecipeTestUtils.provideStepEntity();
-        Cursor cursor=createMockCursorFor(entity,RecipeTestUtils.FAKE_ID);
+        StepEntity entity= RecipeTestUtils.provideStepEntity();
+        Cursor cursor=createMockCursorFor(entity, RecipeTestUtils.FAKE_ID);
         StepEntity result=DatabaseUtils.toStep(cursor);
         assertThat(result,notNullValue());
         assertThat(result.getId(),is(entity.getId()));
@@ -107,7 +109,7 @@ public class DatabaseUtilsTest {
 
     @Test
     public void shouldConvertCursorToIngredientEntity(){
-        IngredientEntity entity=RecipeTestUtils.provideIngredientEntity();
+        IngredientEntity entity= RecipeTestUtils.provideIngredientEntity();
         Cursor cursor=createMockCursorFor(entity);
         IngredientEntity result=DatabaseUtils.toIngredient(cursor);
         assertThat(result,notNullValue());

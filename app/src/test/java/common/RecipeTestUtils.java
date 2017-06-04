@@ -1,5 +1,4 @@
-package data;
-
+package common;
 
 import android.content.ContentValues;
 

@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import java.util.ArrayList;
-import data.RecipeTestUtils;
+import common.RecipeTestUtils;
 import rx.android.schedulers.AndroidSchedulers;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
