@@ -61,6 +61,10 @@ dependencies {
     compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
     compile 'com.google.android.exoplayer:exoplayer:r2.4.0'
 
+    testCompile "org.powermock:powermock-module-junit4:1.6.4"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
+    testCompile "org.powermock:powermock-api-mockito:1.6.4"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
     testCompile "org.mockito:mockito-core:${testLibs.mockitoVersion}"
     testCompile "junit:junit:${testLibs.jUnitVersion}"
     testCompile "org.robolectric:robolectric:${testLibs.robolectricVersion}",{

@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.Tables;
@@ -134,7 +135,7 @@ public class RecipeProvider extends ContentProvider {
     }
 
 
-    public SqlQueryBuilder buildQuery(Uri uri, RecipeMatchEnum matchEnum){
+    private SqlQueryBuilder buildQuery(Uri uri, RecipeMatchEnum matchEnum){
         SqlQueryBuilder builder=new SqlQueryBuilder();
         String id;
         switch (matchEnum){

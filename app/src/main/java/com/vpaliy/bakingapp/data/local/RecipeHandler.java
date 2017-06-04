@@ -18,7 +18,7 @@ import static com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
 import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.RecipesIngredients;
 
-class RecipeHandler {
+public class RecipeHandler {
 
     private static final String TAG=RecipeHandler.class.getSimpleName();
 
@@ -60,7 +60,6 @@ class RecipeHandler {
     public List<RecipeEntity> queryAll(){
         Cursor cursor=contentResolver.query(Recipes.CONTENT_URI,null,null,null,null);
         if(cursor!=null){
-            Log.d(TAG,"Cursor for RecipeEntity size:"+Integer.toString(cursor.getCount()));
             List<RecipeEntity> recipes=new ArrayList<>(cursor.getCount());
             while(cursor.moveToNext()){
                 RecipeEntity recipeEntity=DatabaseUtils.toRecipe(cursor);
@@ -74,11 +73,9 @@ class RecipeHandler {
 
     public RecipeHandler queryStepsFor(RecipeEntity entity){
         if(entity!=null){
-            Log.d(TAG,"Query steps for:"+Integer.toString(entity.getId()));
             Uri contentUri=Recipes.buildRecipeWithStepsUri(Integer.toString(entity.getId()));
             Cursor cursor=contentResolver.query(contentUri,null,null,null,null);
             if(cursor!=null){
-                Log.d(TAG,"Cursor count:"+Integer.toString(cursor.getCount()));
                 List<StepEntity> steps=new ArrayList<>(cursor.getCount());
                 while(cursor.moveToNext()){
                     steps.add(DatabaseUtils.toStep(cursor));
@@ -92,11 +89,9 @@ class RecipeHandler {
 
     public RecipeHandler queryIngredientsFor(RecipeEntity recipe){
         if(recipe!=null){
-            Log.d(TAG,"Query ingredients for :"+recipe.getId());
             Uri contentUri=Recipes.buildRecipeWithIngredientsUri(Integer.toString(recipe.getId()));
             Cursor cursor=contentResolver.query(contentUri,null,null,null,null);
             if(cursor!=null){
-                Log.d(TAG,"Cursor count:"+Integer.toString(cursor.getCount()));
                 List<IngredientEntity> ingredients=new ArrayList<>(cursor.getCount());
                 while(cursor.moveToNext()){
                     ingredients.add(DatabaseUtils.toIngredient(cursor));

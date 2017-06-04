@@ -42,6 +42,11 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
+
+        <provider
+            android:exported="false"
+            android:authorities="com.vpaliy.bakingapp"
+            android:name=".data.local.RecipeProvider"/>
     </application>
 
 </manifest>

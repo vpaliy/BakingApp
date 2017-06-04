@@ -118,32 +118,4 @@ public class RecipeTestUtils {
         return recipe;
     }
 
-    public static ContentValues toValues(RecipeEntity recipe){
-        ContentValues values=new ContentValues();
-        values.put(Recipes.RECIPE_ID,recipe.getId());
-        values.put(Recipes.RECIPE_NAME,recipe.getName());
-        values.put(Recipes.RECIPE_SERVINGS,recipe.getServings());
-        values.put(Recipes.RECIPE_IMAGE_URL,recipe.getImageUrl());
-        return values;
-    }
-
-    public static ContentValues toValues(IngredientEntity ingredient){
-        ContentValues values=new ContentValues();
-        values.put(Ingredients.INGREDIENT_ID,ingredient.getId());
-        values.put(Ingredients.INGREDIENT_NAME,ingredient.getIngredient());
-        values.put(Ingredients.INGREDIENT_QUANTITY,ingredient.getQuantity());
-        values.put(Ingredients.INGREDIENT_MEASURE,ingredient.getMeasure());
-        return values;
-    }
-
-    public static ContentValues toValues(StepEntity step, int recipeId){
-        ContentValues values=new ContentValues();
-        values.put(Steps.STEP_ID,step.getId());
-        values.put(Steps.STEP_DESCRIPTION,step.getDescription());
-        values.put(Steps.STEP_SHORT_DESCRIPTION,step.getShortDescription());
-        values.put(Steps.STEP_VIDEO_URL,step.getVideoUrl());
-        values.put(Steps.STEP_IMAGE_URL,step.getImageUrl());
-        values.put(Steps.STEP_RECIPE_ID,recipeId);
-        return values;
-    }
 }

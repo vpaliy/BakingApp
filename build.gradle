@@ -34,7 +34,7 @@ ext {
             jUnitVersion               : "4.12",
             mockitoVersion             : "1.+",
             espressoVersion            : "2.2.1",
-            robolectricVersion         : '3.1.1',
+            robolectricVersion         : '3.3.2',
             espressoRunner             : "0.4.1",
             espressoRules              : "0.4.1"
     ]
