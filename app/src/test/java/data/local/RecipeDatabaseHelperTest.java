@@ -31,6 +31,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,
+        manifest = Config.NONE,
         sdk = Build.VERSION_CODES.LOLLIPOP)
 public class RecipeDatabaseHelperTest {
 

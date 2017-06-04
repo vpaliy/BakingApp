@@ -43,6 +43,7 @@ import org.mockito.Mock;
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest(DatabaseUtils.class)
 @Config(constants = BuildConfig.class,
+        manifest = Config.NONE,
         sdk = Build.VERSION_CODES.LOLLIPOP)
 public class RecipeHandlerTest {
 

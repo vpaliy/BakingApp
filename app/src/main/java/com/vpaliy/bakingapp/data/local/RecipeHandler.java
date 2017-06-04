@@ -10,11 +10,15 @@ import com.vpaliy.bakingapp.data.model.StepEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Ingredients;
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
 import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.RecipesIngredients;
 
+@Singleton
 public class RecipeHandler {
 
     private ContentResolver contentResolver;

@@ -1,10 +1,13 @@
 package com.vpaliy.bakingapp.di.module;
 
+import android.content.Context;
+
 import com.vpaliy.bakingapp.data.DataSource;
 import com.vpaliy.bakingapp.data.RecipeRepository;
 import com.vpaliy.bakingapp.data.annotation.Local;
 import com.vpaliy.bakingapp.data.annotation.Remote;
 import com.vpaliy.bakingapp.data.local.LocalRecipeSource;
+import com.vpaliy.bakingapp.data.local.RecipeHandler;
 import com.vpaliy.bakingapp.data.mapper.IngredientMapper;
 import com.vpaliy.bakingapp.data.mapper.Mapper;
 import com.vpaliy.bakingapp.data.mapper.RecipeMapper;
@@ -47,6 +50,12 @@ public class DataModule {
     @Provides
     IRepository<Recipe> recipeRepository(RecipeRepository recipeRepository){
         return recipeRepository;
+    }
+
+    @Singleton
+    @Provides
+    RecipeHandler provideRecipeHandler(Context context){
+        return RecipeHandler.start(context.getContentResolver());
     }
 
     @Singleton
