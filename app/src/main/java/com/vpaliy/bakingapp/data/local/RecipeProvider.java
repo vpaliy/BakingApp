@@ -15,6 +15,8 @@ import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.vpaliy.bakingapp.domain.model.Recipe;
+
 
 public class RecipeProvider extends ContentProvider {
 
@@ -161,7 +163,7 @@ public class RecipeProvider extends ContentProvider {
                 return builder.table(Tables.RECIPE_JOIN_STEPS)
                         .mapToTable(Recipes.RECIPE_ID,Tables.RECIPES)
                         .mapToTable(Steps.STEP_ID,Tables.STEPS)
-                        .where(Steps.STEP_ID+"=?",id);
+                        .where(Recipes.RECIPE_ID+"=?",id);
             case INGREDIENT_RECIPES_ID:
                 id=Ingredients.getIngredientId(uri);
                 return builder.table(Tables.INGREDIENTS_JOIN_RECIPE)

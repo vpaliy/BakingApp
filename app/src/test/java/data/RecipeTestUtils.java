@@ -19,6 +19,7 @@ import com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
 public class RecipeTestUtils {
 
     public static final int FAKE_ID=123;
+    public static final int FAKER_ID=1234;
     public static final int FAKE_SERVINGS=45;
     public static final double FAKE_QUANTITY=1.5F;
     public static final String FAKE_NAME="fake_name";

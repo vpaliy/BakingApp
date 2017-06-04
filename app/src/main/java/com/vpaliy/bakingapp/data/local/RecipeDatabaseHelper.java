@@ -15,7 +15,7 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME="recipes.db";
     private static final int DATABASE_VERSION=2;
 
-    interface Tables {
+    public interface Tables {
 
         String RECIPES="recipes";
 
@@ -25,13 +25,13 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
 
         String RECIPES_INGREDIENTS="recipes_ingredients";
 
-        String RECIPE_JOIN_STEPS="recipes"+
+        String RECIPE_JOIN_STEPS="recipes "+
                 "INNER JOIN steps ON recipes.recipe_id=steps.recipe_id";
 
-        String RECIPE_JOIN_INGREDIENTS="recipes"+
+        String RECIPE_JOIN_INGREDIENTS="recipes "+
                 "INNER JOIN recipes_ingredients ON recipes.recipe_id=recipes_ingredients.recipe_id";
 
-        String INGREDIENTS_JOIN_RECIPE="ingredients"+
+        String INGREDIENTS_JOIN_RECIPE="ingredients "+
                 "INNER JOIN recipes_ingredients ON ingredients.ingredient_id=recipes_ingredients.ingredient_id";
     }
 
@@ -40,7 +40,7 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
         String INGREDIENT_ID="REFERENCES "+Tables.INGREDIENTS+"("+ Ingredients.INGREDIENT_ID+")";
     }
 
-    interface RecipesIngredients {
+    public interface RecipesIngredients {
         String RECIPE_ID="recipe_id";
         String INGREDIENT_ID="ingredient_id";
     }
@@ -66,7 +66,7 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
                 Steps.STEP_IMAGE_URL+" TEXT,"+
                 Steps.STEP_RECIPE_ID+" INTEGER NOT NULL "+References.RECIPE_ID+","+
                 Steps.STEP_VIDEO_URL+" TEXT,"+
-                " UNIQUE (" + Recipes.RECIPE_ID + ") ON CONFLICT REPLACE)");
+                " UNIQUE (" + Steps.STEP_RECIPE_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.INGREDIENTS+" ("+
                 Ingredients.INGREDIENT_ID+" INTEGER PRIMARY KEY NOT NULL,"+
@@ -85,16 +85,13 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        dropDatabase(db);
-        onCreate(db);
-    }
-
-    public void dropDatabase(SQLiteDatabase db){
         db.execSQL("DROP TABLE IF EXISTS"+Tables.INGREDIENTS);
         db.execSQL("DROP TABLE IF EXISTS"+Tables.STEPS);
         db.execSQL("DROP TABLE IF EXISTS"+Tables.RECIPES);
         db.execSQL("DROP TABLE IF EXISTS"+Tables.RECIPES_INGREDIENTS);
+        onCreate(db);
     }
+
 
     static void deleteDatabase(Context context) {
         context.deleteDatabase(DATABASE_NAME);

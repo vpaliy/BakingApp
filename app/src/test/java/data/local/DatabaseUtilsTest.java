@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.support.compat.BuildConfig;
 import com.vpaliy.bakingapp.data.local.DatabaseUtils;
+import com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.RecipesIngredients;
 import com.vpaliy.bakingapp.data.model.IngredientEntity;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import org.mockito.Mockito;
@@ -22,6 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
@@ -51,6 +53,16 @@ public class DatabaseUtilsTest {
         assertThat(values.getAsString(Ingredients.INGREDIENT_MEASURE),is(entity.getMeasure()));
         assertThat(values.getAsDouble(Ingredients.INGREDIENT_QUANTITY),is(entity.getQuantity()));
         assertThat(values.getAsString(Ingredients.INGREDIENT_NAME),is(entity.getIngredient()));
+    }
+
+    @Test
+    public void returnsContentValuesForJunctionTable(){
+        IngredientEntity ingredientEntity=RecipeTestUtils.provideIngredientEntity();
+        RecipeEntity recipeEntity=RecipeTestUtils.provideRecipeEntity();
+        ContentValues values=DatabaseUtils.toValues(ingredientEntity,recipeEntity);
+        assertThat(values,notNullValue());
+        assertThat(values.getAsInteger(RecipesIngredients.RECIPE_ID),is(recipeEntity.getId()));
+        assertThat(values.getAsInteger(RecipesIngredients.INGREDIENT_ID),is(ingredientEntity.getId()));
     }
 
     @Test
