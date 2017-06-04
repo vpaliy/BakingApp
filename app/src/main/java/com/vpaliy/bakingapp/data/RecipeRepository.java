@@ -10,7 +10,6 @@ import java.util.List;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 import android.util.SparseArray;
 
 import android.support.annotation.NonNull;
@@ -22,7 +21,6 @@ import com.vpaliy.bakingapp.data.annotation.Remote;
 @Singleton
 public class RecipeRepository implements IRepository<Recipe> {
 
-    private static final String TAG=RecipeRepository.class.getSimpleName();
 
     private final Mapper<Recipe,RecipeEntity> mapper;
     private final DataSource<RecipeEntity> localDataSource;
