@@ -3,16 +3,11 @@ package mvp;
 
 import android.os.Build;
 import android.support.compat.BuildConfig;
-
-import com.vpaliy.bakingapp.data.local.DatabaseUtils;
 import com.vpaliy.bakingapp.domain.model.Step;
 import com.vpaliy.bakingapp.mvp.MessageProvider;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.View;
-import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
-import com.vpaliy.bakingapp.mvp.contract.RecipesContract;
 import com.vpaliy.bakingapp.mvp.presenter.StepsPresenter;
 import com.vpaliy.bakingapp.mvp.presenter.StepsPresenter.StepsWrapper;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
