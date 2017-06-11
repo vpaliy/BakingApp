@@ -17,6 +17,8 @@ import com.vpaliy.bakingapp.ui.fragment.SummaryFragment;
 import com.vpaliy.bakingapp.utils.Constants;
 import com.vpaliy.bakingapp.utils.Permissions;
 import com.vpaliy.bakingapp.utils.messenger.Messenger;
+
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -26,8 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import butterknife.BindBool;
 import butterknife.BindView;
-
-
 
 public class DetailsActivity extends BaseActivity {
 
@@ -59,14 +59,14 @@ public class DetailsActivity extends BaseActivity {
     private void setActionBar(){
         setSupportActionBar(actionBar);
         if(getSupportActionBar()!=null){
-            actionBar.setTitleTextColor(getResources().getColor(R.color.colorText));
+            actionBar.setTitleTextColor(ContextCompat.getColor(this,R.color.colorText));
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             Drawable drawable=actionBar.getNavigationIcon();
             actionBar.setNavigationOnClickListener(v->onBackPressed());
             if(drawable!=null){
-                drawable.setColorFilter(getResources().getColor(R.color.colorText), PorterDuff.Mode.SRC_ATOP);
+                drawable.setColorFilter(ContextCompat.getColor(this,R.color.colorText), PorterDuff.Mode.SRC_ATOP);
             }
         }
     }
@@ -108,15 +108,9 @@ public class DetailsActivity extends BaseActivity {
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
-            if(getSupportActionBar()!=null){
-                getSupportActionBar().hide();
-            }
         }else{
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(0);
-            if(getSupportActionBar()!=null){
-                getSupportActionBar().show();
-            }
         }
     }
 
@@ -128,7 +122,17 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
+    private void changeActionBarVisibility(boolean isVisible){
+        if(getSupportActionBar()!=null){
+            if(!isVisible) {
+                getSupportActionBar().hide();
+            }else{
+                getSupportActionBar().show();
+            }
+        }
+    }
     private void stepsSeparately(OnStepClickEvent clickEvent){
+        changeActionBarVisibility(false);
         FragmentManager manager=getSupportFragmentManager();
         if(manager.findFragmentByTag(Constants.STEPS_TAG)!=null){
             manager.beginTransaction()
@@ -163,6 +167,7 @@ public class DetailsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if(!isTablet) {
+            changeActionBarVisibility(true);
             FragmentManager manager = getSupportFragmentManager();
             if (manager.getBackStackEntryCount() > 0) {
                 manager.popBackStack();

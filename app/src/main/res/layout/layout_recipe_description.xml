@@ -14,7 +14,9 @@
         <TextView
             android:id="@+id/step_short_description"
             tools:text="Preparation Introduction"
-            style="@style/RecipeHeadline"/>
+            android:textColor="@color/blue_grey_900"
+            android:layout_gravity="center"
+            style="@style/Widget.Title"/>
         <TextView
             android:id="@+id/step_description"
             android:layout_marginTop="8dp"

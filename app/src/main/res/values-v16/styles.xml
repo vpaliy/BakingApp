@@ -1,10 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="RecipeHeadline" parent="TextAppearance.AppCompat.Headline">
+
+    <style name="Widget.Label">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:letterSpacing">0.2</item>
-        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Widget.ControlTextButton">
@@ -13,6 +13,15 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0.5</item>
     </style>
+
+    <style name="Widget.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+
+
 </resources>

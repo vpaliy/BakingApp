@@ -17,15 +17,28 @@
         <TextView
             android:id="@+id/ingredient_caption"
             tools:text="Ingredients"
+            android:drawableLeft="@drawable/ic_recipe"
+            android:drawableStart="@drawable/ic_recipe"
+            android:drawablePadding="@dimen/spacing_medium"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="26sp"
+            android:padding="10dp"
+            android:textColor="@color/grey_800"
+            android:paddingLeft="@dimen/spacing_medium"
+            android:paddingRight="@dimen/spacing_medium"
             android:text="@string/ingredients_headline"
-            style="@style/RecipeHeadline" />
+            style="@style/Widget.Label" />
 
         <TextView
             android:id="@+id/ingredient_list"
             android:layout_marginTop="16dp"
-            android:textStyle="italic"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            tools:text="Some ingredient"
+            android:textColor="@color/grey_800"
+            android:textSize="@dimen/font_size_big"
+            android:paddingLeft="@dimen/spacing_medium"
+            android:paddingRight="@dimen/spacing_medium"
+            style="@style/Widget.Label"
+            tools:text="Pictures in the Sky"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

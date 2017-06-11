@@ -16,12 +16,9 @@ import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnStepClickEvent;
 import com.vpaliy.bakingapp.ui.view.MarginDecoration;
 import com.vpaliy.bakingapp.utils.Constants;
-
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +33,6 @@ import butterknife.BindView;
 public class SummaryFragment extends BaseFragment
         implements RecipeSummaryContract.View{
 
-    private static final String TAG=SummaryFragment.class.getSimpleName();
-
     private Presenter presenter;
     private StepsAdapter adapter;
     private int recipeId;
@@ -50,7 +45,6 @@ public class SummaryFragment extends BaseFragment
 
     @Inject
     protected RxBus rxBus;
-
 
     public static SummaryFragment newInstance(Bundle bundle){
         SummaryFragment fragment=new SummaryFragment();
@@ -80,7 +74,6 @@ public class SummaryFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG,"onResume()");
         if(adapter!=null) adapter.resume();
     }
 

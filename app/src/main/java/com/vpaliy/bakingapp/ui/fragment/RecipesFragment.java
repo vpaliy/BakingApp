@@ -86,7 +86,7 @@ public class RecipesFragment extends BaseFragment
     }
 
     @Override
-    public synchronized void setLoading(boolean isLoading) {
+    public void setLoading(boolean isLoading) {
         refresher.setRefreshing(isLoading);
     }
 

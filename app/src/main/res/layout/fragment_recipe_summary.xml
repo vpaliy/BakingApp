@@ -13,7 +13,5 @@
 
         <include
             layout="@layout/layout_recipe_steps"/>
-
     </LinearLayout>
-
 </com.vpaliy.bakingapp.ui.view.ScrollView>

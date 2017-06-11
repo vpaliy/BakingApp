@@ -41,8 +41,6 @@ import static com.vpaliy.bakingapp.utils.Constants.SESSION_TAG;
 public class StepsFragment extends BaseFragment
         implements RecipeStepsContract.View, IPlayback.Callback{
 
-    private static final String TAG=StepsFragment.class.getSimpleName();
-
     @BindView(R.id.player)
     protected SimpleExoPlayerView playerView;
 
@@ -76,7 +74,6 @@ public class StepsFragment extends BaseFragment
 
     @BindView(R.id.cardView)
     protected CardView cardView;
-
 
     private boolean isRotated;
     private Presenter presenter;
@@ -132,7 +129,6 @@ public class StepsFragment extends BaseFragment
         return getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT;
     }
 
-
     @Optional
     @OnClick(R.id.step_next)
     public void clickNext(){
@@ -182,8 +178,6 @@ public class StepsFragment extends BaseFragment
         if(pageTracker!=null) {
             String result = Integer.toString(currentPage+1) + '/' + Integer.toString(total);
             pageTracker.setText(result);
-            result = getString(R.string.step) + ":" + Integer.toString(currentPage);
-            if (!isTablet) rxBus.send(OnChangeToolbarEvent.change(result));
         }
         if(isTablet){
             rxBus.send(OnMoveToStepEvent.move(currentPage));
@@ -265,7 +259,6 @@ public class StepsFragment extends BaseFragment
     public void showPrevButton() {
         if(previous!=null) showButton(previous);
     }
-
 
     @Override
     public void onStop() {

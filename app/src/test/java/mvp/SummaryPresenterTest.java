@@ -15,13 +15,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.List;
-
 import rx.Observable;
 
 import static common.RecipeTestUtils.FAKE_ID;
-import static common.RecipeTestUtils.provideRecipeList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
