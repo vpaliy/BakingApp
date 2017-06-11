@@ -9,6 +9,8 @@ import java.util.List;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+
 public class StepsPresenter implements RecipeStepsContract.Presenter{
 
     private View view;
@@ -24,6 +26,7 @@ public class StepsPresenter implements RecipeStepsContract.Presenter{
 
     @Override
     public void attachView(@NonNull View view) {
+        checkNotNull(view);
         this.view=view;
     }
 

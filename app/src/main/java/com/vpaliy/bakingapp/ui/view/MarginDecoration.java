@@ -13,7 +13,7 @@ public class MarginDecoration extends RecyclerView.ItemDecoration {
     private int margin;
 
     public MarginDecoration(Context context) {
-        margin = context.getResources().getDimensionPixelSize(R.dimen.spacing_medium);
+        margin = context.getResources().getDimensionPixelSize(R.dimen.spacing_small);
     }
 
     @Override

@@ -2,13 +2,15 @@ package com.vpaliy.bakingapp.ui.adapter;
 
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.util.SparseIntArray;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
-import com.github.lzyzsd.randomcolor.RandomColor;
 import com.vpaliy.bakingapp.R;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.ui.bus.RxBus;
@@ -22,23 +24,13 @@ import butterknife.BindView;
 
 public class RecipesAdapter extends AbstractAdapter<Recipe>{
 
-    private static final String TAG=RecipesAdapter.class.getSimpleName();
-
-    private SparseIntArray colorMap;
-    private final RandomColor randomColor;
-
     public RecipesAdapter(@NonNull Context context,
                           @NonNull RxBus rxBus){
         super(context,rxBus);
-        randomColor=new RandomColor();
-        colorMap=new SparseIntArray();
     }
 
     public class RecipeViewHolder extends AbstractAdapter<Recipe>.AbstractViewHolder
             implements View.OnClickListener{
-
-        @BindView(R.id.recipe_card)
-        CardView recipeCard;
 
         @BindView(R.id.recipe_title)
         TextView recipeTitle;
@@ -46,7 +38,13 @@ public class RecipesAdapter extends AbstractAdapter<Recipe>{
         @BindView(R.id.recipe_image)
         ImageView recipeImage;
 
-        public RecipeViewHolder(View itemView){
+        @BindView(R.id.step_label)
+        TextView steps;
+
+        @BindView(R.id.servings_label)
+        TextView servings;
+
+        RecipeViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
             itemView.setOnClickListener(this);
@@ -65,11 +63,30 @@ public class RecipesAdapter extends AbstractAdapter<Recipe>{
         void onBind(){
             Recipe recipe=at(getAdapterPosition());
             recipeTitle.setText(recipe.getName());
-            Glide.with(inflater.getContext())
-                    .load("http://assets.epicurious.com/photos/54ac95e819925f464b3ac37e/6:4/w_620%2Ch_413/51229210_nutella-pie_1x1.jpg")
-                    .centerCrop()
-                    .into(recipeImage);
+            if(!TextUtils.isEmpty(recipe.getImageUrl())) {
+                Glide.with(inflater.getContext())
+                        .load(recipe.getImageUrl())
+                        .centerCrop()
+                        .into(recipeImage);
+            }
+            Context context=inflater.getContext();
+            String numberText=Integer.toString(recipe.getSteps().size());
+            steps.setText(mergeColoredText(context.getString(R.string.steps_label),numberText,
+                        ContextCompat.getColor(context,R.color.colorPrimary),
+                        ContextCompat.getColor(context,R.color.red_color)));
+            numberText=Integer.toString(recipe.getServings());
+            servings.setText(mergeColoredText(context.getString(R.string.servings_label),numberText,
+                    ContextCompat.getColor(context,R.color.colorPrimary),
+                    ContextCompat.getColor(context,R.color.red_color)));
+        }
 
+        private SpannableStringBuilder mergeColoredText(String leftPart, String rightPart, int leftColor, int rightColor) {
+            final SpannableStringBuilder builder = new SpannableStringBuilder();
+            final SpannableString leftPartSpannable = new SpannableString(leftPart);
+            final SpannableString rightPartSpannable = new SpannableString(rightPart);
+            leftPartSpannable.setSpan(new ForegroundColorSpan(leftColor), 0, leftPart.length(), 0);
+            rightPartSpannable.setSpan(new ForegroundColorSpan(rightColor), 0, rightPart.length(), 0);
+            return builder.append(leftPartSpannable).append(" ").append(rightPartSpannable);
         }
     }
 

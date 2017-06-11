@@ -4,7 +4,10 @@
     <string name="message_error_has_occurred">Error has occurred</string>
     <string name="message_no_network">No network connection</string>
     <string name="button_next_step">NEXT</string>
-    <string name="step">Step</string>
+    <string name="step_label">Step</string>
+    <string name="steps_label">Steps</string>
+    <string name="recipes_label">Recipes</string>
+    <string name="servings_label">Servings</string>
     <string name="button_prev_step">PREVIOUS</string>
     <string name="ingredients_headline">Ingredients</string>
     <string name="appwidget_text">EXAMPLE</string>

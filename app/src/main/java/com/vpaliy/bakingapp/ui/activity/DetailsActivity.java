@@ -17,7 +17,6 @@ import com.vpaliy.bakingapp.ui.fragment.SummaryFragment;
 import com.vpaliy.bakingapp.utils.Constants;
 import com.vpaliy.bakingapp.utils.Permissions;
 import com.vpaliy.bakingapp.utils.messenger.Messenger;
-
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentManager;

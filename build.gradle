@@ -27,7 +27,8 @@ ext {
             javaxAnnotation     : "10.0-b28",
             glideVersion        : "3.7.0",
             constraintLayoutVersion: "1.0.2",
-            daggerVersion       :"2.9"
+            daggerVersion       :"2.9",
+            circleImageVersion  :"2.1.0"
     ]
 
     testingLibraries = [

@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import com.vpaliy.bakingapp.di.scope.ViewScope;
 
+import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+
 @ViewScope
 public class SummaryPresenter extends BaseRecipePresenter
         implements RecipeSummaryContract.Presenter{
@@ -27,7 +29,7 @@ public class SummaryPresenter extends BaseRecipePresenter
 
     @Override
     public void attachView(@NonNull View view) {
-        //TODO check for null
+        checkNotNull(view);
         this.view=view;
     }
 
