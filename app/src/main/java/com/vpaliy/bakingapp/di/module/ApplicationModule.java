@@ -30,12 +30,6 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    BaseSchedulerProvider provideScheduler(){
-        return new SchedulerProvider();
-    }
-
-    @Singleton
-    @Provides
     MessageProvider provideMessenger(Messenger messenger){
         return messenger;
     }

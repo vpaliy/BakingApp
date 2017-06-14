@@ -20,6 +20,8 @@ import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Ingredient;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.domain.model.Step;
+import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
+import com.vpaliy.bakingapp.utils.scheduler.SchedulerProvider;
 
 import javax.inject.Singleton;
 import dagger.Module;
@@ -70,5 +72,11 @@ public class DataModule {
     @Remote
     DataSource<RecipeEntity> remoteRecipeDataSource(RemoteRecipeSource recipeSource){
         return recipeSource;
+    }
+
+    @Singleton
+    @Provides
+    BaseSchedulerProvider provideScheduler(){
+        return new SchedulerProvider();
     }
 }

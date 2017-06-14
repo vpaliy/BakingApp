@@ -22,6 +22,8 @@ import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
+import static com.vpaliy.bakingapp.utils.StringUtils.mergeColoredText;
+
 public class RecipesAdapter extends AbstractAdapter<Recipe>{
 
     public RecipesAdapter(@NonNull Context context,
@@ -80,14 +82,6 @@ public class RecipesAdapter extends AbstractAdapter<Recipe>{
                     ContextCompat.getColor(context,R.color.red_color)));
         }
 
-        private SpannableStringBuilder mergeColoredText(String leftPart, String rightPart, int leftColor, int rightColor) {
-            final SpannableStringBuilder builder = new SpannableStringBuilder();
-            final SpannableString leftPartSpannable = new SpannableString(leftPart);
-            final SpannableString rightPartSpannable = new SpannableString(rightPart);
-            leftPartSpannable.setSpan(new ForegroundColorSpan(leftColor), 0, leftPart.length(), 0);
-            rightPartSpannable.setSpan(new ForegroundColorSpan(rightColor), 0, rightPart.length(), 0);
-            return builder.append(leftPartSpannable).append(" ").append(rightPartSpannable);
-        }
     }
 
     @Override

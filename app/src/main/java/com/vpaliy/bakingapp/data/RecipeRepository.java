@@ -5,6 +5,8 @@ import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.utils.LogUtils;
+
+import rx.Completable;
 import rx.Observable;
 import java.util.List;
 import android.content.Context;
@@ -17,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import com.vpaliy.bakingapp.data.annotation.Local;
 import com.vpaliy.bakingapp.data.annotation.Remote;
+import com.vpaliy.bakingapp.utils.scheduler.BaseSchedulerProvider;
 
 @Singleton
 public class RecipeRepository implements IRepository<Recipe> {
@@ -25,19 +28,21 @@ public class RecipeRepository implements IRepository<Recipe> {
     private final Mapper<Recipe,RecipeEntity> mapper;
     private final DataSource<RecipeEntity> localDataSource;
     private final DataSource<RecipeEntity> remoteDataSource;
+    private final BaseSchedulerProvider schedulerProvider;
     private final Context context;
-
-    private SparseArray<Recipe> inMemoryCache;
+    private  SparseArray<Recipe> inMemoryCache;
 
     @Inject
     public RecipeRepository(@NonNull @Local DataSource<RecipeEntity> localDataSource,
                             @NonNull @Remote DataSource<RecipeEntity> remoteDataSource,
                             @NonNull Mapper<Recipe,RecipeEntity> mapper,
+                            @NonNull BaseSchedulerProvider schedulerProvider,
                             @NonNull Context context){
         this.localDataSource=localDataSource;
         this.remoteDataSource=remoteDataSource;
         this.mapper=mapper;
         this.context=context;
+        this.schedulerProvider=schedulerProvider;
         this.inMemoryCache=new SparseArray<>();
     }
 
@@ -45,7 +50,11 @@ public class RecipeRepository implements IRepository<Recipe> {
     public Observable<List<Recipe>> getRecipes() {
         if(isNetworkConnection()){
             return remoteDataSource.getRecipes()
-                    .doOnNext(this::saveToDisk)
+                    .doOnNext(list->
+                        Completable
+                                .fromCallable(()->saveToDisk(list))
+                                .subscribeOn(schedulerProvider.multi())
+                                .subscribe())
                     .map(mapper::map)
                     .doOnNext(this::cacheData)
                     .doOnNext(list-> LogUtils.logD(list,this));
@@ -65,10 +74,12 @@ public class RecipeRepository implements IRepository<Recipe> {
         });
     }
 
-    private void saveToDisk(List<RecipeEntity> list){
+    private boolean saveToDisk(List<RecipeEntity> list){
         if(list!=null){
             list.forEach(localDataSource::insert);
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -76,8 +87,8 @@ public class RecipeRepository implements IRepository<Recipe> {
         if(inMemoryCache.get(id)!=null) {
             return Observable.just(inMemoryCache.get(id));
         }
-        //TODO query the database
-        return null;
+        return localDataSource.getRecipeById(id).map(mapper::map)
+                .doOnNext(recipe -> inMemoryCache.put(id,recipe));
     }
 
 

@@ -27,7 +27,7 @@
         tools:text="1/3"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:textColor="@color/blue_grey_400"
+        android:textColor="@color/white"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"

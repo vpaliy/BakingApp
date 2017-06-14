@@ -20,7 +20,7 @@ public interface RecipesContract {
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
         void showRecipes(@NonNull List<Recipe> recipes);
-        void showMessage(@NonNull String message);
+        void showErrorMessage(@NonNull String message);
         void setLoading(boolean isLoading);
     }
 }

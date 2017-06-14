@@ -50,15 +50,17 @@ public class RecipesPresenter extends BaseRecipePresenter
 
     private void processData(List<Recipe> recipes){
         if(recipes==null||recipes.isEmpty()){
-            view.showMessage(messageProvider.emptyMessage());
+            view.showErrorMessage(messageProvider.emptyMessage());
             return;
         }
         view.showRecipes(recipes);
     }
 
     private void catchError(Throwable error){
+        subscriptions.clear();
         error.printStackTrace();
-        view.showMessage(messageProvider.noNetworkConnection());
+        view.setLoading(false);
+        view.showErrorMessage(messageProvider.noNetworkConnection());
     }
 
     private void complete(){

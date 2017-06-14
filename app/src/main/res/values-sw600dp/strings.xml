@@ -1,0 +1,3 @@
+<resources>
+    <string name="layout_manager">GridLayoutManager</string>
+</resources>

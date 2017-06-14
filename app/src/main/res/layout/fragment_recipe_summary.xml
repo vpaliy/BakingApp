@@ -1,4 +1,5 @@
 <com.vpaliy.bakingapp.ui.view.ScrollView
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -7,10 +8,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <include
             layout="@layout/layout_recipe_ingredients"/>
-
         <include
             layout="@layout/layout_recipe_steps"/>
     </LinearLayout>

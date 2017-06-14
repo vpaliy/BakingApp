@@ -45,6 +45,7 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterKnifeVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${libs.daggerVersion}"
 
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile "de.hdodenhof:circleimageview:${libs.circleImageVersion}"
     compile "io.reactivex:rxandroid:${libs.rxAndroidVersion}"
     compile "com.squareup.retrofit2:retrofit:${libs.retrofitVersion}"
@@ -72,7 +73,29 @@ dependencies {
         exclude group: 'com.google.guava', module:'guava'
     }
 
-
+    compile 'com.android.support.test.espresso:espresso-idling-resource:2.2', {
+        exclude group: 'com.android.support', module: 'design'
+    }
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:2.9"
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2:'
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:${testLibs.espressoVersion}", {
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.google.code.findbugs'
+        exclude module: 'recyclerview-v7'
+    }
+    androidTestCompile "com.android.support.test.espresso:espresso-core:${testLibs.espressoVersion}", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile "com.android.support.test:rules:${testLibs.rulesVersion}", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile "com.android.support.test:runner:${testLibs.testRunnerVersion}", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:${testLibs.espressoVersion}", {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'

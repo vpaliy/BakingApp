@@ -4,8 +4,8 @@ import com.vpaliy.bakingapp.BakingApp;
 import com.vpaliy.bakingapp.R;
 import java.util.List;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +21,7 @@ import com.vpaliy.bakingapp.ui.view.MarginDecoration;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 import javax.inject.Inject;
 import butterknife.BindView;
 
@@ -39,6 +40,9 @@ public class RecipesFragment extends BaseFragment
     @Inject
     protected RxBus rxBus;
 
+    @BindView(R.id.message)
+    protected TextView messageView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,7 +58,6 @@ public class RecipesFragment extends BaseFragment
         if(view!=null){
             refresher.setOnRefreshListener(()->presenter.queryRecipes());
             adapter=new RecipesAdapter(getContext(),rxBus);
-            recipeList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             recipeList.addItemDecoration(new MarginDecoration(getContext()));
             recipeList.setAdapter(adapter);
         }
@@ -91,13 +94,30 @@ public class RecipesFragment extends BaseFragment
     }
 
     @Override
-    public void showMessage(@NonNull String message) {
-
+    public void showErrorMessage(@NonNull String message) {
+        messageView.setAlpha(0.f);
+        triggerVisibility(false);
+        messageView.setText(message);
+        ViewCompat.animate(messageView)
+                .alpha(1.f)
+                .setDuration(R.integer.fade_in_duration)
+                .start();
     }
 
     @Override
     public void showRecipes(@NonNull List<Recipe> recipes) {
+        triggerVisibility(true);
         adapter.setData(recipes);
+    }
+
+    private void triggerVisibility(boolean triggerList){
+        if(triggerList){
+            recipeList.setVisibility(View.VISIBLE);
+            messageView.setVisibility(View.GONE);
+        }else{
+            recipeList.setVisibility(View.GONE);
+            messageView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

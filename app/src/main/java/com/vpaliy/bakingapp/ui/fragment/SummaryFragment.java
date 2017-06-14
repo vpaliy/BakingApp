@@ -81,12 +81,12 @@ public class SummaryFragment extends BaseFragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
-            presenter.fetchById(recipeId);
             adapter=new StepsAdapter(getContext(),rxBus);
             recipeSteps.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             recipeSteps.addItemDecoration(new MarginDecoration(getContext()));
             recipeSteps.setAdapter(adapter);
             recipeSteps.setNestedScrollingEnabled(false);
+            presenter.fetchById(recipeId);
         }
     }
 
@@ -113,8 +113,8 @@ public class SummaryFragment extends BaseFragment
     @Override
     public void showRecipe(@NonNull Recipe recipe) {
         rxBus.send(OnChangeToolbarEvent.change(recipe.getName()));
-        showIngredients(recipe.getIngredients());
         showSteps(recipe.getSteps());
+        showIngredients(recipe.getIngredients());
         if(isTablet) rxBus.send(OnStepClickEvent.click(recipe.getSteps(),0));
     }
 
