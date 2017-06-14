@@ -4,13 +4,13 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
+
 import com.vpaliy.bakingapp.data.model.IngredientEntity;
 import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.data.model.StepEntity;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import static com.vpaliy.bakingapp.data.local.RecipeContract.Recipes;
@@ -22,6 +22,8 @@ import static com.vpaliy.bakingapp.data.local.RecipeDatabaseHelper.RecipesIngred
 public class RecipeHandler {
 
     private ContentResolver contentResolver;
+
+    private static final String TAG=RecipeHandler.class.getSimpleName();
 
     private RecipeHandler(ContentResolver resolver){
         this.contentResolver=resolver;
@@ -69,6 +71,7 @@ public class RecipeHandler {
     public List<RecipeEntity> queryAll(){
         Cursor cursor=contentResolver.query(Recipes.CONTENT_URI,null,null,null,null);
         if(cursor!=null){
+            Log.d(TAG,Integer.toString(cursor.getCount()));
             List<RecipeEntity> recipes=new ArrayList<>(cursor.getCount());
             while(cursor.moveToNext()){
                 RecipeEntity recipeEntity=DatabaseUtils.toRecipe(cursor);
@@ -103,13 +106,24 @@ public class RecipeHandler {
             if(cursor!=null){
                 List<IngredientEntity> ingredients=new ArrayList<>(cursor.getCount());
                 while(cursor.moveToNext()){
-                    ingredients.add(DatabaseUtils.toIngredient(cursor));
+                    ingredients.add(queryIngredient(cursor.getInt(cursor.getColumnIndex(RecipesIngredients.INGREDIENT_ID))));
                 }
                 if(!cursor.isClosed()) cursor.close();
                 recipe.setIngredients(ingredients);
             }
         }
         return this;
+    }
+
+    private IngredientEntity queryIngredient(int id){
+        Uri contentUri=Ingredients.buildIngredientUri(Integer.toString(id));
+        Cursor cursor=contentResolver.query(contentUri,null,null,null,null);
+        if(cursor!=null){
+            IngredientEntity entity=DatabaseUtils.toIngredient(cursor);
+            if(!cursor.isClosed()) cursor.close();
+            return entity;
+        }
+        return null;
     }
 
     public RecipeHandler insertSteps(int recipeId, List<StepEntity> steps){

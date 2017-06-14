@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class StepEntity {
 
-    private int id;
+    private static int counter=0;
+    private int id=counter++;
 
     @SerializedName("shortDescription")
     private String shortDescription;

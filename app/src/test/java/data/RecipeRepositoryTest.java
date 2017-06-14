@@ -13,6 +13,8 @@ import com.vpaliy.bakingapp.data.model.RecipeEntity;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.data.annotation.Local;
 import com.vpaliy.bakingapp.data.annotation.Remote;
+import com.vpaliy.bakingapp.utils.scheduler.ImmediateSchedulerProvider;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -74,7 +76,8 @@ public class RecipeRepositoryTest {
         when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(mockManager);
         when(mockMapper.map(anyListOf(RecipeEntity.class))).thenReturn(new ArrayList<>());
 
-        recipeRepository=new RecipeRepository(mockLocal,mockRemote,mockMapper,context);
+        recipeRepository=new RecipeRepository(mockLocal,mockRemote,mockMapper,
+                new ImmediateSchedulerProvider(),context);
     }
 
 

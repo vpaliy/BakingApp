@@ -22,6 +22,7 @@ import com.vpaliy.bakingapp.utils.Constants;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -85,7 +86,7 @@ public class DetailsScreenTest {
     }
 
     @Test
-    public void showsRecipeSummaryInSinglePane(){
+    public void showsRecipeSummary(){
         Recipe recipe=RecipeProvider.provideRecipe(RECIPE_NAME_ONE);
         when(mockRepository.getRecipeById(eq(EXTRA_ID))).thenReturn(Observable.just(recipe));
         activityTestRule.launchActivity(null);
@@ -111,7 +112,7 @@ public class DetailsScreenTest {
     }
 
     @Test
-    public void showsRecipeStepsInSinglePane(){
+    public void showsRecipeSteps(){
         Recipe recipe=RecipeProvider.provideRecipe(RECIPE_NAME_ONE);
         when(mockRepository.getRecipeById(eq(EXTRA_ID))).thenReturn(Observable.just(recipe));
         activityTestRule.launchActivity(null);

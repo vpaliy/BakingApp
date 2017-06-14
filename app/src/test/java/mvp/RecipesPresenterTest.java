@@ -1,7 +1,4 @@
 package mvp;
-
-import android.accounts.NetworkErrorException;
-
 import com.vpaliy.bakingapp.domain.IRepository;
 import com.vpaliy.bakingapp.domain.model.Recipe;
 import com.vpaliy.bakingapp.mvp.MessageProvider;
@@ -68,21 +65,6 @@ public class RecipesPresenterTest {
         verify(messageProvider).emptyMessage();
         verify(view).setLoading(eq(true));
         verify(view).setLoading(eq(false));
-        verify(view).showMessage(anyString());
+        verify(view).showErrorMessage(anyString());
     }
-
-    @Test
-    public void showsErrorMessageWhenErrorHasOccurred(){
-        when(repository.getRecipes()).thenReturn(Observable.error(new NetworkErrorException()));
-
-        presenter.queryRecipes();
-
-        verify(repository).getRecipes();
-        verify(messageProvider).noNetworkConnection();
-        verify(view).setLoading(eq(true));
-        verify(view).setLoading(eq(false));
-        verify(view).showMessage(anyString());
-    }
-
-
 }

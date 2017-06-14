@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class IngredientEntity {
 
-    private int id;
+    private static int counter=0;
+    private int id=counter++;
 
     @SerializedName("measure")
     private String measure;

@@ -13,7 +13,7 @@ import static com.vpaliy.bakingapp.data.local.RecipeContract.Steps;
 public class RecipeDatabaseHelper extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME="recipes.db";
-    private static final int DATABASE_VERSION=2;
+    private static final int DATABASE_VERSION=8;
 
     public interface Tables {
 
@@ -26,13 +26,13 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
         String RECIPES_INGREDIENTS="recipes_ingredients";
 
         String RECIPE_JOIN_STEPS="recipes "+
-                "INNER JOIN steps ON recipes.recipe_id=steps.recipe_id";
+                "INNER JOIN steps ON recipes.recipe_id=steps.ref_recipe_id";
 
         String RECIPE_JOIN_INGREDIENTS="recipes "+
-                "INNER JOIN recipes_ingredients ON recipes.recipe_id=recipes_ingredients.recipe_id";
+                "INNER JOIN recipes_ingredients ON recipes.recipe_id=recipes_ingredients.ref_recipe_id";
 
         String INGREDIENTS_JOIN_RECIPE="ingredients "+
-                "INNER JOIN recipes_ingredients ON ingredients.ingredient_id=recipes_ingredients.ingredient_id";
+                "LEFT OUTER JOIN recipes_ingredients ON ingredients.ingredient_id=recipes_ingredients.ref_ingredient_id";
     }
 
     interface References {
@@ -41,8 +41,8 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
     }
 
     public interface RecipesIngredients {
-        String RECIPE_ID="recipe_id";
-        String INGREDIENT_ID="ingredient_id";
+        String RECIPE_ID="ref_recipe_id";
+        String INGREDIENT_ID="ref_ingredient_id";
     }
 
     public RecipeDatabaseHelper(@NonNull Context context){
@@ -51,7 +51,6 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        System.err.println("Create database");
         db.execSQL("CREATE TABLE "+Tables.RECIPES+" ("+
                 Recipes.RECIPE_ID+" INTEGER PRIMARY KEY NOT NULL,"+
                 Recipes.RECIPE_NAME+" TEXT NOT NULL,"+
@@ -85,10 +84,10 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS"+Tables.INGREDIENTS);
-        db.execSQL("DROP TABLE IF EXISTS"+Tables.STEPS);
-        db.execSQL("DROP TABLE IF EXISTS"+Tables.RECIPES);
-        db.execSQL("DROP TABLE IF EXISTS"+Tables.RECIPES_INGREDIENTS);
+        db.execSQL("DROP TABLE IF EXISTS "+Tables.INGREDIENTS);
+        db.execSQL("DROP TABLE IF EXISTS "+Tables.STEPS);
+        db.execSQL("DROP TABLE IF EXISTS "+Tables.RECIPES);
+        db.execSQL("DROP TABLE IF EXISTS "+Tables.RECIPES_INGREDIENTS);
         onCreate(db);
     }
 

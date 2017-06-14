@@ -17,7 +17,6 @@ import com.vpaliy.bakingapp.media.IPlayback;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract;
 import com.vpaliy.bakingapp.mvp.contract.RecipeStepsContract.Presenter;
 import com.vpaliy.bakingapp.ui.bus.RxBus;
-import com.vpaliy.bakingapp.ui.bus.event.OnChangeToolbarEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnChangeVisibilityEvent;
 import com.vpaliy.bakingapp.ui.bus.event.OnMoveToStepEvent;
 import com.vpaliy.bakingapp.utils.Permissions;
@@ -160,13 +159,6 @@ public class StepsFragment extends BaseFragment
     @Override
     public void onMediaStop() {
         mediaSession.setActive(false);
-    }
-
-    @Override
-    public void onCompletion() {}
-
-    @Override
-    public void onStateChanged(int state) {
     }
 
     @Override

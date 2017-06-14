@@ -24,7 +24,7 @@ public final class RecipeContract {
         String STEP_DESCRIPTION="step_description";
         String STEP_VIDEO_URL="step_video_url";
         String STEP_IMAGE_URL="step_image_url";
-        String STEP_RECIPE_ID=RecipeColumns.RECIPE_ID;
+        String STEP_RECIPE_ID="ref_recipe_id";
 
         String[] COLUMNS={STEP_ID,STEP_SHORT_DESCRIPTION,STEP_DESCRIPTION,
                 STEP_VIDEO_URL,STEP_IMAGE_URL,STEP_RECIPE_ID
@@ -80,7 +80,7 @@ public final class RecipeContract {
         }
 
         public static String getRecipeId(Uri uri){
-            return Long.toString(ContentUris.parseId(uri));
+            return uri.getPathSegments().get(1);
         }
     }
 
@@ -97,10 +97,6 @@ public final class RecipeContract {
 
         public static Uri buildStepUri(String id){
             return CONTENT_URI.buildUpon().appendPath(id).build();
-        }
-
-        public static String getStepId(Uri uri){
-            return Long.toString(ContentUris.parseId(uri));
         }
     }
 
@@ -123,7 +119,7 @@ public final class RecipeContract {
         }
 
         public static String getIngredientId(Uri uri){
-            return Long.toString(ContentUris.parseId(uri));
+            return uri.getPathSegments().get(1);
         }
     }
 }

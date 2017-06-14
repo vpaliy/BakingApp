@@ -16,8 +16,6 @@ public interface IPlayback<T> {
     interface Callback {
         void onMediaPlay();
         void onMediaStop();
-        void onCompletion();
-        void onStateChanged(int state);
     }
 
 
