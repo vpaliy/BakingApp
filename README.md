@@ -14,4 +14,4 @@ A project for the Android Nanodegree on Udacity.
 
 ## Testing ##
 
-You can run local tests with `./gradlew test`. In order to run instrumented tests hook up your device to your local machine and type in: `./gradlew cAT
+You can run local tests with `./gradlew test`. In order to run instrumented tests hook up your device to your local machine and type in: `./gradlew cAT`
